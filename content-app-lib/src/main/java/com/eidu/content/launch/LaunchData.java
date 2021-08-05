@@ -7,6 +7,22 @@ import androidx.annotation.Nullable;
 
 import java.util.Arrays;
 
+/**
+ * LaunchData is what the EIDU app uses to launch content from external content apps.
+ *
+ * The EIDU app will send an intent to your app, identified by the intent action (See {@link Intent#setAction(String)})
+ * and include all data relevant for you to identify the content to play.
+ *
+ * The intent sent also includes references to the learner and their school.
+ *
+ * The easiest way to obtain the data provided by the Intent sent from EIDU is
+ * {@link LaunchData#fromLaunchIntent(Intent)}, which will automatically identify and extract all
+ * information included in {@link Intent#getExtras()}.
+ *
+ * To facilitate testing of your app you can create your own LaunchData with
+ * {@link LaunchData#fromPlainData(String, String, String, String, String, Long, Long)} and converting it to an Intent
+ * with {@link LaunchData#toLaunchIntent(String)}.
+ */
 public class LaunchData {
 
     public static final int VERSION = 1;
@@ -35,6 +51,21 @@ public class LaunchData {
     @Nullable
     private final Long inactivityTimeoutInMs;
 
+    /**
+     * Create a new LaunchData instance from plain data.
+     *
+     * Use this to test your content app against what the EIDU app will send to launch content.
+     *
+     * @param contentId <b>Required</b> uniquely identifies the content to launch in your app
+     * @param workUnitRunId <b>Required</b> unique identifier of each content run
+     * @param learnerId <b>Required</b> unique identifier of the learner
+     * @param schoolId <b>Required</b> unique identifier of the school
+     * @param environment <b>Required</b> identifies the environment of this launch, e.g. "test", "prod"
+     * @param remainingForegroundTimeInMs <i>Optional</i> session time remaining for this run
+     * @param inactivityTimeoutInMs <i>Optional</i> time after which your content should return when the learner is
+     *                              inactive
+     * @return an instance of LaunchData
+     */
     @NonNull
     public static LaunchData fromPlainData(
             @NonNull String contentId,
@@ -57,6 +88,15 @@ public class LaunchData {
         );
     }
 
+    /**
+     * Creates an instance of LaunchData from the provided intent's extras.
+     *
+     * Use this on the intent sent to your content app by EIDU to get access to the necessary data.
+     *
+     * @param intent <b>Required</b> the intent sent from the EIDU app to your content app
+     * @return LaunchData initialized from the provided intent
+     * @throws IllegalArgumentException If the provided intent does not contain all required data
+     */
     @NonNull
     public static LaunchData fromLaunchIntent(@NonNull Intent intent) throws IllegalArgumentException {
         int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
@@ -96,6 +136,17 @@ public class LaunchData {
         );
     }
 
+    /**
+     * Create an intent usable to launch a content app.
+     *
+     * You can use this method, along with
+     * {@link LaunchData#fromPlainData(String, String, String, String, String, Long, Long)} to test
+     * your app.
+     *
+     * @param contentAppLaunchAction the action uniquely identifying your content app
+     * @return An intent containing all launch data and the defined action
+     */
+    @NonNull
     public Intent toLaunchIntent(@NonNull String contentAppLaunchAction) {
         Intent launchIntent = new Intent(contentAppLaunchAction)
                 .putExtra(VERSION_EXTRA, getVersion())
