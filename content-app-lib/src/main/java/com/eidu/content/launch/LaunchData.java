@@ -9,6 +9,8 @@ import java.util.Arrays;
 
 public class LaunchData {
 
+    public static final int VERSION = 1;
+    public static final String VERSION_EXTRA = "version";
     public static final String CONTENT_ID_EXTRA = "contentId";
     public static final String WORK_UNIT_RUN_ID_EXTRA = "workUnitRunId";
     public static final String LEARNER_ID_EXTRA = "learnerId";
@@ -17,6 +19,7 @@ public class LaunchData {
     public static final String REMAINING_FOREGROUND_TIME_EXTRA = "remainingForegroundTimeInMs";
     public static final String INACTIVITY_TIMEOUT_EXTRA = "inactivityTimeoutInMs";
 
+    private final int version;
     @NonNull
     private final String contentId;
     @NonNull
@@ -43,6 +46,7 @@ public class LaunchData {
             @Nullable Long inactivityTimeoutInMs
     ) {
         return new LaunchData(
+                VERSION,
                 contentId,
                 workUnitRunId,
                 learnerId,
@@ -55,6 +59,7 @@ public class LaunchData {
 
     @NonNull
     public static LaunchData fromLaunchIntent(@NonNull Intent intent) throws IllegalArgumentException {
+        int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = intent.getStringExtra(CONTENT_ID_EXTRA);
         String workUnitRunId = intent.getStringExtra(WORK_UNIT_RUN_ID_EXTRA);
         String learnerId = intent.getStringExtra(LEARNER_ID_EXTRA);
@@ -80,6 +85,7 @@ public class LaunchData {
         }
 
         return new LaunchData(
+                version,
                 contentId,
                 workUnitRunId,
                 learnerId,
@@ -92,6 +98,7 @@ public class LaunchData {
 
     public Intent toLaunchIntent(@NonNull String contentAppLaunchAction) {
         Intent launchIntent = new Intent(contentAppLaunchAction)
+                .putExtra(VERSION_EXTRA, getVersion())
                 .putExtra(CONTENT_ID_EXTRA, getContentId())
                 .putExtra(WORK_UNIT_RUN_ID_EXTRA, getWorkUnitRunId())
                 .putExtra(LEARNER_ID_EXTRA, getLearnerId())
@@ -105,6 +112,10 @@ public class LaunchData {
         }
         return launchIntent;
 
+    }
+
+    public int getVersion() {
+        return version;
     }
 
     @NonNull
@@ -143,6 +154,7 @@ public class LaunchData {
     }
 
     private LaunchData(
+            int version,
             @NonNull String contentId,
             @NonNull String workUnitRunId,
             @NonNull String learnerId,
@@ -151,6 +163,7 @@ public class LaunchData {
             @Nullable Long remainingForegroundTimeInMs,
             @Nullable Long inactivityTimeoutInMs
     ) {
+        this.version = version;
         this.contentId = contentId;
         this.workUnitRunId = workUnitRunId;
         this.learnerId = learnerId;
