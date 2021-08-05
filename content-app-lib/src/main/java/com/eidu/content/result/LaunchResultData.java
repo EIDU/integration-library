@@ -10,12 +10,15 @@ import java.util.List;
 
 public class LaunchResultData {
 
+    public static final int VERSION = 1;
+    public static final String VERSION_EXTRA = "version";
     public static final String CONTENT_ID_EXTRA = "contentId";
     public static final String RUN_WU_RESULT_EXTRA = "runWuResult";
     public static final String SCORE_EXTRA = "score";
     public static final String FOREGROUND_DURATION_EXTRA = "foregroundDurationInMs";
     public static final String ADDITIONAL_DATA_EXTRA = "additionalData";
 
+    private final int version;
     @NonNull
     private final String contentId;
     @NonNull
@@ -35,6 +38,7 @@ public class LaunchResultData {
             @NonNull ArrayList<String> additionalData
     ) {
         return new LaunchResultData(
+                VERSION,
                 contentId,
                 runWuResult,
                 score,
@@ -44,6 +48,7 @@ public class LaunchResultData {
     }
 
     public static LaunchResultData fromResultIntent(@NonNull Intent resultIntent) {
+        int version = resultIntent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = resultIntent.getStringExtra(CONTENT_ID_EXTRA);
         RunWuResult runWuResult = RunWuResult.nullableValueOf(resultIntent.getStringExtra(RUN_WU_RESULT_EXTRA));
         Float score = null;
@@ -71,6 +76,7 @@ public class LaunchResultData {
         }
 
         return new LaunchResultData(
+                version,
                 contentId,
                 runWuResult,
                 score,
@@ -80,22 +86,24 @@ public class LaunchResultData {
     }
 
     public Intent toResultIntent() {
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra(CONTENT_ID_EXTRA, contentId);
-        resultIntent.putExtra(RUN_WU_RESULT_EXTRA, runWuResult.name());
-        resultIntent.putExtra(SCORE_EXTRA, score);
-        resultIntent.putExtra(FOREGROUND_DURATION_EXTRA, foregroundDurationInMs);
-        resultIntent.putStringArrayListExtra(ADDITIONAL_DATA_EXTRA, additionalData);
-        return resultIntent;
+        return new Intent()
+            .putExtra(VERSION_EXTRA, version)
+            .putExtra(CONTENT_ID_EXTRA, contentId)
+            .putExtra(RUN_WU_RESULT_EXTRA, runWuResult.name())
+            .putExtra(SCORE_EXTRA, score)
+            .putExtra(FOREGROUND_DURATION_EXTRA, foregroundDurationInMs)
+            .putStringArrayListExtra(ADDITIONAL_DATA_EXTRA, additionalData);
     }
 
     private LaunchResultData(
+            int version,
             @NonNull String contentId,
             @NonNull RunWuResult runWuResult,
             @NonNull Float score,
             @NonNull Long foregroundDurationInMs,
             @NonNull ArrayList<String> additionalData
     ) {
+        this.version = version;
         this.contentId = contentId;
         this.runWuResult = runWuResult;
         this.score = score;
@@ -117,6 +125,10 @@ public class LaunchResultData {
                 return null;
             }
         }
+    }
+
+    public int getVersion() {
+        return version;
     }
 
     @NonNull
