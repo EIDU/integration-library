@@ -1,4 +1,9 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
+plugins {
+    id("com.github.ben-manes.versions") version "0.33.0"
+}
+
 buildscript {
     repositories {
         google()
@@ -14,4 +19,11 @@ buildscript {
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+}
+
+tasks.named("dependencyUpdates", DependencyUpdatesTask::class).configure {
+    gradleReleaseChannel = "current"
+    outputFormatter = "json"
+    outputDir = "build/dependencyUpdates"
+    reportfileName = "report"
 }
