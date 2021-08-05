@@ -1,5 +1,8 @@
+import java.io.ByteArrayOutputStream
+
 plugins {
     id("com.android.library")
+    id("maven-publish")
 }
 
 android {
@@ -8,7 +11,7 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 30
-        version = "1.0"
+        version = version()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -34,3 +37,40 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/EIDU/content-app-library")
+            credentials {
+                username = System.getenv("GITHUB_USER")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "com.eidu"
+            artifactId = "content-app-library"
+            version = version()
+        }
+    }
+}
+
+// This is taken from the domain lib and could be externalized to some utility package
+fun run(command: String): String {
+    ByteArrayOutputStream().use { output ->
+        exec {
+            commandLine("sh", "-c", command)
+            standardOutput = output
+        }
+        return output.toString().trim()
+    }
+}
+
+fun version(): String = System.getenv("GITHUB_RUN_NUMBER")?.let {
+    "1.0.$it" + (
+            run("git rev-parse --abbrev-ref HEAD").takeIf { it != "main" }?.let { "-$it" } ?: ""
+            )
+} ?: "snapshot"
