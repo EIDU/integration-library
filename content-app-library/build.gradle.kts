@@ -3,6 +3,7 @@ import java.io.ByteArrayOutputStream
 plugins {
     id("com.android.library")
     id("maven-publish")
+    id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
 }
 
 android {
@@ -30,12 +31,12 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("com.google.android.material:material:1.4.0")
-    testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+
+    ktlintRuleset("com.eidu:ktlint-rules:1.0.4")
 }
 
 fun libraryArtifactId(): String = "content-app-library"
