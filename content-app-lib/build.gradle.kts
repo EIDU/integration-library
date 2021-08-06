@@ -38,6 +38,8 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 }
 
+fun libraryArtifactId(): String = "content-app-library"
+
 publishing {
     repositories {
         maven {
@@ -52,8 +54,9 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = "com.eidu"
-            artifactId = "content-app-library"
+            artifactId = libraryArtifactId()
             version = version()
+            artifact("$buildDir/outputs/aar/${libraryArtifactId()}-release.aar")
         }
     }
 }
