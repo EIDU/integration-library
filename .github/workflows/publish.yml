@@ -18,6 +18,9 @@ jobs:
         with:
           java-version: '11'
 
+      - name: Build AAR
+        run: ./gradlew build --stacktrace
+
       - name: Publish AAR
         run: ./gradlew publish --stacktrace
         env:
