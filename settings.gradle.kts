@@ -6,4 +6,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "EIDU Content App Library"
-include(":content-app-lib")
+include(":content-app-library")
