@@ -24,7 +24,7 @@ allprojects {
         mavenCentral()
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/EIDU/main-app")
+            url = uri("https://maven.pkg.github.com/EIDU/content-app-library")
             credentials {
                 username = System.getenv("READPACKAGES_GITHUB_USER")
                     ?: System.getenv("GITHUB_READPACKAGES_USER")
