@@ -6,11 +6,11 @@ import androidx.annotation.NonNull;
 
 public final class QueryIntent {
 
-    public static final String CONTENT_IDS_QUERY_CATEGORY = "contentIdsQuery";
+    public static final String CATEGORY_QUERY_CONTENT_IDS = "com.eidu.content.query.QUERY_CONTENT_IDS";
 
     public static Intent createIntent(@NonNull String queryAction) {
         Intent intent = new Intent(queryAction);
-        intent.addCategory(CONTENT_IDS_QUERY_CATEGORY);
+        intent.addCategory(CATEGORY_QUERY_CONTENT_IDS);
         return intent;
     }
 
