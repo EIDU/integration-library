@@ -28,7 +28,7 @@ public class LaunchData {
     public static final int VERSION = 1;
     public static final String VERSION_EXTRA = "version";
     public static final String CONTENT_ID_EXTRA = "contentId";
-    public static final String WORK_UNIT_RUN_ID_EXTRA = "workUnitRunId";
+    public static final String CONTENT_UNIT_RUN_ID = "contentUnitRunId";
     public static final String LEARNER_ID_EXTRA = "learnerId";
     public static final String SCHOOL_ID_EXTRA = "schoolId";
     public static final String ENVIRONMENT_EXTRA = "environment";
@@ -39,7 +39,7 @@ public class LaunchData {
     @NonNull
     private final String contentId;
     @NonNull
-    private final String workUnitRunId;
+    private final String contentUnitRunId;
     @NonNull
     private final String learnerId;
     @NonNull
@@ -57,7 +57,7 @@ public class LaunchData {
      * Use this to test your content app against what the EIDU app will send to launch content.
      *
      * @param contentId <b>Required</b> uniquely identifies the content to launch in your app
-     * @param workUnitRunId <b>Required</b> unique identifier of each content run
+     * @param contentUnitRunId <b>Required</b> unique identifier of each content run
      * @param learnerId <b>Required</b> unique identifier of the learner
      * @param schoolId <b>Required</b> unique identifier of the school
      * @param environment <b>Required</b> identifies the environment of this launch, e.g. "test", "prod"
@@ -69,7 +69,7 @@ public class LaunchData {
     @NonNull
     public static LaunchData fromPlainData(
             @NonNull String contentId,
-            @NonNull String workUnitRunId,
+            @NonNull String contentUnitRunId,
             @NonNull String learnerId,
             @NonNull String schoolId,
             @NonNull String environment,
@@ -79,7 +79,7 @@ public class LaunchData {
         return new LaunchData(
                 VERSION,
                 contentId,
-                workUnitRunId,
+                contentUnitRunId,
                 learnerId,
                 schoolId,
                 environment,
@@ -101,7 +101,7 @@ public class LaunchData {
     public static LaunchData fromLaunchIntent(@NonNull Intent intent) throws IllegalArgumentException {
         int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = intent.getStringExtra(CONTENT_ID_EXTRA);
-        String workUnitRunId = intent.getStringExtra(WORK_UNIT_RUN_ID_EXTRA);
+        String contentUnitRunId = intent.getStringExtra(CONTENT_UNIT_RUN_ID);
         String learnerId = intent.getStringExtra(LEARNER_ID_EXTRA);
         String schoolId = intent.getStringExtra(SCHOOL_ID_EXTRA);
         String environment = intent.getStringExtra(ENVIRONMENT_EXTRA);
@@ -114,12 +114,12 @@ public class LaunchData {
             remainingForegroundTimeInMs = intent.getLongExtra(INACTIVITY_TIMEOUT_EXTRA, 0);
         }
 
-        for (String field : Arrays.asList(contentId, workUnitRunId, learnerId, schoolId, environment)) {
+        for (String field : Arrays.asList(contentId, contentUnitRunId, learnerId, schoolId, environment)) {
             if (field == null || field.isEmpty()) {
                 throw new IllegalArgumentException(
                         String.format("Invalid launch intent. A required field is missing. " +
-                                "[contentId: %s, workUnitRunId: %s, learnerId: %s, schoolId: %s, " +
-                                "environment: %s]", contentId, workUnitRunId, learnerId, schoolId, environment)
+                                "[contentId: %s, contentUnitRunId: %s, learnerId: %s, schoolId: %s, " +
+                                "environment: %s]", contentId, contentUnitRunId, learnerId, schoolId, environment)
                 );
             }
         }
@@ -127,7 +127,7 @@ public class LaunchData {
         return new LaunchData(
                 version,
                 contentId,
-                workUnitRunId,
+                contentUnitRunId,
                 learnerId,
                 schoolId,
                 environment,
@@ -151,7 +151,7 @@ public class LaunchData {
         Intent launchIntent = new Intent(contentAppLaunchAction)
                 .putExtra(VERSION_EXTRA, getVersion())
                 .putExtra(CONTENT_ID_EXTRA, getContentId())
-                .putExtra(WORK_UNIT_RUN_ID_EXTRA, getWorkUnitRunId())
+                .putExtra(CONTENT_UNIT_RUN_ID, getContentUnitRunId())
                 .putExtra(LEARNER_ID_EXTRA, getLearnerId())
                 .putExtra(SCHOOL_ID_EXTRA, getSchoolId())
                 .putExtra(ENVIRONMENT_EXTRA, getEnvironment());
@@ -175,8 +175,8 @@ public class LaunchData {
     }
 
     @NonNull
-    public String getWorkUnitRunId() {
-        return workUnitRunId;
+    public String getContentUnitRunId() {
+        return contentUnitRunId;
     }
 
     @NonNull
@@ -207,7 +207,7 @@ public class LaunchData {
     private LaunchData(
             int version,
             @NonNull String contentId,
-            @NonNull String workUnitRunId,
+            @NonNull String contentUnitRunId,
             @NonNull String learnerId,
             @NonNull String schoolId,
             @NonNull String environment,
@@ -216,7 +216,7 @@ public class LaunchData {
     ) {
         this.version = version;
         this.contentId = contentId;
-        this.workUnitRunId = workUnitRunId;
+        this.contentUnitRunId = contentUnitRunId;
         this.learnerId = learnerId;
         this.schoolId = schoolId;
         this.environment = environment;

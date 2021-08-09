@@ -13,7 +13,7 @@ public class LaunchResultData {
     public static final int VERSION = 1;
     public static final String VERSION_EXTRA = "version";
     public static final String CONTENT_ID_EXTRA = "contentId";
-    public static final String RUN_WU_RESULT_EXTRA = "runWuResult";
+    public static final String RUN_CONTENT_UNIT_RESULT = "runContentUnitResult";
     public static final String SCORE_EXTRA = "score";
     public static final String FOREGROUND_DURATION_EXTRA = "foregroundDurationInMs";
     public static final String ADDITIONAL_DATA_EXTRA = "additionalData";
@@ -22,7 +22,7 @@ public class LaunchResultData {
     @NonNull
     private final String contentId;
     @NonNull
-    private final RunWuResult runWuResult;
+    private final RunContentUnitResult runContentUnitResult;
     @NonNull
     private final Float score;
     @NonNull
@@ -32,7 +32,7 @@ public class LaunchResultData {
 
     public static LaunchResultData fromPlainData(
             @NonNull String contentId,
-            @NonNull RunWuResult runWuResult,
+            @NonNull RunContentUnitResult runContentUnitResult,
             @NonNull Float score,
             @NonNull Long foregroundDurationInMs,
             @NonNull ArrayList<String> additionalData
@@ -40,7 +40,7 @@ public class LaunchResultData {
         return new LaunchResultData(
                 VERSION,
                 contentId,
-                runWuResult,
+                runContentUnitResult,
                 score,
                 foregroundDurationInMs,
                 additionalData
@@ -50,7 +50,8 @@ public class LaunchResultData {
     public static LaunchResultData fromResultIntent(@NonNull Intent resultIntent) {
         int version = resultIntent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = resultIntent.getStringExtra(CONTENT_ID_EXTRA);
-        RunWuResult runWuResult = RunWuResult.nullableValueOf(resultIntent.getStringExtra(RUN_WU_RESULT_EXTRA));
+        RunContentUnitResult runContentUnitResult =
+                RunContentUnitResult.nullableValueOf(resultIntent.getStringExtra(RUN_CONTENT_UNIT_RESULT));
         Float score = null;
         if (resultIntent.hasExtra(SCORE_EXTRA)) {
             score = resultIntent.getFloatExtra(SCORE_EXTRA, 0.f);
@@ -64,13 +65,13 @@ public class LaunchResultData {
             additionalData = resultIntent.getStringArrayListExtra(ADDITIONAL_DATA_EXTRA);
         }
 
-        if (contentId == null || contentId.isEmpty() || runWuResult == null || score == null
+        if (contentId == null || contentId.isEmpty() || runContentUnitResult == null || score == null
                 || foregroundDurationInMs == null) {
             throw new IllegalArgumentException(
                     String.format(
                             "Invalid result intent. A required field is missing. " +
-                                    "[contentId: %s, runWuResult: %s score: %f, foregroundDurationInMs: %d]",
-                            contentId, runWuResult, score, foregroundDurationInMs
+                                    "[contentId: %s, runContentUnitResult: %s score: %f, foregroundDurationInMs: %d]",
+                            contentId, runContentUnitResult, score, foregroundDurationInMs
                     )
             );
         }
@@ -78,7 +79,7 @@ public class LaunchResultData {
         return new LaunchResultData(
                 version,
                 contentId,
-                runWuResult,
+                runContentUnitResult,
                 score,
                 foregroundDurationInMs,
                 additionalData
@@ -89,7 +90,7 @@ public class LaunchResultData {
         return new Intent()
             .putExtra(VERSION_EXTRA, version)
             .putExtra(CONTENT_ID_EXTRA, contentId)
-            .putExtra(RUN_WU_RESULT_EXTRA, runWuResult.name())
+            .putExtra(RUN_CONTENT_UNIT_RESULT, runContentUnitResult.name())
             .putExtra(SCORE_EXTRA, score)
             .putExtra(FOREGROUND_DURATION_EXTRA, foregroundDurationInMs)
             .putStringArrayListExtra(ADDITIONAL_DATA_EXTRA, additionalData);
@@ -98,29 +99,29 @@ public class LaunchResultData {
     private LaunchResultData(
             int version,
             @NonNull String contentId,
-            @NonNull RunWuResult runWuResult,
+            @NonNull RunContentUnitResult runContentUnitResult,
             @NonNull Float score,
             @NonNull Long foregroundDurationInMs,
             @NonNull ArrayList<String> additionalData
     ) {
         this.version = version;
         this.contentId = contentId;
-        this.runWuResult = runWuResult;
+        this.runContentUnitResult = runContentUnitResult;
         this.score = score;
         this.foregroundDurationInMs = foregroundDurationInMs;
         this.additionalData = new ArrayList<>(additionalData);
     }
 
-    public enum RunWuResult {
+    public enum RunContentUnitResult {
         Success,
         Abort,
         Error,
         TimeoutInactivity,
         TimeUp;
 
-        static RunWuResult nullableValueOf(String value) {
+        static RunContentUnitResult nullableValueOf(String value) {
             try {
-                return RunWuResult.valueOf(value);
+                return RunContentUnitResult.valueOf(value);
             } catch (IllegalArgumentException e) {
                 return null;
             }
@@ -137,8 +138,8 @@ public class LaunchResultData {
     }
 
     @NonNull
-    public RunWuResult getRunWuResult() {
-        return runWuResult;
+    public RunContentUnitResult getRunContentUnitResult() {
+        return runContentUnitResult;
     }
 
     @NonNull
