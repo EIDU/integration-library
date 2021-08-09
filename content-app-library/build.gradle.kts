@@ -1,4 +1,4 @@
-import java.io.ByteArrayOutputStream
+import utils.version
 
 plugins {
     id("com.android.library")
@@ -61,20 +61,3 @@ publishing {
         }
     }
 }
-
-// This is taken from the domain lib and could be externalized to some utility package
-fun run(command: String): String {
-    ByteArrayOutputStream().use { output ->
-        exec {
-            commandLine("sh", "-c", command)
-            standardOutput = output
-        }
-        return output.toString().trim()
-    }
-}
-
-fun version(): String = System.getenv("GITHUB_RUN_NUMBER")?.let {
-    "1.0.$it" + (
-            run("git rev-parse --abbrev-ref HEAD").takeIf { it != "main" }?.let { "-$it" } ?: ""
-            )
-} ?: "snapshot"
