@@ -10,10 +10,10 @@ import java.util.List;
 
 public final class QueryContentProvider {
 
-    public static final String CONTENT_ID_COLUMN = "contentId";
+    public static final String AVAILABLE_UNIT_IDS_COLUMN = "availableUnitIds";
 
     public static List<String> getContentIds(@NonNull Cursor cursor) {
-        int columnIndex = cursor.getColumnIndex(CONTENT_ID_COLUMN);
+        int columnIndex = cursor.getColumnIndex(AVAILABLE_UNIT_IDS_COLUMN);
         if (columnIndex == -1) {
             return Collections.emptyList();
         }
