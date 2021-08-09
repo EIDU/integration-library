@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +22,18 @@ public class QueryResultData {
         } else {
             return new QueryResultData(Collections.emptyList());
         }
+    }
+
+    @NonNull
+    public static QueryResultData fromContentIds(@NonNull List<String> contentIds) {
+        return new QueryResultData(contentIds);
+    }
+
+    @NonNull
+    public Intent toResultIntent() {
+        Intent resultIntent = new Intent();
+        resultIntent.putStringArrayListExtra(CONTENT_IDS_EXTRA, new ArrayList<>(getContentIds()));
+        return resultIntent;
     }
 
     @NonNull
