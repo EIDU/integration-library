@@ -3,10 +3,7 @@ package com.eidu.content.result;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import androidx.annotation.Nullable;
 
 public class LaunchResultData {
 
@@ -27,15 +24,15 @@ public class LaunchResultData {
     private final Float score;
     @NonNull
     private final Long foregroundDurationInMs;
-    @NonNull
-    private final ArrayList<String> additionalData;
+    @Nullable
+    private final String additionalData;
 
     public static LaunchResultData fromPlainData(
             @NonNull String contentId,
             @NonNull RunContentUnitResult runContentUnitResult,
             @NonNull Float score,
             @NonNull Long foregroundDurationInMs,
-            @NonNull ArrayList<String> additionalData
+            @Nullable String additionalData
     ) {
         return new LaunchResultData(
                 VERSION,
@@ -60,9 +57,9 @@ public class LaunchResultData {
         if (resultIntent.hasExtra(FOREGROUND_DURATION_EXTRA)) {
             foregroundDurationInMs = resultIntent.getLongExtra(FOREGROUND_DURATION_EXTRA, 0);
         }
-        ArrayList<String> additionalData = new ArrayList<>();
+        String additionalData = null;
         if (resultIntent.hasExtra(ADDITIONAL_DATA_EXTRA)) {
-            additionalData = resultIntent.getStringArrayListExtra(ADDITIONAL_DATA_EXTRA);
+            additionalData = resultIntent.getStringExtra(ADDITIONAL_DATA_EXTRA);
         }
 
         if (contentId == null || contentId.isEmpty() || runContentUnitResult == null || score == null
@@ -93,7 +90,7 @@ public class LaunchResultData {
             .putExtra(RUN_CONTENT_UNIT_RESULT, runContentUnitResult.name())
             .putExtra(SCORE_EXTRA, score)
             .putExtra(FOREGROUND_DURATION_EXTRA, foregroundDurationInMs)
-            .putStringArrayListExtra(ADDITIONAL_DATA_EXTRA, additionalData);
+            .putExtra(ADDITIONAL_DATA_EXTRA, additionalData);
     }
 
     private LaunchResultData(
@@ -102,14 +99,14 @@ public class LaunchResultData {
             @NonNull RunContentUnitResult runContentUnitResult,
             @NonNull Float score,
             @NonNull Long foregroundDurationInMs,
-            @NonNull ArrayList<String> additionalData
+            @Nullable String additionalData
     ) {
         this.version = version;
         this.contentId = contentId;
         this.runContentUnitResult = runContentUnitResult;
         this.score = score;
         this.foregroundDurationInMs = foregroundDurationInMs;
-        this.additionalData = new ArrayList<>(additionalData);
+        this.additionalData = additionalData;
     }
 
     public enum RunContentUnitResult {
@@ -152,8 +149,8 @@ public class LaunchResultData {
         return foregroundDurationInMs;
     }
 
-    @NonNull
-    public List<String> getAdditionalData() {
-        return Collections.unmodifiableList(additionalData);
+    @Nullable
+    public String getAdditionalData() {
+        return additionalData;
     }
 }
