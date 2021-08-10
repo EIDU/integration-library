@@ -20,9 +20,6 @@ jobs:
 
       - name: Build AAR
         run: ./gradlew build --stacktrace
-        env:
-          GITHUB_USER: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish AAR
         run: ./gradlew publish --stacktrace
