@@ -31,6 +31,15 @@ public class LaunchResultData {
             @NonNull String contentId,
             @NonNull RunContentUnitResult runContentUnitResult,
             @NonNull Float score,
+            @NonNull Long foregroundDurationInMs
+    ) {
+        return fromPlainData(contentId, runContentUnitResult, score, foregroundDurationInMs, null);
+    }
+
+    public static LaunchResultData fromPlainData(
+            @NonNull String contentId,
+            @NonNull RunContentUnitResult runContentUnitResult,
+            @NonNull Float score,
             @NonNull Long foregroundDurationInMs,
             @Nullable String additionalData
     ) {
