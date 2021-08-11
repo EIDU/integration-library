@@ -18,6 +18,16 @@ jobs:
         with:
           java-version: '11'
 
+      - name: Run unit tests
+        run: ./gradlew test
+
+      - name: Publish test reports
+        uses: actions/upload-artifact@v1
+        with:
+          name: test-reports
+          path: app/build/reports
+        if: ${{ failure() }}
+
       - name: Build AAR
         run: ./gradlew build --stacktrace
 
