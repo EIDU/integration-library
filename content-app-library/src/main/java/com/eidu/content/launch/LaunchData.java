@@ -111,7 +111,7 @@ public class LaunchData {
         }
         Long inactivityTimeoutInMs = null;
         if (intent.hasExtra(INACTIVITY_TIMEOUT_EXTRA)) {
-            remainingForegroundTimeInMs = intent.getLongExtra(INACTIVITY_TIMEOUT_EXTRA, 0);
+            inactivityTimeoutInMs = intent.getLongExtra(INACTIVITY_TIMEOUT_EXTRA, 0);
         }
 
         for (String field : Arrays.asList(contentId, contentUnitRunId, learnerId, schoolId, environment)) {
