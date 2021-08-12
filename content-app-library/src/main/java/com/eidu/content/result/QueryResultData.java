@@ -1,9 +1,7 @@
 package com.eidu.content.result;
 
 import android.content.Intent;
-
 import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,8 +10,7 @@ public class QueryResultData {
 
     public static final String CONTENT_IDS_EXTRA = "contentIds";
 
-    @NonNull
-    private final List<String> contentIds;
+    @NonNull private final List<String> contentIds;
 
     @NonNull
     public static QueryResultData fromQueryIntent(@NonNull Intent intent) {

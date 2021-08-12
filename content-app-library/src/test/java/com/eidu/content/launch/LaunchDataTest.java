@@ -2,8 +2,6 @@ package com.eidu.content.launch;
 
 import static org.junit.Assert.assertEquals;
 
-import android.content.Intent;
-
 import org.junit.Test;
 
 public class LaunchDataTest {
@@ -17,15 +15,15 @@ public class LaunchDataTest {
 
     @Test
     public void fromPlainDataReturnsLaunchData() {
-        LaunchData launchData = LaunchData.fromPlainData(
-            contentId,
-            contentUnitRunId,
-            learnerId,
-            schoolId,
-            environment,
-            remainingForegroundTimeInMs,
-            inactivityTimeoutInMs
-        );
+        LaunchData launchData =
+                LaunchData.fromPlainData(
+                        contentId,
+                        contentUnitRunId,
+                        learnerId,
+                        schoolId,
+                        environment,
+                        remainingForegroundTimeInMs,
+                        inactivityTimeoutInMs);
 
         assertEquals(contentId, launchData.getContentId());
         assertEquals(contentUnitRunId, launchData.getContentUnitRunId());

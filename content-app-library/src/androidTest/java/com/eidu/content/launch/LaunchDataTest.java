@@ -1,8 +1,6 @@
 package com.eidu.content.launch;
 
-import static org.junit.Assert.*;
-
-import android.content.Intent;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -17,27 +15,27 @@ public class LaunchDataTest {
 
     @Test
     public void createLaunchDataFromCreatedLaunchIntent() {
-        LaunchData launchData = LaunchData.fromPlainData(
-                contentId,
-                contentUnitRunId,
-                learnerId,
-                schoolId,
-                environment,
-                remainingForegroundTimeInMs,
-                inactivityTimeoutInMs
-        );
-        LaunchData launchDataFromIntent = LaunchData.fromLaunchIntent(
-            launchData.toLaunchIntent("content.app.launch.ACTION")
-        );
+        LaunchData launchData =
+                LaunchData.fromPlainData(
+                        contentId,
+                        contentUnitRunId,
+                        learnerId,
+                        schoolId,
+                        environment,
+                        remainingForegroundTimeInMs,
+                        inactivityTimeoutInMs);
+        LaunchData launchDataFromIntent =
+                LaunchData.fromLaunchIntent(launchData.toLaunchIntent("content.app.launch.ACTION"));
         assertEquals(launchDataFromIntent.getContentId(), launchData.getContentId());
         assertEquals(launchDataFromIntent.getContentUnitRunId(), launchData.getContentUnitRunId());
         assertEquals(launchDataFromIntent.getLearnerId(), launchData.getLearnerId());
         assertEquals(launchDataFromIntent.getSchoolId(), launchData.getSchoolId());
         assertEquals(launchDataFromIntent.getEnvironment(), launchData.getEnvironment());
         assertEquals(
-            launchDataFromIntent.getRemainingForegroundTimeInMs(),
-            launchData.getRemainingForegroundTimeInMs()
-        );
-        assertEquals(launchDataFromIntent.getInactivityTimeoutInMs(), launchData.getInactivityTimeoutInMs());
+                launchDataFromIntent.getRemainingForegroundTimeInMs(),
+                launchData.getRemainingForegroundTimeInMs());
+        assertEquals(
+                launchDataFromIntent.getInactivityTimeoutInMs(),
+                launchData.getInactivityTimeoutInMs());
     }
 }

@@ -1,7 +1,6 @@
 package com.eidu.content.result;
 
 import android.content.Intent;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -16,23 +15,17 @@ public class LaunchResultData {
     public static final String ADDITIONAL_DATA_EXTRA = "additionalData";
 
     private final int version;
-    @NonNull
-    private final String contentId;
-    @NonNull
-    private final RunContentUnitResult runContentUnitResult;
-    @NonNull
-    private final Float score;
-    @NonNull
-    private final Long foregroundDurationInMs;
-    @Nullable
-    private final String additionalData;
+    @NonNull private final String contentId;
+    @NonNull private final RunContentUnitResult runContentUnitResult;
+    @NonNull private final Float score;
+    @NonNull private final Long foregroundDurationInMs;
+    @Nullable private final String additionalData;
 
     public static LaunchResultData fromPlainData(
             @NonNull String contentId,
             @NonNull RunContentUnitResult runContentUnitResult,
             @NonNull Float score,
-            @NonNull Long foregroundDurationInMs
-    ) {
+            @NonNull Long foregroundDurationInMs) {
         return fromPlainData(contentId, runContentUnitResult, score, foregroundDurationInMs, null);
     }
 
@@ -41,23 +34,22 @@ public class LaunchResultData {
             @NonNull RunContentUnitResult runContentUnitResult,
             @NonNull Float score,
             @NonNull Long foregroundDurationInMs,
-            @Nullable String additionalData
-    ) {
+            @Nullable String additionalData) {
         return new LaunchResultData(
                 VERSION,
                 contentId,
                 runContentUnitResult,
                 score,
                 foregroundDurationInMs,
-                additionalData
-        );
+                additionalData);
     }
 
     public static LaunchResultData fromResultIntent(@NonNull Intent resultIntent) {
         int version = resultIntent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = resultIntent.getStringExtra(CONTENT_ID_EXTRA);
         RunContentUnitResult runContentUnitResult =
-                RunContentUnitResult.nullableValueOf(resultIntent.getStringExtra(RUN_CONTENT_UNIT_RESULT));
+                RunContentUnitResult.nullableValueOf(
+                        resultIntent.getStringExtra(RUN_CONTENT_UNIT_RESULT));
         Float score = null;
         if (resultIntent.hasExtra(SCORE_EXTRA)) {
             score = resultIntent.getFloatExtra(SCORE_EXTRA, 0.f);
@@ -71,15 +63,16 @@ public class LaunchResultData {
             additionalData = resultIntent.getStringExtra(ADDITIONAL_DATA_EXTRA);
         }
 
-        if (contentId == null || contentId.isEmpty() || runContentUnitResult == null || score == null
+        if (contentId == null
+                || contentId.isEmpty()
+                || runContentUnitResult == null
+                || score == null
                 || foregroundDurationInMs == null) {
             throw new IllegalArgumentException(
                     String.format(
-                            "Invalid result intent. A required field is missing. " +
-                                    "[contentId: %s, runContentUnitResult: %s score: %f, foregroundDurationInMs: %d]",
-                            contentId, runContentUnitResult, score, foregroundDurationInMs
-                    )
-            );
+                            "Invalid result intent. A required field is missing. "
+                                    + "[contentId: %s, runContentUnitResult: %s score: %f, foregroundDurationInMs: %d]",
+                            contentId, runContentUnitResult, score, foregroundDurationInMs));
         }
 
         return new LaunchResultData(
@@ -88,18 +81,17 @@ public class LaunchResultData {
                 runContentUnitResult,
                 score,
                 foregroundDurationInMs,
-                additionalData
-        );
+                additionalData);
     }
 
     public Intent toResultIntent() {
         return new Intent()
-            .putExtra(VERSION_EXTRA, version)
-            .putExtra(CONTENT_ID_EXTRA, contentId)
-            .putExtra(RUN_CONTENT_UNIT_RESULT, runContentUnitResult.name())
-            .putExtra(SCORE_EXTRA, score)
-            .putExtra(FOREGROUND_DURATION_EXTRA, foregroundDurationInMs)
-            .putExtra(ADDITIONAL_DATA_EXTRA, additionalData);
+                .putExtra(VERSION_EXTRA, version)
+                .putExtra(CONTENT_ID_EXTRA, contentId)
+                .putExtra(RUN_CONTENT_UNIT_RESULT, runContentUnitResult.name())
+                .putExtra(SCORE_EXTRA, score)
+                .putExtra(FOREGROUND_DURATION_EXTRA, foregroundDurationInMs)
+                .putExtra(ADDITIONAL_DATA_EXTRA, additionalData);
     }
 
     private LaunchResultData(
@@ -108,8 +100,7 @@ public class LaunchResultData {
             @NonNull RunContentUnitResult runContentUnitResult,
             @NonNull Float score,
             @NonNull Long foregroundDurationInMs,
-            @Nullable String additionalData
-    ) {
+            @Nullable String additionalData) {
         this.version = version;
         this.contentId = contentId;
         this.runContentUnitResult = runContentUnitResult;

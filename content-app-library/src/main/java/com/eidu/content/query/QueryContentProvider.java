@@ -1,9 +1,7 @@
 package com.eidu.content.query;
 
 import android.database.Cursor;
-
 import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,6 +26,5 @@ public final class QueryContentProvider {
         return Collections.emptyList();
     }
 
-    private QueryContentProvider() {
-    }
+    private QueryContentProvider() {}
 }
