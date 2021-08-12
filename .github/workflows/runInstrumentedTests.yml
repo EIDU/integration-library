@@ -1,0 +1,40 @@
+name: Run Instrumented Tests
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * 2'
+
+jobs:
+  AndroidTest:
+    runs-on: macos-10.15
+    steps:
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Run instrumented tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 28
+          arch: x86
+          script: ./gradlew connectedCheck --stacktrace
+
+      - name: Publish test reports
+        uses: actions/upload-artifact@v1
+        with:
+          name: test-reports
+          path: content-app-library/build/reports/AndroidTests
+        if: ${{ failure() }}
+
+      - name: "Post Slack message to #build"
+        uses: EIDU/ci-notify-slack@v1.2
+        with:
+          job-status: ${{ job.status }}
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          text: 'content-app-library tests failed.'
+        if: ${{ failure() }}
