@@ -6,11 +6,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import android.database.Cursor;
-
-import org.junit.Test;
-
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Test;
 
 public class QueryContentProviderTest {
     List<String> contentIds = Arrays.asList("content id 1", "content id 2", "content id 3");
@@ -34,10 +32,7 @@ public class QueryContentProviderTest {
                 .thenReturn(contentIds.get(1))
                 .thenReturn(contentIds.get(2));
 
-        when(mockCursor.moveToNext())
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(false);
+        when(mockCursor.moveToNext()).thenReturn(true).thenReturn(true).thenReturn(false);
 
         return mockCursor;
     }

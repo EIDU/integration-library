@@ -4,10 +4,8 @@ import static com.eidu.content.query.QueryIntent.CATEGORY_QUERY_CONTENT_IDS;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Intent;
-
-import org.junit.Test;
-
 import java.util.Collections;
+import org.junit.Test;
 
 public class QueryIntentTest {
 

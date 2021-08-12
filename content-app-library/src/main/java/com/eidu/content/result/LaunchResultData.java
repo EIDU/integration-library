@@ -21,6 +21,7 @@ public class LaunchResultData {
     @NonNull private final Long foregroundDurationInMs;
     @Nullable private final String additionalData;
 
+    @NonNull
     public static LaunchResultData fromPlainData(
             @NonNull String contentId,
             @NonNull RunContentUnitResult runContentUnitResult,
@@ -29,6 +30,7 @@ public class LaunchResultData {
         return fromPlainData(contentId, runContentUnitResult, score, foregroundDurationInMs, null);
     }
 
+    @NonNull
     public static LaunchResultData fromPlainData(
             @NonNull String contentId,
             @NonNull RunContentUnitResult runContentUnitResult,
@@ -44,6 +46,7 @@ public class LaunchResultData {
                 additionalData);
     }
 
+    @NonNull
     public static LaunchResultData fromResultIntent(@NonNull Intent resultIntent) {
         int version = resultIntent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = resultIntent.getStringExtra(CONTENT_ID_EXTRA);
@@ -84,6 +87,7 @@ public class LaunchResultData {
                 additionalData);
     }
 
+    @NonNull
     public Intent toResultIntent() {
         return new Intent()
                 .putExtra(VERSION_EXTRA, version)
@@ -116,6 +120,7 @@ public class LaunchResultData {
         TimeoutInactivity,
         TimeUp;
 
+        @Nullable
         static RunContentUnitResult nullableValueOf(String value) {
             try {
                 return RunContentUnitResult.valueOf(value);

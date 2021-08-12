@@ -3,7 +3,7 @@ import utils.version
 plugins {
     id("com.android.library")
     id("maven-publish")
-    id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
+    id("com.diffplug.spotless") version "5.14.2"
 }
 
 android {
@@ -27,6 +27,18 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        enable(
+            "MissingPermission",
+            "SuspiciousImport",
+            "UsesMinSdkAttributes",
+            "Proguard"
+        )
+        isCheckTestSources = true
+        isCheckAllWarnings = true
+        isWarningsAsErrors = true
     }
 }
 
@@ -60,5 +72,14 @@ publishing {
             version = version()
             artifact("$buildDir/outputs/aar/${libraryArtifactId()}-release.aar")
         }
+    }
+}
+
+spotless {
+    java {
+        target("src/*/java/**/*.java")
+        importOrder()
+        removeUnusedImports()
+        googleJavaFormat().aosp()
     }
 }

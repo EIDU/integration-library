@@ -10,6 +10,7 @@ public final class QueryContentProvider {
 
     public static final String AVAILABLE_UNIT_IDS_COLUMN = "availableUnitIds";
 
+    @NonNull
     public static List<String> getContentIds(@NonNull Cursor cursor) {
         int columnIndex = cursor.getColumnIndex(AVAILABLE_UNIT_IDS_COLUMN);
         if (columnIndex == -1) {

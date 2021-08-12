@@ -37,10 +37,7 @@ public class LaunchResultDataTest {
                 LaunchResultData.RunContentUnitResult.values()) {
             LaunchResultData launchResultData =
                     LaunchResultData.fromPlainData(
-                            contentId,
-                            runContentUnitResult,
-                            score,
-                            foregroundDurationInMs);
+                            contentId, runContentUnitResult, score, foregroundDurationInMs);
 
             assertEquals(contentId, launchResultData.getContentId());
             assertEquals(runContentUnitResult, launchResultData.getRunContentUnitResult());
