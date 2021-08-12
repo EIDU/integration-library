@@ -37,5 +37,9 @@ public class LaunchDataTest {
         assertEquals(
                 launchDataFromIntent.getInactivityTimeoutInMs(),
                 launchData.getInactivityTimeoutInMs());
+        assertEquals(
+                launchDataFromIntent.getVersion(),
+                launchData.getVersion()
+        );
     }
 }
