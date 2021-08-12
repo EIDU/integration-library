@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: test-reports
-          path: app/build/reports
+          path: content-app-library/build/reports
         if: ${{ failure() }}
 
       - name: Build AAR
