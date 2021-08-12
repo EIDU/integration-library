@@ -47,3 +47,5 @@ tasks.named("dependencyUpdates", DependencyUpdatesTask::class).configure {
     outputDir = "build/dependencyUpdates"
     reportfileName = "report"
 }
+
+ProcessBuilder("git config --local core.hooksPath git-hooks".split(" ")).start()
