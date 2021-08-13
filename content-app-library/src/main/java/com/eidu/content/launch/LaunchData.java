@@ -21,7 +21,7 @@ import java.util.Arrays;
  * LaunchData#fromPlainData(String, String, String, String, String, Long, Long)} and converting it
  * to an Intent with {@link LaunchData#toLaunchIntent(String, String)}.
  */
-public class LaunchData {
+public final class LaunchData {
 
     public static final int VERSION = 1;
     public static final String VERSION_EXTRA = "version";
