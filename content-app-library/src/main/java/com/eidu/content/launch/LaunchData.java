@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * <p>To facilitate testing of your app you can create your own LaunchData with {@link
  * LaunchData#fromPlainData(String, String, String, String, String, Long, Long)} and converting it
- * to an Intent with {@link LaunchData#toLaunchIntent(String)}.
+ * to an Intent with {@link LaunchData#toLaunchIntent(String, String)}.
  */
 public class LaunchData {
 
@@ -32,6 +32,7 @@ public class LaunchData {
     public static final String ENVIRONMENT_EXTRA = "environment";
     public static final String REMAINING_FOREGROUND_TIME_EXTRA = "remainingForegroundTimeInMs";
     public static final String INACTIVITY_TIMEOUT_EXTRA = "inactivityTimeoutInMs";
+    public static final String ACTION_LAUNCH_CONTENT = "com.eidu.content.launch.LAUNCH_CONTENT";
 
     private final int version;
     @NonNull private final String contentId;
@@ -130,24 +131,26 @@ public class LaunchData {
     }
 
     /**
-     * Create an intent usable to launch a content app.
+     * Create an explicit intent usable to launch a content app.
      *
      * <p>You can use this method, along with {@link LaunchData#fromPlainData(String, String,
      * String, String, String, Long, Long)} to test your app.
      *
-     * @param contentAppLaunchAction the action uniquely identifying your content app
+     * @param packageName the package name of the activity to launch with this intent
+     * @param className the class name of the activity to launch with this intent
      * @return An intent containing all launch data and the defined action
      */
     @NonNull
-    public Intent toLaunchIntent(@NonNull String contentAppLaunchAction) {
+    public Intent toLaunchIntent(@NonNull String packageName, @NonNull String className) {
         Intent launchIntent =
-                new Intent(contentAppLaunchAction)
+                new Intent(ACTION_LAUNCH_CONTENT)
                         .putExtra(VERSION_EXTRA, getVersion())
                         .putExtra(CONTENT_ID_EXTRA, getContentId())
                         .putExtra(CONTENT_UNIT_RUN_ID, getContentUnitRunId())
                         .putExtra(LEARNER_ID_EXTRA, getLearnerId())
                         .putExtra(SCHOOL_ID_EXTRA, getSchoolId())
                         .putExtra(ENVIRONMENT_EXTRA, getEnvironment());
+        launchIntent.setClassName(packageName, className);
         if (getRemainingForegroundTimeInMs() != null) {
             launchIntent.putExtra(REMAINING_FOREGROUND_TIME_EXTRA, remainingForegroundTimeInMs);
         }
