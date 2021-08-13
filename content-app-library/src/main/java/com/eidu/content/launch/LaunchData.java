@@ -131,6 +131,21 @@ public final class LaunchData {
     }
 
     /**
+     * Create an implicit intent usable to launch a content app.
+     *
+     * <p>You can use this method, along with {@link LaunchData#fromPlainData(String, String,
+     * String, String, String, Long, Long)} to test your app.
+     *
+     * @param contentAppLaunchAction the action uniquely identifying your content app
+     * @return An intent containing all launch data and the defined action
+     */
+    @NonNull
+    public Intent toLaunchIntent(@NonNull String contentAppLaunchAction) {
+        Intent launchIntent = new Intent(contentAppLaunchAction);
+        return addExtras(launchIntent);
+    }
+
+    /**
      * Create an explicit intent usable to launch a content app.
      *
      * <p>You can use this method, along with {@link LaunchData#fromPlainData(String, String,
@@ -142,22 +157,26 @@ public final class LaunchData {
      */
     @NonNull
     public Intent toLaunchIntent(@NonNull String packageName, @NonNull String className) {
-        Intent launchIntent =
-                new Intent(ACTION_LAUNCH_CONTENT)
-                        .putExtra(VERSION_EXTRA, getVersion())
-                        .putExtra(CONTENT_ID_EXTRA, getContentId())
-                        .putExtra(CONTENT_UNIT_RUN_ID, getContentUnitRunId())
-                        .putExtra(LEARNER_ID_EXTRA, getLearnerId())
-                        .putExtra(SCHOOL_ID_EXTRA, getSchoolId())
-                        .putExtra(ENVIRONMENT_EXTRA, getEnvironment());
+        Intent launchIntent = new Intent(ACTION_LAUNCH_CONTENT);
         launchIntent.setClassName(packageName, className);
+        return addExtras(launchIntent);
+    }
+
+    @NonNull
+    private Intent addExtras(@NonNull Intent intent) {
+        intent.putExtra(VERSION_EXTRA, getVersion())
+                .putExtra(CONTENT_ID_EXTRA, getContentId())
+                .putExtra(CONTENT_UNIT_RUN_ID, getContentUnitRunId())
+                .putExtra(LEARNER_ID_EXTRA, getLearnerId())
+                .putExtra(SCHOOL_ID_EXTRA, getSchoolId())
+                .putExtra(ENVIRONMENT_EXTRA, getEnvironment());
         if (getRemainingForegroundTimeInMs() != null) {
-            launchIntent.putExtra(REMAINING_FOREGROUND_TIME_EXTRA, remainingForegroundTimeInMs);
+            intent.putExtra(REMAINING_FOREGROUND_TIME_EXTRA, remainingForegroundTimeInMs);
         }
         if (getInactivityTimeoutInMs() != null) {
-            launchIntent.putExtra(INACTIVITY_TIMEOUT_EXTRA, inactivityTimeoutInMs);
+            intent.putExtra(INACTIVITY_TIMEOUT_EXTRA, inactivityTimeoutInMs);
         }
-        return launchIntent;
+        return intent;
     }
 
     public int getVersion() {
