@@ -3,6 +3,7 @@ package com.eidu.content.result;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import androidx.annotation.NonNull;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
@@ -15,8 +16,7 @@ public class LaunchResultDataTest {
     @ParameterizedTest
     @EnumSource(LaunchResultData.RunContentUnitResult.class)
     public void createLaunchDataResultFromCreatedIntentWithAdditionalData(
-            LaunchResultData.RunContentUnitResult runContentUnitResult
-    ) {
+            @NonNull LaunchResultData.RunContentUnitResult runContentUnitResult) {
         LaunchResultData launchResultData =
                 LaunchResultData.fromPlainData(
                         contentId,
@@ -34,7 +34,8 @@ public class LaunchResultDataTest {
 
     @ParameterizedTest
     @EnumSource(LaunchResultData.RunContentUnitResult.class)
-    public void createLaunchDataResultFromCreatedIntent(LaunchResultData.RunContentUnitResult runContentUnitResult) {
+    public void createLaunchDataResultFromCreatedIntent(
+            @NonNull LaunchResultData.RunContentUnitResult runContentUnitResult) {
         LaunchResultData launchResultData =
                 LaunchResultData.fromPlainData(
                         contentId, runContentUnitResult, score, foregroundDurationInMs);

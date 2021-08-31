@@ -243,14 +243,14 @@ public final class LaunchData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LaunchData that = (LaunchData) o;
-        return version == that.version &&
-                contentId.equals(that.contentId) &&
-                contentUnitRunId.equals(that.contentUnitRunId) &&
-                learnerId.equals(that.learnerId) &&
-                schoolId.equals(that.schoolId) &&
-                environment.equals(that.environment) &&
-                Objects.equals(remainingForegroundTimeInMs, that.remainingForegroundTimeInMs) &&
-                Objects.equals(inactivityTimeoutInMs, that.inactivityTimeoutInMs);
+        return version == that.version
+                && contentId.equals(that.contentId)
+                && contentUnitRunId.equals(that.contentUnitRunId)
+                && learnerId.equals(that.learnerId)
+                && schoolId.equals(that.schoolId)
+                && environment.equals(that.environment)
+                && Objects.equals(remainingForegroundTimeInMs, that.remainingForegroundTimeInMs)
+                && Objects.equals(inactivityTimeoutInMs, that.inactivityTimeoutInMs);
     }
 
     @Override
@@ -263,7 +263,6 @@ public final class LaunchData {
                 schoolId,
                 environment,
                 remainingForegroundTimeInMs,
-                inactivityTimeoutInMs
-        );
+                inactivityTimeoutInMs);
     }
 }

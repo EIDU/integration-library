@@ -2,15 +2,12 @@ package com.eidu.content.query;
 
 import static com.eidu.content.query.QueryIntent.ACTION_QUERY_CONTENT_IDS;
 import static com.eidu.content.query.QueryIntent.CATEGORY_QUERY_CONTENT_IDS;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import android.content.ComponentName;
 import android.content.Intent;
-
-import org.junit.jupiter.api.Test;
-
 import java.util.Collections;
+import org.junit.jupiter.api.Test;
 
 public class QueryIntentTest {
 

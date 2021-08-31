@@ -6,11 +6,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import android.database.Cursor;
-
-import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class QueryContentProviderTest {
     List<String> contentIds = Arrays.asList("content id 1", "content id 2", "content id 3");

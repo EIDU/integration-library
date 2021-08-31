@@ -1,10 +1,8 @@
 package com.eidu.content.result;
 
 import android.content.Intent;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.Objects;
 
 public class LaunchResultData {
@@ -167,16 +165,22 @@ public class LaunchResultData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LaunchResultData that = (LaunchResultData) o;
-        return version == that.version &&
-                contentId.equals(that.contentId) &&
-                runContentUnitResult == that.runContentUnitResult &&
-                score.equals(that.score) &&
-                foregroundDurationInMs.equals(that.foregroundDurationInMs) &&
-                Objects.equals(additionalData, that.additionalData);
+        return version == that.version
+                && contentId.equals(that.contentId)
+                && runContentUnitResult == that.runContentUnitResult
+                && score.equals(that.score)
+                && foregroundDurationInMs.equals(that.foregroundDurationInMs)
+                && Objects.equals(additionalData, that.additionalData);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(version, contentId, runContentUnitResult, score, foregroundDurationInMs, additionalData);
+        return Objects.hash(
+                version,
+                contentId,
+                runContentUnitResult,
+                score,
+                foregroundDurationInMs,
+                additionalData);
     }
 }
