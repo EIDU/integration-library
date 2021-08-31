@@ -1,14 +1,16 @@
 package com.eidu.content.query;
 
 import static com.eidu.content.query.QueryContentProvider.AVAILABLE_UNIT_IDS_COLUMN;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import android.database.Cursor;
+
+import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
 
 public class QueryContentProviderTest {
     List<String> contentIds = Arrays.asList("content id 1", "content id 2", "content id 3");
