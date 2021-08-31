@@ -18,6 +18,6 @@ public class QueryResultDataTest {
         Intent intent = queryResultData.toResultIntent();
         QueryResultData queryResultDataFromIntent = QueryResultData.fromQueryIntent(intent);
 
-        assertEquals(queryResultData.getContentIds(), queryResultDataFromIntent.getContentIds());
+        assertEquals(queryResultDataFromIntent, queryResultData);
     }
 }

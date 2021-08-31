@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class QueryResultData {
 
@@ -40,5 +41,18 @@ public class QueryResultData {
 
     private QueryResultData(@NonNull List<String> contentIds) {
         this.contentIds = Collections.unmodifiableList(contentIds);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QueryResultData that = (QueryResultData) o;
+        return contentIds.equals(that.contentIds);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(contentIds);
     }
 }
