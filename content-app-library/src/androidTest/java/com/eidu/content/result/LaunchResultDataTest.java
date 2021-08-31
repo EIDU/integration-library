@@ -29,19 +29,7 @@ public class LaunchResultDataTest {
         LaunchResultData launchResultDataFromIntent =
                 LaunchResultData.fromResultIntent(resultIntent);
 
-        assertEquals(
-                launchResultData.getContentId(), launchResultDataFromIntent.getContentId());
-        assertEquals(
-                launchResultData.getRunContentUnitResult(),
-                launchResultDataFromIntent.getRunContentUnitResult());
-        assertEquals(launchResultData.getScore(), launchResultDataFromIntent.getScore());
-        assertEquals(
-                launchResultData.getForegroundDurationInMs(),
-                launchResultDataFromIntent.getForegroundDurationInMs());
-        assertEquals(
-                launchResultData.getAdditionalData(),
-                launchResultDataFromIntent.getAdditionalData());
-        assertEquals(launchResultData.getVersion(), launchResultDataFromIntent.getVersion());
+        assertEquals(launchResultDataFromIntent, launchResultData);
     }
 
     @ParameterizedTest
@@ -54,18 +42,6 @@ public class LaunchResultDataTest {
         LaunchResultData launchResultDataFromIntent =
                 LaunchResultData.fromResultIntent(resultIntent);
 
-        assertEquals(
-                launchResultData.getContentId(), launchResultDataFromIntent.getContentId());
-        assertEquals(
-                launchResultData.getRunContentUnitResult(),
-                launchResultDataFromIntent.getRunContentUnitResult());
-        assertEquals(launchResultData.getScore(), launchResultDataFromIntent.getScore());
-        assertEquals(
-                launchResultData.getForegroundDurationInMs(),
-                launchResultDataFromIntent.getForegroundDurationInMs());
-        assertEquals(
-                launchResultData.getAdditionalData(),
-                launchResultDataFromIntent.getAdditionalData());
-        assertEquals(launchResultData.getVersion(), launchResultDataFromIntent.getVersion());
+        assertEquals(launchResultDataFromIntent, launchResultData);
     }
 }
