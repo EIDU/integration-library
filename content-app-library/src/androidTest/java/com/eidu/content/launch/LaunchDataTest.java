@@ -26,17 +26,7 @@ public class LaunchDataTest {
                         inactivityTimeoutInMs);
         LaunchData launchDataFromIntent =
                 LaunchData.fromLaunchIntent(launchData.toLaunchIntent("content.app.launch.ACTION"));
-        assertEquals(launchDataFromIntent.getContentId(), launchData.getContentId());
-        assertEquals(launchDataFromIntent.getContentUnitRunId(), launchData.getContentUnitRunId());
-        assertEquals(launchDataFromIntent.getLearnerId(), launchData.getLearnerId());
-        assertEquals(launchDataFromIntent.getSchoolId(), launchData.getSchoolId());
-        assertEquals(launchDataFromIntent.getEnvironment(), launchData.getEnvironment());
-        assertEquals(
-                launchDataFromIntent.getRemainingForegroundTimeInMs(),
-                launchData.getRemainingForegroundTimeInMs());
-        assertEquals(
-                launchDataFromIntent.getInactivityTimeoutInMs(),
-                launchData.getInactivityTimeoutInMs());
-        assertEquals(launchDataFromIntent.getVersion(), launchData.getVersion());
+
+        assertEquals(launchDataFromIntent, launchData);
     }
 }

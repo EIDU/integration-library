@@ -4,6 +4,7 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * LaunchData is what the EIDU app uses to launch content from external content apps.
@@ -235,5 +236,34 @@ public final class LaunchData {
         this.environment = environment;
         this.remainingForegroundTimeInMs = remainingForegroundTimeInMs;
         this.inactivityTimeoutInMs = inactivityTimeoutInMs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LaunchData that = (LaunchData) o;
+        return version == that.version &&
+                contentId.equals(that.contentId) &&
+                contentUnitRunId.equals(that.contentUnitRunId) &&
+                learnerId.equals(that.learnerId) &&
+                schoolId.equals(that.schoolId) &&
+                environment.equals(that.environment) &&
+                Objects.equals(remainingForegroundTimeInMs, that.remainingForegroundTimeInMs) &&
+                Objects.equals(inactivityTimeoutInMs, that.inactivityTimeoutInMs);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                version,
+                contentId,
+                contentUnitRunId,
+                learnerId,
+                schoolId,
+                environment,
+                remainingForegroundTimeInMs,
+                inactivityTimeoutInMs
+        );
     }
 }
