@@ -4,6 +4,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     id("com.diffplug.spotless") version "5.14.2"
+    id("de.mannodermaus.android-junit5")
 }
 
 android {
@@ -15,6 +16,8 @@ android {
         version = version()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
+
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -45,10 +48,17 @@ android {
 dependencies {
     implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("com.google.android.material:material:1.4.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    testImplementation(platform("org.junit:junit-bom:5.7.2"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+    androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.2.2")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter-params:5.7.2")
+    androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.2.2")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.7.2")
+
     testImplementation("androidx.test:core:1.4.0")
     testImplementation("org.mockito:mockito-core:3.11.2")
 }
