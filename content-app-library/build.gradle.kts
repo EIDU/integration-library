@@ -60,7 +60,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.7.2")
 
     testImplementation("androidx.test:core:1.4.0")
-    testImplementation("org.mockito:mockito-core:3.11.2")
+    testImplementation("org.mockito:mockito-core:3.12.4")
 }
 
 tasks.withType<Test> {
