@@ -40,6 +40,6 @@ jobs:
         uses: EIDU/ci-notify-slack@v1.2
         with:
           job-status: ${{ job.status }}
-          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          webhook: ${{ secrets.SLACK_WEBHOOK_BUILD_CHANNEL }}
           text: 'content-app-library tests failed.'
         if: ${{ failure() }}
