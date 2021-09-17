@@ -9,6 +9,7 @@ jobs:
     env:
       GITHUB_READPACKAGES_USER: ${{ secrets.GH_READPACKAGES_USER }}
       GITHUB_READPACKAGES_TOKEN: ${{ secrets.GH_READPACKAGES_TOKEN }}
+      S3_BASE_URL: s3://dl.eidu.com/
 
     steps:
       - uses: actions/checkout@v2
@@ -36,3 +37,15 @@ jobs:
         env:
           GITHUB_USER: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Determine version
+        run: echo "VERSION_NAME=`./gradlew -q printVersion | tail -n 1`" >> $GITHUB_ENV
+
+      - name: Publish Javadoc
+        run: |
+          ./gradlew javadoc --stacktrace
+          export S3_OBJECT_PATH=dev/content-app-library/"$VERSION_NAME"/javadoc
+          aws s3 cp content-app-library/build/docs/javadoc "$S3_BASE_URL$S3_OBJECT_PATH" --recursive
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_UPLOAD_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_UPLOAD_SECRET_ACCESS_KEY }}

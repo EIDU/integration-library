@@ -82,6 +82,12 @@ tasks.register<Javadoc>("javadoc") {
     }
 }
 
+tasks.register("printVersion") {
+    doLast {
+        println(version())
+    }
+}
+
 fun libraryArtifactId(): String = "content-app-library"
 
 publishing {
