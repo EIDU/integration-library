@@ -15,12 +15,12 @@ import java.util.Objects;
  * <p>The intent sent also includes references to the learner and their school.
  *
  * <p>The easiest way to obtain the data provided by the Intent sent from EIDU is {@link
- * RunContentUnitRequest#fromLaunchIntent(Intent)}, which will automatically identify and extract all
- * information included in {@link Intent#getExtras()}.
+ * RunContentUnitRequest#fromLaunchIntent(Intent)}, which will automatically identify and extract
+ * all information included in {@link Intent#getExtras()}.
  *
  * <p>To facilitate testing of your app you can create your own RunContentUnitRequest with {@link
- * RunContentUnitRequest#fromPlainData(String, String, String, String, String, Long, Long)} and converting it
- * to an Intent with {@link RunContentUnitRequest#toLaunchIntent(String, String)}.
+ * RunContentUnitRequest#fromPlainData(String, String, String, String, String, Long, Long)} and
+ * converting it to an Intent with {@link RunContentUnitRequest#toLaunchIntent(String, String)}.
  */
 public final class RunContentUnitRequest {
 
@@ -33,7 +33,8 @@ public final class RunContentUnitRequest {
     public static final String STAGE_EXTRA = "stage";
     public static final String REMAINING_FOREGROUND_TIME_EXTRA = "remainingForegroundTimeInMs";
     public static final String INACTIVITY_TIMEOUT_EXTRA = "inactivityTimeoutInMs";
-    public static final String ACTION_LAUNCH_CONTENT = "com.eidu.content.integration.LAUNCH_CONTENT";
+    public static final String ACTION_LAUNCH_CONTENT =
+            "com.eidu.content.integration.LAUNCH_CONTENT";
 
     public final int version;
     @NonNull public final String contentId;
@@ -133,8 +134,8 @@ public final class RunContentUnitRequest {
     /**
      * Create an implicit intent usable to launch a content app.
      *
-     * <p>You can use this method, along with {@link RunContentUnitRequest#fromPlainData(String, String,
-     * String, String, String, Long, Long)} to test your app.
+     * <p>You can use this method, along with {@link RunContentUnitRequest#fromPlainData(String,
+     * String, String, String, String, Long, Long)} to test your app.
      *
      * @param contentAppLaunchAction the action uniquely identifying your content app
      * @return An intent containing all launch data and the defined action
@@ -148,8 +149,8 @@ public final class RunContentUnitRequest {
     /**
      * Create an explicit intent usable to launch a content app.
      *
-     * <p>You can use this method, along with {@link RunContentUnitRequest#fromPlainData(String, String,
-     * String, String, String, Long, Long)} to test your app.
+     * <p>You can use this method, along with {@link RunContentUnitRequest#fromPlainData(String,
+     * String, String, String, String, Long, Long)} to test your app.
      *
      * @param packageName the package name of the activity to launch with this intent
      * @param className the class name of the activity to launch with this intent

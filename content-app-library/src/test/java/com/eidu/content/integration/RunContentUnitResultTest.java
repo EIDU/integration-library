@@ -13,12 +13,9 @@ public class RunContentUnitResultTest {
 
     @Test
     public void instantiatesForSuccess() {
-        RunContentUnitResult result = RunContentUnitResult.ofSuccess(
-            contentId,
-            score,
-            foregroundDurationInMs,
-            additionalData
-        );
+        RunContentUnitResult result =
+                RunContentUnitResult.ofSuccess(
+                        contentId, score, foregroundDurationInMs, additionalData);
 
         assertEquals(contentId, result.contentId);
         assertEquals(RunContentUnitResult.ResultType.Success, result.resultType);
@@ -29,11 +26,8 @@ public class RunContentUnitResultTest {
 
     @Test
     public void instantiatesForAbort() {
-        RunContentUnitResult result = RunContentUnitResult.ofAbort(
-            contentId,
-            foregroundDurationInMs,
-            additionalData
-        );
+        RunContentUnitResult result =
+                RunContentUnitResult.ofAbort(contentId, foregroundDurationInMs, additionalData);
 
         assertEquals(contentId, result.contentId);
         assertEquals(RunContentUnitResult.ResultType.Abort, result.resultType);
@@ -44,11 +38,9 @@ public class RunContentUnitResultTest {
 
     @Test
     public void instantiatesForTimeoutInactivity() {
-        RunContentUnitResult result = RunContentUnitResult.ofTimeoutInactivity(
-            contentId,
-            foregroundDurationInMs,
-            additionalData
-        );
+        RunContentUnitResult result =
+                RunContentUnitResult.ofTimeoutInactivity(
+                        contentId, foregroundDurationInMs, additionalData);
 
         assertEquals(contentId, result.contentId);
         assertEquals(RunContentUnitResult.ResultType.TimeoutInactivity, result.resultType);
@@ -59,11 +51,8 @@ public class RunContentUnitResultTest {
 
     @Test
     public void instantiatesForTimeUp() {
-        RunContentUnitResult result = RunContentUnitResult.ofTimeUp(
-            contentId,
-            foregroundDurationInMs,
-            additionalData
-        );
+        RunContentUnitResult result =
+                RunContentUnitResult.ofTimeUp(contentId, foregroundDurationInMs, additionalData);
 
         assertEquals(contentId, result.contentId);
         assertEquals(RunContentUnitResult.ResultType.TimeUp, result.resultType);
@@ -74,12 +63,9 @@ public class RunContentUnitResultTest {
 
     @Test
     public void instantiatesForError() {
-        RunContentUnitResult result = RunContentUnitResult.ofError(
-            contentId,
-            foregroundDurationInMs,
-            errorDetails,
-            additionalData
-        );
+        RunContentUnitResult result =
+                RunContentUnitResult.ofError(
+                        contentId, foregroundDurationInMs, errorDetails, additionalData);
 
         assertEquals(contentId, result.contentId);
         assertEquals(RunContentUnitResult.ResultType.Error, result.resultType);

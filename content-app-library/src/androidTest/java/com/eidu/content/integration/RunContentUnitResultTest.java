@@ -13,24 +13,18 @@ public class RunContentUnitResultTest {
 
     @Test
     public void createsResultFromSuccessIntent() {
-        RunContentUnitResult result = RunContentUnitResult.ofSuccess(
-            contentId,
-            score,
-            foregroundDurationInMs,
-            additionalData
-        );
+        RunContentUnitResult result =
+                RunContentUnitResult.ofSuccess(
+                        contentId, score, foregroundDurationInMs, additionalData);
 
         verifyConversion(result);
     }
 
     @Test
     public void createsResultFromErrorIntent() {
-        RunContentUnitResult result = RunContentUnitResult.ofError(
-            contentId,
-            foregroundDurationInMs,
-            additionalData,
-            errorDetails
-        );
+        RunContentUnitResult result =
+                RunContentUnitResult.ofError(
+                        contentId, foregroundDurationInMs, additionalData, errorDetails);
 
         verifyConversion(result);
     }

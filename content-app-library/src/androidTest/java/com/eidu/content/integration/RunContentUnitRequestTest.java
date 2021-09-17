@@ -25,7 +25,8 @@ public class RunContentUnitRequestTest {
                         remainingForegroundTimeInMs,
                         inactivityTimeoutInMs);
         RunContentUnitRequest requestFromIntent =
-                RunContentUnitRequest.fromLaunchIntent(request.toLaunchIntent("content.app.launch.ACTION"));
+                RunContentUnitRequest.fromLaunchIntent(
+                        request.toLaunchIntent("content.app.launch.ACTION"));
 
         assertEquals(requestFromIntent, request);
     }
