@@ -15,12 +15,12 @@ import java.util.Objects;
  * <p>The intent sent also includes references to the learner and their school.
  *
  * <p>The easiest way to obtain the data provided by the Intent sent from EIDU is {@link
- * RunContentUnitRequest#fromIntent(Intent)}, which will automatically identify and extract
- * all information included in {@link Intent#getExtras()}.
+ * RunContentUnitRequest#fromIntent(Intent)}, which will automatically identify and extract all
+ * information included in {@link Intent#getExtras()}.
  *
- * <p>To facilitate testing of your app you can create your own RunContentUnitRequest with {@link
- * RunContentUnitRequest#of(String, String, String, String, String, Long, Long)} and
- * converting it to an Intent with {@link RunContentUnitRequest#toIntent(String, String)}.
+ * <p>To facilitate testing of your app, you can create your own RunContentUnitRequest with {@link
+ * RunContentUnitRequest#of(String, String, String, String, String, Long, Long)} and convert it to
+ * an Intent with {@link RunContentUnitRequest#toIntent(String, String)}.
  */
 public final class RunContentUnitRequest {
 
@@ -37,28 +37,57 @@ public final class RunContentUnitRequest {
             "com.eidu.content.integration.LAUNCH_CONTENT";
 
     public final int version;
+
+    /** An ID, defined by the content app, that uniquely identifies the unit of content to run. */
     @NonNull public final String contentId;
+
+    /** A unique identifier of each content unit run, which may be used for reporting purposes. */
     @NonNull public final String contentUnitRunId;
+
+    /**
+     * The obfuscated ID of the learner who is playing the content. May be used for reporting
+     * purposes.
+     */
     @NonNull public final String learnerId;
+
+    /**
+     * The obfuscated ID of the school at which the content is being played. May be used for
+     * reporting purposes.
+     */
     @NonNull public final String schoolId;
+
+    /**
+     * Identifies the stage of the EIDU app, e.g. "test", "prod". May be used for reporting
+     * purposes.
+     */
     @NonNull public final String stage;
+
+    /**
+     * The maximum amount of time that this run may take. The content app must end the run with
+     * {@link RunContentUnitResult.ResultType#TimeUp} after this amount of <i>foreground</i> time as
+     * elapsed.
+     */
     @Nullable public final Long remainingForegroundTimeInMs;
+
+    /**
+     * The time of user inactivity after which the content app must end the run with {@link
+     * RunContentUnitResult.ResultType#TimeoutInactivity}.
+     */
     @Nullable public final Long inactivityTimeoutInMs;
 
     /**
-     * Create a new RunContentUnitRequest instance from plain data.
+     * Creates a new RunContentUnitRequest instance.
      *
      * <p>Use this to test your content app against what the EIDU app will send to launch content.
      *
-     * @param contentId <b>Required</b> uniquely identifies the content to launch in your app
-     * @param contentUnitRunId <b>Required</b> unique identifier of each content run
-     * @param learnerId <b>Required</b> unique identifier of the learner
-     * @param schoolId <b>Required</b> unique identifier of the school
-     * @param stage <b>Required</b> identifies the stage of this launch, e.g. "test", "prod"
-     * @param remainingForegroundTimeInMs <i>Optional</i> session time remaining for this run
-     * @param inactivityTimeoutInMs <i>Optional</i> time after which your content should return when
-     *     the learner is inactive
-     * @return an instance of RunContentUnitRequest
+     * @param contentId <b>Required</b>, see {@link #contentId}.
+     * @param contentUnitRunId <b>Required</b>, see {@link #contentUnitRunId}.
+     * @param learnerId <b>Required</b>, see {@link #learnerId}.
+     * @param schoolId <b>Required</b>, see {@link #schoolId}.
+     * @param stage <b>Required</b>, see {@link #stage}.
+     * @param remainingForegroundTimeInMs <i>Optional</i>, see {@link #remainingForegroundTimeInMs}.
+     * @param inactivityTimeoutInMs <i>Optional</i>, see {@link #inactivityTimeoutInMs}.
+     * @return The new instance.
      */
     @NonNull
     public static RunContentUnitRequest of(
@@ -81,14 +110,14 @@ public final class RunContentUnitRequest {
     }
 
     /**
-     * Creates an instance of RunContentUnitRequest from the provided intent's extras.
+     * Creates a new RunContentUnitRequest instance from the provided intent.
      *
      * <p>Use this on the intent sent to your content app by EIDU to get access to the necessary
      * data.
      *
-     * @param intent <b>Required</b> the intent sent from the EIDU app to your content app
-     * @return RunContentUnitRequest initialized from the provided intent
-     * @throws IllegalArgumentException If the provided intent does not contain all required data
+     * @param intent <b>Required</b>, the intent sent from the EIDU app to your content app.
+     * @return The new instance, initialized from the provided intent.
+     * @throws IllegalArgumentException If the provided intent does not contain all required data.
      */
     @NonNull
     public static RunContentUnitRequest fromIntent(@NonNull Intent intent)
@@ -132,13 +161,13 @@ public final class RunContentUnitRequest {
     }
 
     /**
-     * Create an implicit intent usable to launch a content app.
+     * Creates an implicit intent usable to launch a content app.
      *
-     * <p>You can use this method, along with {@link RunContentUnitRequest#of(String,
-     * String, String, String, String, Long, Long)} to test your app.
+     * <p>You can use this method, along with {@link RunContentUnitRequest#of(String, String,
+     * String, String, String, Long, Long)} to test your app.
      *
-     * @param contentAppLaunchAction the action uniquely identifying your content app
-     * @return An intent containing all launch data and the defined action
+     * @param contentAppLaunchAction The action uniquely identifying your content app.
+     * @return An intent for the given action, containing all the launch information.
      */
     @NonNull
     public Intent toIntent(@NonNull String contentAppLaunchAction) {
@@ -146,14 +175,14 @@ public final class RunContentUnitRequest {
     }
 
     /**
-     * Create an explicit intent usable to launch a content app.
+     * Creates an explicit intent usable to launch a content app.
      *
-     * <p>You can use this method, along with {@link RunContentUnitRequest#of(String,
-     * String, String, String, String, Long, Long)} to test your app.
+     * <p>You can use this method, along with {@link RunContentUnitRequest#of(String, String,
+     * String, String, String, Long, Long)} to test your app.
      *
-     * @param packageName the package name of the activity to launch with this intent
-     * @param className the class name of the activity to launch with this intent
-     * @return An intent containing all launch data and the defined action
+     * @param packageName The package name of the content app.
+     * @param className The class name of the activity to launch with this intent
+     * @return An intent for the given package and class, containing all the launch information.
      */
     @NonNull
     public Intent toIntent(@NonNull String packageName, @NonNull String className) {

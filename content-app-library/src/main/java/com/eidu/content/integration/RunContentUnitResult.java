@@ -5,6 +5,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import java.util.Objects;
 
+/**
+ * This class represents the result of a content unit run and should be used to deliver the result
+ * to the EIDU app.
+ *
+ * <p>Depending on how the run ended, this class can be instantiated with one of the methods {@link
+ * #ofSuccess}, {@link #ofAbort}, {@link #ofTimeoutInactivity}, {@link #ofTimeUp}, {@link #ofError}.
+ *
+ * <p>Then, {@link #toIntent()} should be used to instantiate an {@link Intent} to be passed to
+ * {@link android.app.Activity#setResult(int, Intent)} before finishing the activity.
+ */
 public class RunContentUnitResult {
 
     public static final int VERSION = 1;
@@ -17,13 +27,62 @@ public class RunContentUnitResult {
     public static final String ERROR_DETAILS_EXTRA = "errorDetails";
 
     public final int version;
+
+    /** The unique ID of the unit that was played in this run. */
     @NonNull public final String contentId;
+
+    /** The reason why this run ended. */
     @NonNull public final ResultType resultType;
+
+    /**
+     * If {@link #resultType} is {@link ResultType#Success}, a score between 0.0f and 1.0f that
+     * described how the learner did. A value of 0.0f should indicate that the learner only gave
+     * incorrect answers, whereas a value of 1.0f should indicate the the learner only gave correct
+     * answers.
+     *
+     * <p>In case the nature of the content unit was such that there was no possibility to give an
+     * incorrect answer, the score must be 1.0f.
+     */
     public final float score;
+
+    /**
+     * The amount of time that the user spent with the content at the end of the run. This
+     * <i>must</i> exclude any amount of time that the content app was in the background (because
+     * the user navigated away from it, for example using the Android home button or because a
+     * different app forced itself into the foreground), and it <i>should</i> exclude time spent for
+     * loading and any transition animations.
+     */
     public final long foregroundDurationInMs;
+
+    /**
+     * An arbitrary string that the content app would like to associate with the usage data that the
+     * EIDU app reports. It will be made available to the content app manufacturer for data analysis
+     * purposes. It must not contain any sensitive data (e.g. device identifiers).
+     *
+     * <p>This is useful because content apps should not rely on (and should not attempt to take
+     * advantage of) Internet connectivity.
+     */
     @Nullable public final String additionalData;
+
+    /**
+     * If {@link #resultType} is {@link ResultType#Error}, this <i>should</i> contain any available
+     * diagnostic information, e.g. an exception with a stack trace.
+     *
+     * <p>This information will be reported to EIDU for diagnostic purposes. It must not contain any
+     * sensitive data (e.g. device identifiers).
+     */
     @Nullable public final String errorDetails;
 
+    /**
+     * Creates an instance with {@link ResultType#Success}. This should be used when the learner
+     * completes the unit of content, independently of their performance.
+     *
+     * @param contentId <b>Required</b>, see {@link #contentId}.
+     * @param score <b>Required</b>, see {@link #score}.
+     * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
+     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @return The new instance.
+     */
     @NonNull
     public static RunContentUnitResult ofSuccess(
             @NonNull String contentId,
@@ -40,6 +99,15 @@ public class RunContentUnitResult {
                 null);
     }
 
+    /**
+     * Creates an instance with {@link ResultType#Abort}. This should be used when the learner took
+     * an action meant to abort the run, e.g. tapping an abort button.
+     *
+     * @param contentId <b>Required</b>, see {@link #contentId}.
+     * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
+     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @return The new instance.
+     */
     @NonNull
     public static RunContentUnitResult ofAbort(
             @NonNull String contentId,
@@ -55,6 +123,16 @@ public class RunContentUnitResult {
                 null);
     }
 
+    /**
+     * Creates an instance with {@link ResultType#TimeoutInactivity}. This should be used after the
+     * learner hasn't interacted with the app for {@link
+     * RunContentUnitRequest#inactivityTimeoutInMs} milliseconds of <i>foreground</i> time.
+     *
+     * @param contentId <b>Required</b>, see {@link #contentId}.
+     * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
+     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @return The new instance.
+     */
     @NonNull
     public static RunContentUnitResult ofTimeoutInactivity(
             @NonNull String contentId,
@@ -70,6 +148,16 @@ public class RunContentUnitResult {
                 null);
     }
 
+    /**
+     * Creates an instance with {@link ResultType#TimeUp}. This should be used after {@link
+     * RunContentUnitRequest#remainingForegroundTimeInMs} milliseconds of <i>foreground</i> time
+     * have passed since the start of the run.
+     *
+     * @param contentId <b>Required</b>, see {@link #contentId}.
+     * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
+     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @return The new instance.
+     */
     @NonNull
     public static RunContentUnitResult ofTimeUp(
             @NonNull String contentId,
@@ -85,6 +173,17 @@ public class RunContentUnitResult {
                 null);
     }
 
+    /**
+     * Creates an instance with {@link ResultType#Error}. This should be used to indicate that a
+     * technical error occurred that prevented the learner from beginning or from completing the
+     * run.
+     *
+     * @param contentId <b>Required</b>, see {@link #contentId}.
+     * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
+     * @param errorDetails <b>Required</b>, see {@link #errorDetails}.
+     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @return The new instance.
+     */
     @NonNull
     public static RunContentUnitResult ofError(
             @NonNull String contentId,
@@ -101,6 +200,13 @@ public class RunContentUnitResult {
                 errorDetails);
     }
 
+    /**
+     * Parses an {@link Intent} into a new RunContentUnitResult instance.
+     *
+     * @param intent The intent to parse.
+     * @return The new instance.
+     * @throws IllegalArgumentException If the intent contains incomplete or invalid data.
+     */
     @NonNull
     public static RunContentUnitResult fromIntent(@NonNull Intent intent) {
         int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
@@ -136,6 +242,13 @@ public class RunContentUnitResult {
                 errorDetails);
     }
 
+    /**
+     * Converts this instance of RunContentUnitResult to an {@link Intent} which may then be passed
+     * to {@link android.app.Activity#setResult(int, Intent)} in order to inform the EIDU app of the
+     * result of a content unit run.
+     *
+     * @return An intent that contains all information of this instance of RunContentUnitResult.
+     */
     @NonNull
     public Intent toIntent() {
         return new Intent()
@@ -165,11 +278,17 @@ public class RunContentUnitResult {
         this.errorDetails = errorDetails;
     }
 
+    /** An enum describing the reason why a content unit run has ended. */
     public enum ResultType {
+        /** @see RunContentUnitResult#ofSuccess */
         Success,
+        /** @see RunContentUnitResult#ofAbort */
         Abort,
+        /** @see RunContentUnitResult#ofError */
         Error,
+        /** @see RunContentUnitResult#ofTimeoutInactivity */
         TimeoutInactivity,
+        /** @see RunContentUnitResult#ofTimeUp */
         TimeUp;
 
         @Nullable
