@@ -3,7 +3,6 @@ package com.eidu.content.integration;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -128,26 +127,23 @@ public final class RunContentUnitRequest {
         String learnerId = intent.getStringExtra(LEARNER_ID_EXTRA);
         String schoolId = intent.getStringExtra(SCHOOL_ID_EXTRA);
         String stage = intent.getStringExtra(STAGE_EXTRA);
-        Long remainingForegroundTimeInMs = null;
-        if (intent.hasExtra(REMAINING_FOREGROUND_TIME_EXTRA)) {
-            remainingForegroundTimeInMs = intent.getLongExtra(REMAINING_FOREGROUND_TIME_EXTRA, 0);
-        }
-        Long inactivityTimeoutInMs = null;
-        if (intent.hasExtra(INACTIVITY_TIMEOUT_EXTRA)) {
-            inactivityTimeoutInMs = intent.getLongExtra(INACTIVITY_TIMEOUT_EXTRA, 0);
-        }
+        Long remainingForegroundTimeInMs =
+                intent.hasExtra(REMAINING_FOREGROUND_TIME_EXTRA)
+                        ? intent.getLongExtra(REMAINING_FOREGROUND_TIME_EXTRA, 0)
+                        : null;
+        Long inactivityTimeoutInMs =
+                intent.hasExtra(INACTIVITY_TIMEOUT_EXTRA)
+                        ? intent.getLongExtra(INACTIVITY_TIMEOUT_EXTRA, 0)
+                        : null;
 
-        for (String field :
-                Arrays.asList(contentId, contentUnitRunId, learnerId, schoolId, stage)) {
-            if (field == null || field.isEmpty()) {
+        for (String field : new String[] {contentId, contentUnitRunId, learnerId, schoolId, stage})
+            if (field == null || field.isEmpty())
                 throw new IllegalArgumentException(
                         String.format(
                                 "Invalid launch intent. A required field is missing. "
                                         + "[contentId: %s, contentUnitRunId: %s, learnerId: %s, schoolId: %s, "
                                         + "stage: %s]",
                                 contentId, contentUnitRunId, learnerId, schoolId, stage));
-            }
-        }
 
         return new RunContentUnitRequest(
                 version,
