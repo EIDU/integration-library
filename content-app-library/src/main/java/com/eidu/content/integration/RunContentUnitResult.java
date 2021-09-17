@@ -17,14 +17,14 @@ import java.util.Objects;
  */
 public class RunContentUnitResult {
 
-    public static final int VERSION = 1;
-    public static final String VERSION_EXTRA = "version";
-    public static final String CONTENT_ID_EXTRA = "contentId";
-    public static final String RESULT_TYPE = "resultType";
-    public static final String SCORE_EXTRA = "score";
-    public static final String FOREGROUND_DURATION_EXTRA = "foregroundDurationInMs";
-    public static final String ADDITIONAL_DATA_EXTRA = "additionalData";
-    public static final String ERROR_DETAILS_EXTRA = "errorDetails";
+    private static final int VERSION = 1;
+    private static final String VERSION_EXTRA = "version";
+    private static final String CONTENT_ID_EXTRA = "contentId";
+    private static final String RESULT_TYPE = "resultType";
+    private static final String SCORE_EXTRA = "score";
+    private static final String FOREGROUND_DURATION_EXTRA = "foregroundDurationInMs";
+    private static final String ADDITIONAL_DATA_EXTRA = "additionalData";
+    private static final String ERROR_DETAILS_EXTRA = "errorDetails";
 
     public final int version;
 

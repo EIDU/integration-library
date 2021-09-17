@@ -24,16 +24,16 @@ import java.util.Objects;
  */
 public final class RunContentUnitRequest {
 
-    public static final int VERSION = 1;
-    public static final String VERSION_EXTRA = "version";
-    public static final String CONTENT_ID_EXTRA = "contentId";
-    public static final String CONTENT_UNIT_RUN_ID = "contentUnitRunId";
-    public static final String LEARNER_ID_EXTRA = "learnerId";
-    public static final String SCHOOL_ID_EXTRA = "schoolId";
-    public static final String STAGE_EXTRA = "stage";
-    public static final String REMAINING_FOREGROUND_TIME_EXTRA = "remainingForegroundTimeInMs";
-    public static final String INACTIVITY_TIMEOUT_EXTRA = "inactivityTimeoutInMs";
-    public static final String ACTION_LAUNCH_CONTENT =
+    private static final int VERSION = 1;
+    private static final String VERSION_EXTRA = "version";
+    private static final String CONTENT_ID_EXTRA = "contentId";
+    private static final String CONTENT_UNIT_RUN_ID = "contentUnitRunId";
+    private static final String LEARNER_ID_EXTRA = "learnerId";
+    private static final String SCHOOL_ID_EXTRA = "schoolId";
+    private static final String STAGE_EXTRA = "stage";
+    private static final String REMAINING_FOREGROUND_TIME_EXTRA = "remainingForegroundTimeInMs";
+    private static final String INACTIVITY_TIMEOUT_EXTRA = "inactivityTimeoutInMs";
+    private static final String ACTION_LAUNCH_CONTENT =
             "com.eidu.content.integration.LAUNCH_CONTENT";
 
     public final int version;
