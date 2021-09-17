@@ -2,7 +2,6 @@ package extensions
 
 import org.gradle.api.Project
 import utils.getLocalProperty
-import utils.getLocalPropertyOrNull
 
 /**
  * Obtain property declared on `$projectRoot/local.properties` file.
