@@ -23,26 +23,72 @@ public class RunContentUnitResult {
     @Nullable public final String additionalData;
 
     @NonNull
-    public static RunContentUnitResult fromPlainData(
+    public static RunContentUnitResult ofSuccess(
             @NonNull String contentId,
-            @NonNull ResultType resultType,
-            float score,
-            long foregroundDurationInMs) {
-        return fromPlainData(contentId, resultType, score, foregroundDurationInMs, null);
-    }
-
-    @NonNull
-    public static RunContentUnitResult fromPlainData(
-            @NonNull String contentId,
-            @NonNull ResultType resultType,
             float score,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
         return new RunContentUnitResult(
                 VERSION,
                 contentId,
-                resultType,
+                ResultType.Success,
                 score,
+                foregroundDurationInMs,
+                additionalData);
+    }
+
+    @NonNull
+    public static RunContentUnitResult ofAbort(
+            @NonNull String contentId,
+            long foregroundDurationInMs,
+            @Nullable String additionalData) {
+        return new RunContentUnitResult(
+                VERSION,
+                contentId,
+                ResultType.Abort,
+                0,
+                foregroundDurationInMs,
+                additionalData);
+    }
+
+    @NonNull
+    public static RunContentUnitResult ofTimeoutInactivity(
+            @NonNull String contentId,
+            long foregroundDurationInMs,
+            @Nullable String additionalData) {
+        return new RunContentUnitResult(
+                VERSION,
+                contentId,
+                ResultType.TimeoutInactivity,
+                0,
+                foregroundDurationInMs,
+                additionalData);
+    }
+
+    @NonNull
+    public static RunContentUnitResult ofTimeUp(
+            @NonNull String contentId,
+            long foregroundDurationInMs,
+            @Nullable String additionalData) {
+        return new RunContentUnitResult(
+                VERSION,
+                contentId,
+                ResultType.TimeUp,
+                0,
+                foregroundDurationInMs,
+                additionalData);
+    }
+
+    @NonNull
+    public static RunContentUnitResult ofError(
+            @NonNull String contentId,
+            long foregroundDurationInMs,
+            @Nullable String additionalData) {
+        return new RunContentUnitResult(
+                VERSION,
+                contentId,
+                ResultType.Error,
+                0,
                 foregroundDurationInMs,
                 additionalData);
     }

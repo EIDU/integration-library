@@ -1,12 +1,8 @@
 package com.eidu.content.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
-import androidx.annotation.NonNull;
-
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.api.Test;
 
 public class RunContentUnitResultTest {
     String contentId = "content id";
@@ -14,37 +10,79 @@ public class RunContentUnitResultTest {
     long foregroundDurationInMs = 123L;
     String additionalData = "additional data";
 
-    @ParameterizedTest
-    @EnumSource(RunContentUnitResult.ResultType.class)
-    public void createResultFromCreatedIntentWithAdditionalData(
-            @NonNull RunContentUnitResult.ResultType runContentUnitResult) {
-        RunContentUnitResult result =
-                RunContentUnitResult.fromPlainData(
-                        contentId,
-                        runContentUnitResult,
-                        score,
-                        foregroundDurationInMs,
-                        additionalData);
+    @Test
+    public void instantiatesForSuccess() {
+        RunContentUnitResult result = RunContentUnitResult.ofSuccess(
+            contentId,
+            score,
+            foregroundDurationInMs,
+            additionalData
+        );
 
         assertEquals(contentId, result.contentId);
-        assertEquals(runContentUnitResult, result.resultType);
+        assertEquals(RunContentUnitResult.ResultType.Success, result.resultType);
         assertEquals(score, result.score);
         assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);
         assertEquals(additionalData, result.additionalData);
     }
 
-    @ParameterizedTest
-    @EnumSource(RunContentUnitResult.ResultType.class)
-    public void createResultFromCreatedIntent(
-            @NonNull RunContentUnitResult.ResultType runContentUnitResult) {
-        RunContentUnitResult result =
-                RunContentUnitResult.fromPlainData(
-                        contentId, runContentUnitResult, score, foregroundDurationInMs);
+    @Test
+    public void instantiatesForAbort() {
+        RunContentUnitResult result = RunContentUnitResult.ofAbort(
+            contentId,
+            foregroundDurationInMs,
+            additionalData
+        );
 
         assertEquals(contentId, result.contentId);
-        assertEquals(runContentUnitResult, result.resultType);
-        assertEquals(score, result.score);
+        assertEquals(RunContentUnitResult.ResultType.Abort, result.resultType);
+        assertEquals(0.0, result.score);
         assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);
-        assertNull(result.additionalData);
+        assertEquals(additionalData, result.additionalData);
+    }
+
+    @Test
+    public void instantiatesForTimeoutInactivity() {
+        RunContentUnitResult result = RunContentUnitResult.ofTimeoutInactivity(
+            contentId,
+            foregroundDurationInMs,
+            additionalData
+        );
+
+        assertEquals(contentId, result.contentId);
+        assertEquals(RunContentUnitResult.ResultType.TimeoutInactivity, result.resultType);
+        assertEquals(0.0, result.score);
+        assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);
+        assertEquals(additionalData, result.additionalData);
+    }
+
+    @Test
+    public void instantiatesForTimeUp() {
+        RunContentUnitResult result = RunContentUnitResult.ofTimeUp(
+            contentId,
+            foregroundDurationInMs,
+            additionalData
+        );
+
+        assertEquals(contentId, result.contentId);
+        assertEquals(RunContentUnitResult.ResultType.TimeUp, result.resultType);
+        assertEquals(0.0, result.score);
+        assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);
+        assertEquals(additionalData, result.additionalData);
+    }
+
+    @Test
+    public void instantiatesForError() {
+        RunContentUnitResult result = RunContentUnitResult.ofError(
+            contentId,
+            foregroundDurationInMs,
+            additionalData
+        );
+
+        assertEquals(contentId, result.contentId);
+        assertEquals(RunContentUnitResult.ResultType.Error, result.resultType);
+        assertEquals(0.0, result.score);
+        assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);
+        assertEquals(additionalData, result.additionalData);
     }
 }
