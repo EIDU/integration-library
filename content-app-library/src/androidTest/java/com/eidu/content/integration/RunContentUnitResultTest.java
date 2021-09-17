@@ -36,6 +36,6 @@ public class RunContentUnitResultTest {
     }
 
     private void verifyConversion(RunContentUnitResult result) {
-        assertEquals(result, RunContentUnitResult.fromResultIntent(result.toResultIntent()));
+        assertEquals(result, RunContentUnitResult.fromIntent(result.toIntent()));
     }
 }

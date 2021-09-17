@@ -107,14 +107,14 @@ public class RunContentUnitResult {
     }
 
     @NonNull
-    public static RunContentUnitResult fromResultIntent(@NonNull Intent resultIntent) {
-        int version = resultIntent.getIntExtra(VERSION_EXTRA, VERSION);
-        String contentId = resultIntent.getStringExtra(CONTENT_ID_EXTRA);
-        ResultType type = RunContentUnitResult.ResultType.nullableValueOf(resultIntent.getStringExtra(RESULT_TYPE));
-        Float score = resultIntent.hasExtra(SCORE_EXTRA) ? resultIntent.getFloatExtra(SCORE_EXTRA, 0.f) : null;
-        Long foregroundDurationInMs = resultIntent.hasExtra(FOREGROUND_DURATION_EXTRA) ? resultIntent.getLongExtra(FOREGROUND_DURATION_EXTRA, 0) : null;
-        String additionalData = resultIntent.getStringExtra(ADDITIONAL_DATA_EXTRA);
-        String errorDetails = resultIntent.getStringExtra(ERROR_DETAILS_EXTRA);
+    public static RunContentUnitResult fromIntent(@NonNull Intent intent) {
+        int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
+        String contentId = intent.getStringExtra(CONTENT_ID_EXTRA);
+        ResultType type = RunContentUnitResult.ResultType.nullableValueOf(intent.getStringExtra(RESULT_TYPE));
+        Float score = intent.hasExtra(SCORE_EXTRA) ? intent.getFloatExtra(SCORE_EXTRA, 0.f) : null;
+        Long foregroundDurationInMs = intent.hasExtra(FOREGROUND_DURATION_EXTRA) ? intent.getLongExtra(FOREGROUND_DURATION_EXTRA, 0) : null;
+        String additionalData = intent.getStringExtra(ADDITIONAL_DATA_EXTRA);
+        String errorDetails = intent.getStringExtra(ERROR_DETAILS_EXTRA);
 
         if (contentId == null || contentId.isEmpty() || type == null || score == null || foregroundDurationInMs == null)
             throw new IllegalArgumentException(
@@ -137,7 +137,7 @@ public class RunContentUnitResult {
     }
 
     @NonNull
-    public Intent toResultIntent() {
+    public Intent toIntent() {
         return new Intent()
                 .putExtra(VERSION_EXTRA, version)
                 .putExtra(CONTENT_ID_EXTRA, contentId)
