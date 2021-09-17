@@ -67,6 +67,21 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks.register<Javadoc>("javadoc") {
+    val variant = android.libraryVariants.first { it.name == "release" }
+    description = "Generates Javadoc for ${variant.name}."
+    source = fileTree(variant.sourceSets.first { it.name == "main" }.javaDirectories.first())
+    classpath = files(variant.javaCompile.classpath.files) +
+            files("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar")
+    (options as StandardJavadocDocletOptions).apply {
+        source = "8" // workaround for https://bugs.openjdk.java.net/browse/JDK-8212233
+        links(
+            "https://docs.oracle.com/javase/7/docs/api/",
+            "https://d.android.com/reference/"
+        )
+    }
+}
+
 fun libraryArtifactId(): String = "content-app-library"
 
 publishing {
