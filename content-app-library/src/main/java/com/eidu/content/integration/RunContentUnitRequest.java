@@ -74,6 +74,25 @@ public final class RunContentUnitRequest {
      */
     @Nullable public final Long inactivityTimeoutInMs;
 
+    private RunContentUnitRequest(
+            int version,
+            @NonNull String contentId,
+            @NonNull String contentUnitRunId,
+            @NonNull String learnerId,
+            @NonNull String schoolId,
+            @NonNull String stage,
+            @Nullable Long remainingForegroundTimeInMs,
+            @Nullable Long inactivityTimeoutInMs) {
+        this.version = version;
+        this.contentId = contentId;
+        this.contentUnitRunId = contentUnitRunId;
+        this.learnerId = learnerId;
+        this.schoolId = schoolId;
+        this.stage = stage;
+        this.remainingForegroundTimeInMs = remainingForegroundTimeInMs;
+        this.inactivityTimeoutInMs = inactivityTimeoutInMs;
+    }
+
     /**
      * Creates a new RunContentUnitRequest instance.
      *
@@ -198,25 +217,6 @@ public final class RunContentUnitRequest {
         intent.putExtra(REMAINING_FOREGROUND_TIME_EXTRA, remainingForegroundTimeInMs);
         intent.putExtra(INACTIVITY_TIMEOUT_EXTRA, inactivityTimeoutInMs);
         return intent;
-    }
-
-    private RunContentUnitRequest(
-            int version,
-            @NonNull String contentId,
-            @NonNull String contentUnitRunId,
-            @NonNull String learnerId,
-            @NonNull String schoolId,
-            @NonNull String stage,
-            @Nullable Long remainingForegroundTimeInMs,
-            @Nullable Long inactivityTimeoutInMs) {
-        this.version = version;
-        this.contentId = contentId;
-        this.contentUnitRunId = contentUnitRunId;
-        this.learnerId = learnerId;
-        this.schoolId = schoolId;
-        this.stage = stage;
-        this.remainingForegroundTimeInMs = remainingForegroundTimeInMs;
-        this.inactivityTimeoutInMs = inactivityTimeoutInMs;
     }
 
     @Override

@@ -73,6 +73,23 @@ public class RunContentUnitResult {
      */
     @Nullable public final String errorDetails;
 
+    private RunContentUnitResult(
+            int version,
+            @NonNull String contentId,
+            @NonNull ResultType resultType,
+            float score,
+            long foregroundDurationInMs,
+            @Nullable String additionalData,
+            @Nullable String errorDetails) {
+        this.version = version;
+        this.contentId = contentId;
+        this.resultType = resultType;
+        this.score = score;
+        this.foregroundDurationInMs = foregroundDurationInMs;
+        this.additionalData = additionalData;
+        this.errorDetails = errorDetails;
+    }
+
     /**
      * Creates an instance with {@link ResultType#Success}. This should be used when the learner
      * completes the unit of content, independently of their performance.
@@ -261,46 +278,6 @@ public class RunContentUnitResult {
                 .putExtra(ERROR_DETAILS_EXTRA, errorDetails);
     }
 
-    private RunContentUnitResult(
-            int version,
-            @NonNull String contentId,
-            @NonNull ResultType resultType,
-            float score,
-            long foregroundDurationInMs,
-            @Nullable String additionalData,
-            @Nullable String errorDetails) {
-        this.version = version;
-        this.contentId = contentId;
-        this.resultType = resultType;
-        this.score = score;
-        this.foregroundDurationInMs = foregroundDurationInMs;
-        this.additionalData = additionalData;
-        this.errorDetails = errorDetails;
-    }
-
-    /** An enum describing the reason why a content unit run has ended. */
-    public enum ResultType {
-        /** @see RunContentUnitResult#ofSuccess */
-        Success,
-        /** @see RunContentUnitResult#ofAbort */
-        Abort,
-        /** @see RunContentUnitResult#ofError */
-        Error,
-        /** @see RunContentUnitResult#ofTimeoutInactivity */
-        TimeoutInactivity,
-        /** @see RunContentUnitResult#ofTimeUp */
-        TimeUp;
-
-        @Nullable
-        static ResultType nullableValueOf(String value) {
-            try {
-                return RunContentUnitResult.ResultType.valueOf(value);
-            } catch (IllegalArgumentException e) {
-                return null;
-            }
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -325,5 +302,28 @@ public class RunContentUnitResult {
                 foregroundDurationInMs,
                 additionalData,
                 errorDetails);
+    }
+
+    /** An enum describing the reason why a content unit run has ended. */
+    public enum ResultType {
+        /** @see RunContentUnitResult#ofSuccess */
+        Success,
+        /** @see RunContentUnitResult#ofAbort */
+        Abort,
+        /** @see RunContentUnitResult#ofError */
+        Error,
+        /** @see RunContentUnitResult#ofTimeoutInactivity */
+        TimeoutInactivity,
+        /** @see RunContentUnitResult#ofTimeUp */
+        TimeUp;
+
+        @Nullable
+        static ResultType nullableValueOf(String value) {
+            try {
+                return RunContentUnitResult.ResultType.valueOf(value);
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+        }
     }
 }
