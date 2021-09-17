@@ -110,33 +110,20 @@ public class RunContentUnitResult {
     public static RunContentUnitResult fromResultIntent(@NonNull Intent resultIntent) {
         int version = resultIntent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = resultIntent.getStringExtra(CONTENT_ID_EXTRA);
-        ResultType type =
-                RunContentUnitResult.ResultType.nullableValueOf(resultIntent.getStringExtra(RESULT_TYPE));
-        Float score = null;
-        if (resultIntent.hasExtra(SCORE_EXTRA)) {
-            score = resultIntent.getFloatExtra(SCORE_EXTRA, 0.f);
-        }
-        Long foregroundDurationInMs = null;
-        if (resultIntent.hasExtra(FOREGROUND_DURATION_EXTRA)) {
-            foregroundDurationInMs = resultIntent.getLongExtra(FOREGROUND_DURATION_EXTRA, 0);
-        }
-        String additionalData = null;
-        if (resultIntent.hasExtra(ADDITIONAL_DATA_EXTRA)) {
-            additionalData = resultIntent.getStringExtra(ADDITIONAL_DATA_EXTRA);
-        }
-        String errorDetails =  resultIntent.getStringExtra(ERROR_DETAILS_EXTRA);
+        ResultType type = RunContentUnitResult.ResultType.nullableValueOf(resultIntent.getStringExtra(RESULT_TYPE));
+        Float score = resultIntent.hasExtra(SCORE_EXTRA) ? resultIntent.getFloatExtra(SCORE_EXTRA, 0.f) : null;
+        Long foregroundDurationInMs = resultIntent.hasExtra(FOREGROUND_DURATION_EXTRA) ? resultIntent.getLongExtra(FOREGROUND_DURATION_EXTRA, 0) : null;
+        String additionalData = resultIntent.getStringExtra(ADDITIONAL_DATA_EXTRA);
+        String errorDetails = resultIntent.getStringExtra(ERROR_DETAILS_EXTRA);
 
-        if (contentId == null
-                || contentId.isEmpty()
-                || type == null
-                || score == null
-                || foregroundDurationInMs == null) {
+        if (contentId == null || contentId.isEmpty() || type == null || score == null || foregroundDurationInMs == null)
             throw new IllegalArgumentException(
-                    String.format(
-                            "Invalid result intent. A required field is missing. "
-                                    + "[contentId: %s, type: %s score: %f, foregroundDurationInMs: %d]",
-                            contentId, type, score, foregroundDurationInMs));
-        }
+                String.format(
+                    "Invalid result intent. A required field is missing. "
+                        + "[contentId: %s, type: %s score: %f, foregroundDurationInMs: %d]",
+                    contentId, type, score, foregroundDurationInMs
+                )
+            );
 
         return new RunContentUnitResult(
                 version,
