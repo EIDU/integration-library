@@ -14,6 +14,7 @@ public class RunContentUnitResult {
     public static final String SCORE_EXTRA = "score";
     public static final String FOREGROUND_DURATION_EXTRA = "foregroundDurationInMs";
     public static final String ADDITIONAL_DATA_EXTRA = "additionalData";
+    public static final String ERROR_DETAILS_EXTRA = "errorDetails";
 
     public final int version;
     @NonNull public final String contentId;
@@ -21,6 +22,7 @@ public class RunContentUnitResult {
     public final float score;
     public final long foregroundDurationInMs;
     @Nullable public final String additionalData;
+    @Nullable public final String errorDetails;
 
     @NonNull
     public static RunContentUnitResult ofSuccess(
@@ -34,7 +36,9 @@ public class RunContentUnitResult {
                 ResultType.Success,
                 score,
                 foregroundDurationInMs,
-                additionalData);
+                additionalData,
+                null
+        );
     }
 
     @NonNull
@@ -48,7 +52,9 @@ public class RunContentUnitResult {
                 ResultType.Abort,
                 0,
                 foregroundDurationInMs,
-                additionalData);
+                additionalData,
+                null
+        );
     }
 
     @NonNull
@@ -62,7 +68,9 @@ public class RunContentUnitResult {
                 ResultType.TimeoutInactivity,
                 0,
                 foregroundDurationInMs,
-                additionalData);
+                additionalData,
+                null
+        );
     }
 
     @NonNull
@@ -76,13 +84,16 @@ public class RunContentUnitResult {
                 ResultType.TimeUp,
                 0,
                 foregroundDurationInMs,
-                additionalData);
+                additionalData,
+                null
+        );
     }
 
     @NonNull
     public static RunContentUnitResult ofError(
             @NonNull String contentId,
             long foregroundDurationInMs,
+            @NonNull String errorDetails,
             @Nullable String additionalData) {
         return new RunContentUnitResult(
                 VERSION,
@@ -90,7 +101,9 @@ public class RunContentUnitResult {
                 ResultType.Error,
                 0,
                 foregroundDurationInMs,
-                additionalData);
+                additionalData,
+                errorDetails
+        );
     }
 
     @NonNull
@@ -111,6 +124,7 @@ public class RunContentUnitResult {
         if (resultIntent.hasExtra(ADDITIONAL_DATA_EXTRA)) {
             additionalData = resultIntent.getStringExtra(ADDITIONAL_DATA_EXTRA);
         }
+        String errorDetails =  resultIntent.getStringExtra(ERROR_DETAILS_EXTRA);
 
         if (contentId == null
                 || contentId.isEmpty()
@@ -130,7 +144,9 @@ public class RunContentUnitResult {
                 type,
                 score,
                 foregroundDurationInMs,
-                additionalData);
+                additionalData,
+                errorDetails
+        );
     }
 
     @NonNull
@@ -141,7 +157,8 @@ public class RunContentUnitResult {
                 .putExtra(RESULT_TYPE, resultType.name())
                 .putExtra(SCORE_EXTRA, score)
                 .putExtra(FOREGROUND_DURATION_EXTRA, foregroundDurationInMs)
-                .putExtra(ADDITIONAL_DATA_EXTRA, additionalData);
+                .putExtra(ADDITIONAL_DATA_EXTRA, additionalData)
+                .putExtra(ERROR_DETAILS_EXTRA, errorDetails);
     }
 
     private RunContentUnitResult(
@@ -150,13 +167,15 @@ public class RunContentUnitResult {
             @NonNull ResultType resultType,
             float score,
             long foregroundDurationInMs,
-            @Nullable String additionalData) {
+            @Nullable String additionalData,
+            @Nullable String errorDetails) {
         this.version = version;
         this.contentId = contentId;
         this.resultType = resultType;
         this.score = score;
         this.foregroundDurationInMs = foregroundDurationInMs;
         this.additionalData = additionalData;
+        this.errorDetails = errorDetails;
     }
 
     public enum ResultType {
@@ -186,7 +205,8 @@ public class RunContentUnitResult {
                 && resultType == that.resultType
                 && score == that.score
                 && foregroundDurationInMs == that.foregroundDurationInMs
-                && Objects.equals(additionalData, that.additionalData);
+                && Objects.equals(additionalData, that.additionalData)
+                && Objects.equals(errorDetails, that.errorDetails);
     }
 
     @Override
@@ -197,6 +217,7 @@ public class RunContentUnitResult {
                 resultType,
                 score,
                 foregroundDurationInMs,
-                additionalData);
+                additionalData,
+                errorDetails);
     }
 }

@@ -9,6 +9,7 @@ public class RunContentUnitResultTest {
     float score = 1.2f;
     long foregroundDurationInMs = 123L;
     String additionalData = "additional data";
+    String errorDetails = "error details";
 
     @Test
     public void instantiatesForSuccess() {
@@ -76,6 +77,7 @@ public class RunContentUnitResultTest {
         RunContentUnitResult result = RunContentUnitResult.ofError(
             contentId,
             foregroundDurationInMs,
+            errorDetails,
             additionalData
         );
 
@@ -84,5 +86,6 @@ public class RunContentUnitResultTest {
         assertEquals(0.0, result.score);
         assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);
         assertEquals(additionalData, result.additionalData);
+        assertEquals(errorDetails, result.errorDetails);
     }
 }

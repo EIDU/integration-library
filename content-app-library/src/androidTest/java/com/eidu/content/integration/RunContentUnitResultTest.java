@@ -9,6 +9,7 @@ public class RunContentUnitResultTest {
     Float score = 1.2f;
     Long foregroundDurationInMs = 123L;
     String additionalData = "additional data";
+    String errorDetails = "error details";
 
     @Test
     public void createsResultFromSuccessIntent() {
@@ -27,7 +28,8 @@ public class RunContentUnitResultTest {
         RunContentUnitResult result = RunContentUnitResult.ofError(
             contentId,
             foregroundDurationInMs,
-            additionalData
+            additionalData,
+            errorDetails
         );
 
         verifyConversion(result);
