@@ -14,9 +14,9 @@ public class RunContentUnitRequestTest {
     Long inactivityTimeoutInMs = 2L;
 
     @Test
-    public void fromPlainDataReturnsRequest() {
+    public void constructsRequest() {
         RunContentUnitRequest request =
-                RunContentUnitRequest.fromPlainData(
+                RunContentUnitRequest.of(
                         contentId,
                         contentUnitRunId,
                         learnerId,

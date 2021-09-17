@@ -10,17 +10,17 @@ import java.util.Objects;
  * A RunContentUnitRequest is what the EIDU app uses to launch content from external content apps.
  *
  * <p>The EIDU app will send an intent to your app, identified by the intent action (See {@link
- * Intent#setAction(String)}) and include all data relevant for you to identify the content to play.
+ * Intent#setAction(String)}) and include all data relevant for you to identify the content to run.
  *
  * <p>The intent sent also includes references to the learner and their school.
  *
  * <p>The easiest way to obtain the data provided by the Intent sent from EIDU is {@link
- * RunContentUnitRequest#fromLaunchIntent(Intent)}, which will automatically identify and extract
+ * RunContentUnitRequest#fromIntent(Intent)}, which will automatically identify and extract
  * all information included in {@link Intent#getExtras()}.
  *
  * <p>To facilitate testing of your app you can create your own RunContentUnitRequest with {@link
- * RunContentUnitRequest#fromPlainData(String, String, String, String, String, Long, Long)} and
- * converting it to an Intent with {@link RunContentUnitRequest#toLaunchIntent(String, String)}.
+ * RunContentUnitRequest#of(String, String, String, String, String, Long, Long)} and
+ * converting it to an Intent with {@link RunContentUnitRequest#toIntent(String, String)}.
  */
 public final class RunContentUnitRequest {
 
@@ -61,7 +61,7 @@ public final class RunContentUnitRequest {
      * @return an instance of RunContentUnitRequest
      */
     @NonNull
-    public static RunContentUnitRequest fromPlainData(
+    public static RunContentUnitRequest of(
             @NonNull String contentId,
             @NonNull String contentUnitRunId,
             @NonNull String learnerId,
@@ -91,7 +91,7 @@ public final class RunContentUnitRequest {
      * @throws IllegalArgumentException If the provided intent does not contain all required data
      */
     @NonNull
-    public static RunContentUnitRequest fromLaunchIntent(@NonNull Intent intent)
+    public static RunContentUnitRequest fromIntent(@NonNull Intent intent)
             throws IllegalArgumentException {
         int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = intent.getStringExtra(CONTENT_ID_EXTRA);
@@ -134,22 +134,21 @@ public final class RunContentUnitRequest {
     /**
      * Create an implicit intent usable to launch a content app.
      *
-     * <p>You can use this method, along with {@link RunContentUnitRequest#fromPlainData(String,
+     * <p>You can use this method, along with {@link RunContentUnitRequest#of(String,
      * String, String, String, String, Long, Long)} to test your app.
      *
      * @param contentAppLaunchAction the action uniquely identifying your content app
      * @return An intent containing all launch data and the defined action
      */
     @NonNull
-    public Intent toLaunchIntent(@NonNull String contentAppLaunchAction) {
-        Intent launchIntent = new Intent(contentAppLaunchAction);
-        return addExtras(launchIntent);
+    public Intent toIntent(@NonNull String contentAppLaunchAction) {
+        return addExtras(new Intent(contentAppLaunchAction));
     }
 
     /**
      * Create an explicit intent usable to launch a content app.
      *
-     * <p>You can use this method, along with {@link RunContentUnitRequest#fromPlainData(String,
+     * <p>You can use this method, along with {@link RunContentUnitRequest#of(String,
      * String, String, String, String, Long, Long)} to test your app.
      *
      * @param packageName the package name of the activity to launch with this intent
@@ -157,10 +156,10 @@ public final class RunContentUnitRequest {
      * @return An intent containing all launch data and the defined action
      */
     @NonNull
-    public Intent toLaunchIntent(@NonNull String packageName, @NonNull String className) {
-        Intent launchIntent = new Intent(ACTION_LAUNCH_CONTENT);
-        launchIntent.setClassName(packageName, className);
-        return addExtras(launchIntent);
+    public Intent toIntent(@NonNull String packageName, @NonNull String className) {
+        Intent intent = new Intent(ACTION_LAUNCH_CONTENT);
+        intent.setClassName(packageName, className);
+        return addExtras(intent);
     }
 
     @NonNull
