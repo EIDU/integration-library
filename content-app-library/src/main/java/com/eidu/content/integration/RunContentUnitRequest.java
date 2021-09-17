@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * LaunchData is what the EIDU app uses to launch content from external content apps.
+ * A RunContentUnitRequest is what the EIDU app uses to launch content from external content apps.
  *
  * <p>The EIDU app will send an intent to your app, identified by the intent action (See {@link
  * Intent#setAction(String)}) and include all data relevant for you to identify the content to play.
@@ -15,14 +15,14 @@ import java.util.Objects;
  * <p>The intent sent also includes references to the learner and their school.
  *
  * <p>The easiest way to obtain the data provided by the Intent sent from EIDU is {@link
- * LaunchData#fromLaunchIntent(Intent)}, which will automatically identify and extract all
+ * RunContentUnitRequest#fromLaunchIntent(Intent)}, which will automatically identify and extract all
  * information included in {@link Intent#getExtras()}.
  *
- * <p>To facilitate testing of your app you can create your own LaunchData with {@link
- * LaunchData#fromPlainData(String, String, String, String, String, Long, Long)} and converting it
- * to an Intent with {@link LaunchData#toLaunchIntent(String, String)}.
+ * <p>To facilitate testing of your app you can create your own RunContentUnitRequest with {@link
+ * RunContentUnitRequest#fromPlainData(String, String, String, String, String, Long, Long)} and converting it
+ * to an Intent with {@link RunContentUnitRequest#toLaunchIntent(String, String)}.
  */
-public final class LaunchData {
+public final class RunContentUnitRequest {
 
     public static final int VERSION = 1;
     public static final String VERSION_EXTRA = "version";
@@ -45,7 +45,7 @@ public final class LaunchData {
     @Nullable public final Long inactivityTimeoutInMs;
 
     /**
-     * Create a new LaunchData instance from plain data.
+     * Create a new RunContentUnitRequest instance from plain data.
      *
      * <p>Use this to test your content app against what the EIDU app will send to launch content.
      *
@@ -57,10 +57,10 @@ public final class LaunchData {
      * @param remainingForegroundTimeInMs <i>Optional</i> session time remaining for this run
      * @param inactivityTimeoutInMs <i>Optional</i> time after which your content should return when
      *     the learner is inactive
-     * @return an instance of LaunchData
+     * @return an instance of RunContentUnitRequest
      */
     @NonNull
-    public static LaunchData fromPlainData(
+    public static RunContentUnitRequest fromPlainData(
             @NonNull String contentId,
             @NonNull String contentUnitRunId,
             @NonNull String learnerId,
@@ -68,7 +68,7 @@ public final class LaunchData {
             @NonNull String stage,
             @Nullable Long remainingForegroundTimeInMs,
             @Nullable Long inactivityTimeoutInMs) {
-        return new LaunchData(
+        return new RunContentUnitRequest(
                 VERSION,
                 contentId,
                 contentUnitRunId,
@@ -80,17 +80,17 @@ public final class LaunchData {
     }
 
     /**
-     * Creates an instance of LaunchData from the provided intent's extras.
+     * Creates an instance of RunContentUnitRequest from the provided intent's extras.
      *
      * <p>Use this on the intent sent to your content app by EIDU to get access to the necessary
      * data.
      *
      * @param intent <b>Required</b> the intent sent from the EIDU app to your content app
-     * @return LaunchData initialized from the provided intent
+     * @return RunContentUnitRequest initialized from the provided intent
      * @throws IllegalArgumentException If the provided intent does not contain all required data
      */
     @NonNull
-    public static LaunchData fromLaunchIntent(@NonNull Intent intent)
+    public static RunContentUnitRequest fromLaunchIntent(@NonNull Intent intent)
             throws IllegalArgumentException {
         int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = intent.getStringExtra(CONTENT_ID_EXTRA);
@@ -119,7 +119,7 @@ public final class LaunchData {
             }
         }
 
-        return new LaunchData(
+        return new RunContentUnitRequest(
                 version,
                 contentId,
                 contentUnitRunId,
@@ -133,7 +133,7 @@ public final class LaunchData {
     /**
      * Create an implicit intent usable to launch a content app.
      *
-     * <p>You can use this method, along with {@link LaunchData#fromPlainData(String, String,
+     * <p>You can use this method, along with {@link RunContentUnitRequest#fromPlainData(String, String,
      * String, String, String, Long, Long)} to test your app.
      *
      * @param contentAppLaunchAction the action uniquely identifying your content app
@@ -148,7 +148,7 @@ public final class LaunchData {
     /**
      * Create an explicit intent usable to launch a content app.
      *
-     * <p>You can use this method, along with {@link LaunchData#fromPlainData(String, String,
+     * <p>You can use this method, along with {@link RunContentUnitRequest#fromPlainData(String, String,
      * String, String, String, Long, Long)} to test your app.
      *
      * @param packageName the package name of the activity to launch with this intent
@@ -175,7 +175,7 @@ public final class LaunchData {
         return intent;
     }
 
-    private LaunchData(
+    private RunContentUnitRequest(
             int version,
             @NonNull String contentId,
             @NonNull String contentUnitRunId,
@@ -198,7 +198,7 @@ public final class LaunchData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LaunchData that = (LaunchData) o;
+        RunContentUnitRequest that = (RunContentUnitRequest) o;
         return version == that.version
                 && contentId.equals(that.contentId)
                 && contentUnitRunId.equals(that.contentUnitRunId)

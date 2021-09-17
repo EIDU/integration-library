@@ -5,55 +5,54 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import java.util.Objects;
 
-public class LaunchResultData {
+public class RunContentUnitResult {
 
     public static final int VERSION = 1;
     public static final String VERSION_EXTRA = "version";
     public static final String CONTENT_ID_EXTRA = "contentId";
-    public static final String RUN_CONTENT_UNIT_RESULT = "runContentUnitResult";
+    public static final String RESULT_TYPE = "resultType";
     public static final String SCORE_EXTRA = "score";
     public static final String FOREGROUND_DURATION_EXTRA = "foregroundDurationInMs";
     public static final String ADDITIONAL_DATA_EXTRA = "additionalData";
 
     public final int version;
     @NonNull public final String contentId;
-    @NonNull public final RunContentUnitResult runContentUnitResult;
+    @NonNull public final ResultType resultType;
     public final float score;
     public final long foregroundDurationInMs;
     @Nullable public final String additionalData;
 
     @NonNull
-    public static LaunchResultData fromPlainData(
+    public static RunContentUnitResult fromPlainData(
             @NonNull String contentId,
-            @NonNull RunContentUnitResult runContentUnitResult,
+            @NonNull ResultType resultType,
             float score,
             long foregroundDurationInMs) {
-        return fromPlainData(contentId, runContentUnitResult, score, foregroundDurationInMs, null);
+        return fromPlainData(contentId, resultType, score, foregroundDurationInMs, null);
     }
 
     @NonNull
-    public static LaunchResultData fromPlainData(
+    public static RunContentUnitResult fromPlainData(
             @NonNull String contentId,
-            @NonNull RunContentUnitResult runContentUnitResult,
+            @NonNull ResultType resultType,
             float score,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
-        return new LaunchResultData(
+        return new RunContentUnitResult(
                 VERSION,
                 contentId,
-                runContentUnitResult,
+                resultType,
                 score,
                 foregroundDurationInMs,
                 additionalData);
     }
 
     @NonNull
-    public static LaunchResultData fromResultIntent(@NonNull Intent resultIntent) {
+    public static RunContentUnitResult fromResultIntent(@NonNull Intent resultIntent) {
         int version = resultIntent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = resultIntent.getStringExtra(CONTENT_ID_EXTRA);
-        RunContentUnitResult runContentUnitResult =
-                RunContentUnitResult.nullableValueOf(
-                        resultIntent.getStringExtra(RUN_CONTENT_UNIT_RESULT));
+        ResultType type =
+                RunContentUnitResult.ResultType.nullableValueOf(resultIntent.getStringExtra(RESULT_TYPE));
         Float score = null;
         if (resultIntent.hasExtra(SCORE_EXTRA)) {
             score = resultIntent.getFloatExtra(SCORE_EXTRA, 0.f);
@@ -69,20 +68,20 @@ public class LaunchResultData {
 
         if (contentId == null
                 || contentId.isEmpty()
-                || runContentUnitResult == null
+                || type == null
                 || score == null
                 || foregroundDurationInMs == null) {
             throw new IllegalArgumentException(
                     String.format(
                             "Invalid result intent. A required field is missing. "
-                                    + "[contentId: %s, runContentUnitResult: %s score: %f, foregroundDurationInMs: %d]",
-                            contentId, runContentUnitResult, score, foregroundDurationInMs));
+                                    + "[contentId: %s, type: %s score: %f, foregroundDurationInMs: %d]",
+                            contentId, type, score, foregroundDurationInMs));
         }
 
-        return new LaunchResultData(
+        return new RunContentUnitResult(
                 version,
                 contentId,
-                runContentUnitResult,
+                type,
                 score,
                 foregroundDurationInMs,
                 additionalData);
@@ -93,28 +92,28 @@ public class LaunchResultData {
         return new Intent()
                 .putExtra(VERSION_EXTRA, version)
                 .putExtra(CONTENT_ID_EXTRA, contentId)
-                .putExtra(RUN_CONTENT_UNIT_RESULT, runContentUnitResult.name())
+                .putExtra(RESULT_TYPE, resultType.name())
                 .putExtra(SCORE_EXTRA, score)
                 .putExtra(FOREGROUND_DURATION_EXTRA, foregroundDurationInMs)
                 .putExtra(ADDITIONAL_DATA_EXTRA, additionalData);
     }
 
-    private LaunchResultData(
+    private RunContentUnitResult(
             int version,
             @NonNull String contentId,
-            @NonNull RunContentUnitResult runContentUnitResult,
+            @NonNull ResultType resultType,
             float score,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
         this.version = version;
         this.contentId = contentId;
-        this.runContentUnitResult = runContentUnitResult;
+        this.resultType = resultType;
         this.score = score;
         this.foregroundDurationInMs = foregroundDurationInMs;
         this.additionalData = additionalData;
     }
 
-    public enum RunContentUnitResult {
+    public enum ResultType {
         Success,
         Abort,
         Error,
@@ -122,9 +121,9 @@ public class LaunchResultData {
         TimeUp;
 
         @Nullable
-        static RunContentUnitResult nullableValueOf(String value) {
+        static ResultType nullableValueOf(String value) {
             try {
-                return RunContentUnitResult.valueOf(value);
+                return RunContentUnitResult.ResultType.valueOf(value);
             } catch (IllegalArgumentException e) {
                 return null;
             }
@@ -135,10 +134,10 @@ public class LaunchResultData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LaunchResultData that = (LaunchResultData) o;
+        RunContentUnitResult that = (RunContentUnitResult) o;
         return version == that.version
                 && contentId.equals(that.contentId)
-                && runContentUnitResult == that.runContentUnitResult
+                && resultType == that.resultType
                 && score == that.score
                 && foregroundDurationInMs == that.foregroundDurationInMs
                 && Objects.equals(additionalData, that.additionalData);
@@ -149,7 +148,7 @@ public class LaunchResultData {
         return Objects.hash(
                 version,
                 contentId,
-                runContentUnitResult,
+                resultType,
                 score,
                 foregroundDurationInMs,
                 additionalData);

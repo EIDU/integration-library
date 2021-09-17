@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class LaunchDataTest {
+public class RunContentUnitRequestTest {
     String contentId = "content id";
     String contentUnitRunId = "content unit run id";
     String learnerId = "learner id";
@@ -14,9 +14,9 @@ public class LaunchDataTest {
     Long inactivityTimeoutInMs = 2L;
 
     @Test
-    public void createLaunchDataFromCreatedLaunchIntent() {
-        LaunchData launchData =
-                LaunchData.fromPlainData(
+    public void createRequestFromCreatedLaunchIntent() {
+        RunContentUnitRequest request =
+                RunContentUnitRequest.fromPlainData(
                         contentId,
                         contentUnitRunId,
                         learnerId,
@@ -24,9 +24,9 @@ public class LaunchDataTest {
                         stage,
                         remainingForegroundTimeInMs,
                         inactivityTimeoutInMs);
-        LaunchData launchDataFromIntent =
-                LaunchData.fromLaunchIntent(launchData.toLaunchIntent("content.app.launch.ACTION"));
+        RunContentUnitRequest requestFromIntent =
+                RunContentUnitRequest.fromLaunchIntent(request.toLaunchIntent("content.app.launch.ACTION"));
 
-        assertEquals(launchDataFromIntent, launchData);
+        assertEquals(requestFromIntent, request);
     }
 }

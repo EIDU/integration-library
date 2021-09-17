@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class LaunchDataTest {
+public class RunContentUnitRequestTest {
     String contentId = "content id";
     String contentUnitRunId = "content unit run id";
     String learnerId = "";
@@ -14,9 +14,9 @@ public class LaunchDataTest {
     Long inactivityTimeoutInMs = 2L;
 
     @Test
-    public void fromPlainDataReturnsLaunchData() {
-        LaunchData launchData =
-                LaunchData.fromPlainData(
+    public void fromPlainDataReturnsRequest() {
+        RunContentUnitRequest request =
+                RunContentUnitRequest.fromPlainData(
                         contentId,
                         contentUnitRunId,
                         learnerId,
@@ -25,12 +25,12 @@ public class LaunchDataTest {
                         remainingForegroundTimeInMs,
                         inactivityTimeoutInMs);
 
-        assertEquals(contentId, launchData.contentId);
-        assertEquals(contentUnitRunId, launchData.contentUnitRunId);
-        assertEquals(learnerId, launchData.learnerId);
-        assertEquals(schoolId, launchData.schoolId);
-        assertEquals(stage, launchData.stage);
-        assertEquals(remainingForegroundTimeInMs, launchData.remainingForegroundTimeInMs);
-        assertEquals(inactivityTimeoutInMs, launchData.inactivityTimeoutInMs);
+        assertEquals(contentId, request.contentId);
+        assertEquals(contentUnitRunId, request.contentUnitRunId);
+        assertEquals(learnerId, request.learnerId);
+        assertEquals(schoolId, request.schoolId);
+        assertEquals(stage, request.stage);
+        assertEquals(remainingForegroundTimeInMs, request.remainingForegroundTimeInMs);
+        assertEquals(inactivityTimeoutInMs, request.inactivityTimeoutInMs);
     }
 }
