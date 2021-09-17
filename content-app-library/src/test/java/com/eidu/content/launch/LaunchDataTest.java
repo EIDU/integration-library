@@ -25,12 +25,12 @@ public class LaunchDataTest {
                         remainingForegroundTimeInMs,
                         inactivityTimeoutInMs);
 
-        assertEquals(contentId, launchData.getContentId());
-        assertEquals(contentUnitRunId, launchData.getContentUnitRunId());
-        assertEquals(learnerId, launchData.getLearnerId());
-        assertEquals(schoolId, launchData.getSchoolId());
-        assertEquals(environment, launchData.getEnvironment());
-        assertEquals(remainingForegroundTimeInMs, launchData.getRemainingForegroundTimeInMs());
-        assertEquals(inactivityTimeoutInMs, launchData.getInactivityTimeoutInMs());
+        assertEquals(contentId, launchData.contentId);
+        assertEquals(contentUnitRunId, launchData.contentUnitRunId);
+        assertEquals(learnerId, launchData.learnerId);
+        assertEquals(schoolId, launchData.schoolId);
+        assertEquals(environment, launchData.environment);
+        assertEquals(remainingForegroundTimeInMs, launchData.remainingForegroundTimeInMs);
+        assertEquals(inactivityTimeoutInMs, launchData.inactivityTimeoutInMs);
     }
 }

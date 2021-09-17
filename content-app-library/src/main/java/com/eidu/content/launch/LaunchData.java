@@ -35,14 +35,14 @@ public final class LaunchData {
     public static final String INACTIVITY_TIMEOUT_EXTRA = "inactivityTimeoutInMs";
     public static final String ACTION_LAUNCH_CONTENT = "com.eidu.content.launch.LAUNCH_CONTENT";
 
-    private final int version;
-    @NonNull private final String contentId;
-    @NonNull private final String contentUnitRunId;
-    @NonNull private final String learnerId;
-    @NonNull private final String schoolId;
-    @NonNull private final String environment;
-    @Nullable private final Long remainingForegroundTimeInMs;
-    @Nullable private final Long inactivityTimeoutInMs;
+    public final int version;
+    @NonNull public final String contentId;
+    @NonNull public final String contentUnitRunId;
+    @NonNull public final String learnerId;
+    @NonNull public final String schoolId;
+    @NonNull public final String environment;
+    @Nullable public final Long remainingForegroundTimeInMs;
+    @Nullable public final Long inactivityTimeoutInMs;
 
     /**
      * Create a new LaunchData instance from plain data.
@@ -165,58 +165,15 @@ public final class LaunchData {
 
     @NonNull
     private Intent addExtras(@NonNull Intent intent) {
-        intent.putExtra(VERSION_EXTRA, getVersion())
-                .putExtra(CONTENT_ID_EXTRA, getContentId())
-                .putExtra(CONTENT_UNIT_RUN_ID, getContentUnitRunId())
-                .putExtra(LEARNER_ID_EXTRA, getLearnerId())
-                .putExtra(SCHOOL_ID_EXTRA, getSchoolId())
-                .putExtra(ENVIRONMENT_EXTRA, getEnvironment());
-        if (getRemainingForegroundTimeInMs() != null) {
-            intent.putExtra(REMAINING_FOREGROUND_TIME_EXTRA, remainingForegroundTimeInMs);
-        }
-        if (getInactivityTimeoutInMs() != null) {
-            intent.putExtra(INACTIVITY_TIMEOUT_EXTRA, inactivityTimeoutInMs);
-        }
+        intent.putExtra(VERSION_EXTRA, version)
+                .putExtra(CONTENT_ID_EXTRA, contentId)
+                .putExtra(CONTENT_UNIT_RUN_ID, contentUnitRunId)
+                .putExtra(LEARNER_ID_EXTRA, learnerId)
+                .putExtra(SCHOOL_ID_EXTRA, schoolId)
+                .putExtra(ENVIRONMENT_EXTRA, environment);
+        intent.putExtra(REMAINING_FOREGROUND_TIME_EXTRA, remainingForegroundTimeInMs);
+        intent.putExtra(INACTIVITY_TIMEOUT_EXTRA, inactivityTimeoutInMs);
         return intent;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    @NonNull
-    public String getContentId() {
-        return contentId;
-    }
-
-    @NonNull
-    public String getContentUnitRunId() {
-        return contentUnitRunId;
-    }
-
-    @NonNull
-    public String getLearnerId() {
-        return learnerId;
-    }
-
-    @NonNull
-    public String getSchoolId() {
-        return schoolId;
-    }
-
-    @NonNull
-    public String getEnvironment() {
-        return environment;
-    }
-
-    @Nullable
-    public Long getRemainingForegroundTimeInMs() {
-        return remainingForegroundTimeInMs;
-    }
-
-    @Nullable
-    public Long getInactivityTimeoutInMs() {
-        return inactivityTimeoutInMs;
     }
 
     private LaunchData(

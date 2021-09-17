@@ -25,11 +25,11 @@ public class LaunchResultDataTest {
                         foregroundDurationInMs,
                         additionalData);
 
-        assertEquals(contentId, launchResultData.getContentId());
-        assertEquals(runContentUnitResult, launchResultData.getRunContentUnitResult());
-        assertEquals(score, launchResultData.getScore());
-        assertEquals(foregroundDurationInMs, launchResultData.getForegroundDurationInMs());
-        assertEquals(additionalData, launchResultData.getAdditionalData());
+        assertEquals(contentId, launchResultData.contentId);
+        assertEquals(runContentUnitResult, launchResultData.runContentUnitResult);
+        assertEquals(score, launchResultData.score);
+        assertEquals(foregroundDurationInMs, launchResultData.foregroundDurationInMs);
+        assertEquals(additionalData, launchResultData.additionalData);
     }
 
     @ParameterizedTest
@@ -40,10 +40,10 @@ public class LaunchResultDataTest {
                 LaunchResultData.fromPlainData(
                         contentId, runContentUnitResult, score, foregroundDurationInMs);
 
-        assertEquals(contentId, launchResultData.getContentId());
-        assertEquals(runContentUnitResult, launchResultData.getRunContentUnitResult());
-        assertEquals(score, launchResultData.getScore());
-        assertEquals(foregroundDurationInMs, launchResultData.getForegroundDurationInMs());
-        assertNull(launchResultData.getAdditionalData());
+        assertEquals(contentId, launchResultData.contentId);
+        assertEquals(runContentUnitResult, launchResultData.runContentUnitResult);
+        assertEquals(score, launchResultData.score);
+        assertEquals(foregroundDurationInMs, launchResultData.foregroundDurationInMs);
+        assertNull(launchResultData.additionalData);
     }
 }

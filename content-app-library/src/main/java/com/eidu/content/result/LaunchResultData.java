@@ -15,12 +15,12 @@ public class LaunchResultData {
     public static final String FOREGROUND_DURATION_EXTRA = "foregroundDurationInMs";
     public static final String ADDITIONAL_DATA_EXTRA = "additionalData";
 
-    private final int version;
-    @NonNull private final String contentId;
-    @NonNull private final RunContentUnitResult runContentUnitResult;
-    @NonNull private final Float score;
-    @NonNull private final Long foregroundDurationInMs;
-    @Nullable private final String additionalData;
+    public final int version;
+    @NonNull public final String contentId;
+    @NonNull public final RunContentUnitResult runContentUnitResult;
+    @NonNull public final Float score;
+    @NonNull public final Long foregroundDurationInMs;
+    @Nullable public final String additionalData;
 
     @NonNull
     public static LaunchResultData fromPlainData(
@@ -129,35 +129,6 @@ public class LaunchResultData {
                 return null;
             }
         }
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    @NonNull
-    public String getContentId() {
-        return contentId;
-    }
-
-    @NonNull
-    public RunContentUnitResult getRunContentUnitResult() {
-        return runContentUnitResult;
-    }
-
-    @NonNull
-    public Float getScore() {
-        return score;
-    }
-
-    @NonNull
-    public Long getForegroundDurationInMs() {
-        return foregroundDurationInMs;
-    }
-
-    @Nullable
-    public String getAdditionalData() {
-        return additionalData;
     }
 
     @Override
