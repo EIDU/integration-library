@@ -9,8 +9,8 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 public class LaunchResultDataTest {
     String contentId = "content id";
-    Float score = 1.2f;
-    Long foregroundDurationInMs = 123L;
+    float score = 1.2f;
+    long foregroundDurationInMs = 123L;
     String additionalData = "additional data";
 
     @ParameterizedTest

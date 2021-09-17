@@ -18,16 +18,16 @@ public class LaunchResultData {
     public final int version;
     @NonNull public final String contentId;
     @NonNull public final RunContentUnitResult runContentUnitResult;
-    @NonNull public final Float score;
-    @NonNull public final Long foregroundDurationInMs;
+    public final float score;
+    public final long foregroundDurationInMs;
     @Nullable public final String additionalData;
 
     @NonNull
     public static LaunchResultData fromPlainData(
             @NonNull String contentId,
             @NonNull RunContentUnitResult runContentUnitResult,
-            @NonNull Float score,
-            @NonNull Long foregroundDurationInMs) {
+            float score,
+            long foregroundDurationInMs) {
         return fromPlainData(contentId, runContentUnitResult, score, foregroundDurationInMs, null);
     }
 
@@ -35,8 +35,8 @@ public class LaunchResultData {
     public static LaunchResultData fromPlainData(
             @NonNull String contentId,
             @NonNull RunContentUnitResult runContentUnitResult,
-            @NonNull Float score,
-            @NonNull Long foregroundDurationInMs,
+            float score,
+            long foregroundDurationInMs,
             @Nullable String additionalData) {
         return new LaunchResultData(
                 VERSION,
@@ -103,8 +103,8 @@ public class LaunchResultData {
             int version,
             @NonNull String contentId,
             @NonNull RunContentUnitResult runContentUnitResult,
-            @NonNull Float score,
-            @NonNull Long foregroundDurationInMs,
+            float score,
+            long foregroundDurationInMs,
             @Nullable String additionalData) {
         this.version = version;
         this.contentId = contentId;
@@ -139,8 +139,8 @@ public class LaunchResultData {
         return version == that.version
                 && contentId.equals(that.contentId)
                 && runContentUnitResult == that.runContentUnitResult
-                && score.equals(that.score)
-                && foregroundDurationInMs.equals(that.foregroundDurationInMs)
+                && score == that.score
+                && foregroundDurationInMs == that.foregroundDurationInMs
                 && Objects.equals(additionalData, that.additionalData);
     }
 
