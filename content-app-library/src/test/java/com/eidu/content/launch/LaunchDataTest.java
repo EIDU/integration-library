@@ -9,7 +9,7 @@ public class LaunchDataTest {
     String contentUnitRunId = "content unit run id";
     String learnerId = "";
     String schoolId = "";
-    String environment = "";
+    String stage = "";
     Long remainingForegroundTimeInMs = 1L;
     Long inactivityTimeoutInMs = 2L;
 
@@ -21,7 +21,7 @@ public class LaunchDataTest {
                         contentUnitRunId,
                         learnerId,
                         schoolId,
-                        environment,
+                        stage,
                         remainingForegroundTimeInMs,
                         inactivityTimeoutInMs);
 
@@ -29,7 +29,7 @@ public class LaunchDataTest {
         assertEquals(contentUnitRunId, launchData.contentUnitRunId);
         assertEquals(learnerId, launchData.learnerId);
         assertEquals(schoolId, launchData.schoolId);
-        assertEquals(environment, launchData.environment);
+        assertEquals(stage, launchData.stage);
         assertEquals(remainingForegroundTimeInMs, launchData.remainingForegroundTimeInMs);
         assertEquals(inactivityTimeoutInMs, launchData.inactivityTimeoutInMs);
     }

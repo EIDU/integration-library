@@ -30,7 +30,7 @@ public final class LaunchData {
     public static final String CONTENT_UNIT_RUN_ID = "contentUnitRunId";
     public static final String LEARNER_ID_EXTRA = "learnerId";
     public static final String SCHOOL_ID_EXTRA = "schoolId";
-    public static final String ENVIRONMENT_EXTRA = "environment";
+    public static final String STAGE_EXTRA = "stage";
     public static final String REMAINING_FOREGROUND_TIME_EXTRA = "remainingForegroundTimeInMs";
     public static final String INACTIVITY_TIMEOUT_EXTRA = "inactivityTimeoutInMs";
     public static final String ACTION_LAUNCH_CONTENT = "com.eidu.content.launch.LAUNCH_CONTENT";
@@ -40,7 +40,7 @@ public final class LaunchData {
     @NonNull public final String contentUnitRunId;
     @NonNull public final String learnerId;
     @NonNull public final String schoolId;
-    @NonNull public final String environment;
+    @NonNull public final String stage;
     @Nullable public final Long remainingForegroundTimeInMs;
     @Nullable public final Long inactivityTimeoutInMs;
 
@@ -53,8 +53,7 @@ public final class LaunchData {
      * @param contentUnitRunId <b>Required</b> unique identifier of each content run
      * @param learnerId <b>Required</b> unique identifier of the learner
      * @param schoolId <b>Required</b> unique identifier of the school
-     * @param environment <b>Required</b> identifies the environment of this launch, e.g. "test",
-     *     "prod"
+     * @param stage <b>Required</b> identifies the stage of this launch, e.g. "test", "prod"
      * @param remainingForegroundTimeInMs <i>Optional</i> session time remaining for this run
      * @param inactivityTimeoutInMs <i>Optional</i> time after which your content should return when
      *     the learner is inactive
@@ -66,7 +65,7 @@ public final class LaunchData {
             @NonNull String contentUnitRunId,
             @NonNull String learnerId,
             @NonNull String schoolId,
-            @NonNull String environment,
+            @NonNull String stage,
             @Nullable Long remainingForegroundTimeInMs,
             @Nullable Long inactivityTimeoutInMs) {
         return new LaunchData(
@@ -75,7 +74,7 @@ public final class LaunchData {
                 contentUnitRunId,
                 learnerId,
                 schoolId,
-                environment,
+                stage,
                 remainingForegroundTimeInMs,
                 inactivityTimeoutInMs);
     }
@@ -98,7 +97,7 @@ public final class LaunchData {
         String contentUnitRunId = intent.getStringExtra(CONTENT_UNIT_RUN_ID);
         String learnerId = intent.getStringExtra(LEARNER_ID_EXTRA);
         String schoolId = intent.getStringExtra(SCHOOL_ID_EXTRA);
-        String environment = intent.getStringExtra(ENVIRONMENT_EXTRA);
+        String stage = intent.getStringExtra(STAGE_EXTRA);
         Long remainingForegroundTimeInMs = null;
         if (intent.hasExtra(REMAINING_FOREGROUND_TIME_EXTRA)) {
             remainingForegroundTimeInMs = intent.getLongExtra(REMAINING_FOREGROUND_TIME_EXTRA, 0);
@@ -109,14 +108,14 @@ public final class LaunchData {
         }
 
         for (String field :
-                Arrays.asList(contentId, contentUnitRunId, learnerId, schoolId, environment)) {
+                Arrays.asList(contentId, contentUnitRunId, learnerId, schoolId, stage)) {
             if (field == null || field.isEmpty()) {
                 throw new IllegalArgumentException(
                         String.format(
                                 "Invalid launch intent. A required field is missing. "
                                         + "[contentId: %s, contentUnitRunId: %s, learnerId: %s, schoolId: %s, "
-                                        + "environment: %s]",
-                                contentId, contentUnitRunId, learnerId, schoolId, environment));
+                                        + "stage: %s]",
+                                contentId, contentUnitRunId, learnerId, schoolId, stage));
             }
         }
 
@@ -126,7 +125,7 @@ public final class LaunchData {
                 contentUnitRunId,
                 learnerId,
                 schoolId,
-                environment,
+                stage,
                 remainingForegroundTimeInMs,
                 inactivityTimeoutInMs);
     }
@@ -170,7 +169,7 @@ public final class LaunchData {
                 .putExtra(CONTENT_UNIT_RUN_ID, contentUnitRunId)
                 .putExtra(LEARNER_ID_EXTRA, learnerId)
                 .putExtra(SCHOOL_ID_EXTRA, schoolId)
-                .putExtra(ENVIRONMENT_EXTRA, environment);
+                .putExtra(STAGE_EXTRA, stage);
         intent.putExtra(REMAINING_FOREGROUND_TIME_EXTRA, remainingForegroundTimeInMs);
         intent.putExtra(INACTIVITY_TIMEOUT_EXTRA, inactivityTimeoutInMs);
         return intent;
@@ -182,7 +181,7 @@ public final class LaunchData {
             @NonNull String contentUnitRunId,
             @NonNull String learnerId,
             @NonNull String schoolId,
-            @NonNull String environment,
+            @NonNull String stage,
             @Nullable Long remainingForegroundTimeInMs,
             @Nullable Long inactivityTimeoutInMs) {
         this.version = version;
@@ -190,7 +189,7 @@ public final class LaunchData {
         this.contentUnitRunId = contentUnitRunId;
         this.learnerId = learnerId;
         this.schoolId = schoolId;
-        this.environment = environment;
+        this.stage = stage;
         this.remainingForegroundTimeInMs = remainingForegroundTimeInMs;
         this.inactivityTimeoutInMs = inactivityTimeoutInMs;
     }
@@ -205,7 +204,7 @@ public final class LaunchData {
                 && contentUnitRunId.equals(that.contentUnitRunId)
                 && learnerId.equals(that.learnerId)
                 && schoolId.equals(that.schoolId)
-                && environment.equals(that.environment)
+                && stage.equals(that.stage)
                 && Objects.equals(remainingForegroundTimeInMs, that.remainingForegroundTimeInMs)
                 && Objects.equals(inactivityTimeoutInMs, that.inactivityTimeoutInMs);
     }
@@ -218,7 +217,7 @@ public final class LaunchData {
                 contentUnitRunId,
                 learnerId,
                 schoolId,
-                environment,
+                stage,
                 remainingForegroundTimeInMs,
                 inactivityTimeoutInMs);
     }

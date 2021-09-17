@@ -9,7 +9,7 @@ public class LaunchDataTest {
     String contentUnitRunId = "content unit run id";
     String learnerId = "learner id";
     String schoolId = "school id";
-    String environment = "env";
+    String stage = "stage";
     Long remainingForegroundTimeInMs = 1L;
     Long inactivityTimeoutInMs = 2L;
 
@@ -21,7 +21,7 @@ public class LaunchDataTest {
                         contentUnitRunId,
                         learnerId,
                         schoolId,
-                        environment,
+                        stage,
                         remainingForegroundTimeInMs,
                         inactivityTimeoutInMs);
         LaunchData launchDataFromIntent =
