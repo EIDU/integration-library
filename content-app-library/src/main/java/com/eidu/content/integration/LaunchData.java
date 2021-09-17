@@ -1,4 +1,4 @@
-package com.eidu.content.launch;
+package com.eidu.content.integration;
 
 import android.content.Intent;
 import androidx.annotation.NonNull;
@@ -33,7 +33,7 @@ public final class LaunchData {
     public static final String STAGE_EXTRA = "stage";
     public static final String REMAINING_FOREGROUND_TIME_EXTRA = "remainingForegroundTimeInMs";
     public static final String INACTIVITY_TIMEOUT_EXTRA = "inactivityTimeoutInMs";
-    public static final String ACTION_LAUNCH_CONTENT = "com.eidu.content.launch.LAUNCH_CONTENT";
+    public static final String ACTION_LAUNCH_CONTENT = "com.eidu.content.integration.LAUNCH_CONTENT";
 
     public final int version;
     @NonNull public final String contentId;

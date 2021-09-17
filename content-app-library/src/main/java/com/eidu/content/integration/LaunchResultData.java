@@ -1,4 +1,4 @@
-package com.eidu.content.result;
+package com.eidu.content.integration;
 
 import android.content.Intent;
 import androidx.annotation.NonNull;
