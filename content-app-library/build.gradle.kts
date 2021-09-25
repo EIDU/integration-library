@@ -5,6 +5,7 @@ plugins {
     id("maven-publish")
     id("com.diffplug.spotless") version "5.14.2"
     id("de.mannodermaus.android-junit5")
+    id("signing")
 }
 
 android {
@@ -145,6 +146,15 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    useInMemoryPgpKeys(
+        System.getenv("SIGNING_KEY_ID"),
+        System.getenv("SIGNING_KEY"),
+        System.getenv("SIGNING_PASSWORD")
+    )
+    sign(publishing.publications)
 }
 
 spotless {
