@@ -82,6 +82,16 @@ tasks.register<Javadoc>("javadoc") {
     }
 }
 
+val sourcesJar by tasks.creating(Jar::class) {
+    archiveClassifier.set("sources")
+    from(android.sourceSets.getByName("main").java.srcDirs)
+}
+
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
+    from(tasks.named<Javadoc>("javadoc"))
+}
+
 tasks.register("printVersion") {
     doLast {
         println(version())
@@ -107,6 +117,32 @@ publishing {
             artifactId = libraryArtifactId()
             version = version()
             artifact("$buildDir/outputs/aar/${libraryArtifactId()}-release.aar")
+            artifact(sourcesJar)
+            artifact(javadocJar)
+
+            pom {
+                name.value(libraryArtifactId())
+                description.value("EIDU Content App Integration Library")
+                url.value("https://github.com/EIDU/content-app-library")
+                licenses {
+                    license {
+                        name.value("MIT License")
+                        url.value("https://raw.githubusercontent.com/EIDU/content-app-library/main/LICENSE")
+                    }
+                }
+                developers {
+                    developer {
+                        id.value("berlix")
+                        name.value("Felix Engelhardt")
+                        url.value("https://github.com/berlix/")
+                    }
+                }
+                scm {
+                    url.value("https://github.com/EIDU/content-app-library")
+                    connection.value("scm:git:git://github.com/EIDU/content-app-library.git")
+                    developerConnection.value("scm:git:ssh://git@github.com/EIDU/content-app-library.git")
+                }
+            }
         }
     }
 }
