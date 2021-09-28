@@ -35,17 +35,3 @@ jobs:
           name: test-reports
           path: content-app-library/build/reports/AndroidTests
         if: ${{ failure() }}
-
-      - uses: actions/checkout@v2
-        with:
-          repository: EIDU/ci-notify-slack
-          token: ${{ secrets.GH_READPACKAGES_TOKEN }}
-          path: .github/actions/ci-notify-slack
-
-      - name: "Post Slack message to #build"
-        uses: ./.github/actions/ci-notify-slack
-        with:
-          job-status: ${{ job.status }}
-          webhook: ${{ secrets.SLACK_WEBHOOK_BUILD_CHANNEL }}
-          text: 'content-app-library tests failed.'
-        if: ${{ failure() }}
