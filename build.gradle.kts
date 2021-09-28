@@ -1,5 +1,4 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import extensions.getLocalProperty
 
 plugins {
     id("com.github.ben-manes.versions") version "0.33.0"
@@ -23,18 +22,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/EIDU/content-app-library")
-            credentials {
-                username = System.getenv("READPACKAGES_GITHUB_USER")
-                    ?: System.getenv("GITHUB_READPACKAGES_USER")
-                            ?: getLocalProperty("githubReadPackagesUser")
-                password = System.getenv("READPACKAGES_GITHUB_TOKEN")
-                    ?: System.getenv("GITHUB_READPACKAGES_TOKEN")
-                            ?: getLocalProperty("githubReadPackagesToken")
-            }
-        }
     }
 }
 

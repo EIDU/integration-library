@@ -9,10 +9,6 @@ jobs:
   AndroidTest:
     runs-on: macos-10.15
 
-    env:
-      GITHUB_READPACKAGES_USER: ${{ secrets.GH_READPACKAGES_USER }}
-      GITHUB_READPACKAGES_TOKEN: ${{ secrets.GH_READPACKAGES_TOKEN }}
-
     steps:
       - name: Set up JDK 11
         uses: actions/setup-java@v1

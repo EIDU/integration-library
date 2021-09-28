@@ -7,8 +7,6 @@ jobs:
     runs-on: ubuntu-18.04
 
     env:
-      GITHUB_READPACKAGES_USER: ${{ secrets.GH_READPACKAGES_USER }}
-      GITHUB_READPACKAGES_TOKEN: ${{ secrets.GH_READPACKAGES_TOKEN }}
       S3_BASE_URL: s3://dl.eidu.com/
 
     steps:
