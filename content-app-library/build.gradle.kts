@@ -1,12 +1,13 @@
-import utils.version
-
 plugins {
     id("com.android.library")
     id("maven-publish")
     id("com.diffplug.spotless") version "5.14.2"
     id("de.mannodermaus.android-junit5")
     id("signing")
+    id("com.palantir.git-version") version "0.12.2"
 }
+
+val gitVersion: groovy.lang.Closure<String> by extra
 
 android {
     compileSdk = 30
@@ -14,7 +15,7 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 30
-        version = version()
+        version = gitVersion()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["runnerBuilder"] = "de.mannodermaus.junit5.AndroidJUnit5Builder"
@@ -92,12 +93,6 @@ val javadocJar by tasks.registering(Jar::class) {
     from(tasks.named<Javadoc>("javadoc"))
 }
 
-tasks.register("printVersion") {
-    doLast {
-        println(version())
-    }
-}
-
 fun libraryArtifactId(): String = "content-app-library"
 
 publishing {
@@ -115,7 +110,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "com.eidu"
             artifactId = libraryArtifactId()
-            version = version()
+            version = gitVersion()
             artifact("$buildDir/outputs/aar/${libraryArtifactId()}-release.aar")
             artifact(sourcesJar)
             artifact(javadocJar)
