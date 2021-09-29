@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-18.04
 
     env:
-      S3_BASE_URL: s3://dl.eidu.com/
+      S3_BASE_URL: s3://dl.eidu.com/dev/content-app-library/
 
     steps:
       - uses: actions/checkout@v2
@@ -48,8 +48,8 @@ jobs:
       - name: Publish Javadoc
         run: |
           ./gradlew javadoc --stacktrace
-          export S3_OBJECT_PATH=dev/content-app-library/"$VERSION_NAME"/javadoc
-          aws s3 cp content-app-library/build/docs/javadoc "$S3_BASE_URL$S3_OBJECT_PATH" --recursive
+          aws s3 cp content-app-library/build/docs/javadoc "$S3_BASE_URL$VERSION_NAME"/javadoc --recursive
+          aws s3 sync content-app-library/build/docs/javadoc "$S3_BASE_URL"latest/javadoc
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_S3_UPLOAD_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_S3_UPLOAD_SECRET_ACCESS_KEY }}
