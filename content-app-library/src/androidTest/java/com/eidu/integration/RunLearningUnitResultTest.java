@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class RunLearningUnitResultTest {
-    String contentId = "content id";
+    String learningUnitId = "learning unit id";
     Float score = 1.2f;
     Long foregroundDurationInMs = 123L;
     String additionalData = "additional data";
@@ -15,7 +15,7 @@ public class RunLearningUnitResultTest {
     public void createsResultFromSuccessIntent() {
         RunLearningUnitResult result =
                 RunLearningUnitResult.ofSuccess(
-                        contentId, score, foregroundDurationInMs, additionalData);
+                        learningUnitId, score, foregroundDurationInMs, additionalData);
 
         verifyConversion(result);
     }
@@ -24,7 +24,7 @@ public class RunLearningUnitResultTest {
     public void createsResultFromErrorIntent() {
         RunLearningUnitResult result =
                 RunLearningUnitResult.ofError(
-                        contentId, foregroundDurationInMs, additionalData, errorDetails);
+                        learningUnitId, foregroundDurationInMs, additionalData, errorDetails);
 
         verifyConversion(result);
     }

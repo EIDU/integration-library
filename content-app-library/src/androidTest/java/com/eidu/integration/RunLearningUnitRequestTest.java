@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class RunLearningUnitRequestTest {
-    String contentId = "content id";
-    String contentUnitRunId = "content unit run id";
+    String learningUnitId = "learning unit id";
+    String learningUnitRunId = "learning unit run id";
     String learnerId = "learner id";
     String schoolId = "school id";
     String stage = "stage";
@@ -17,15 +17,15 @@ public class RunLearningUnitRequestTest {
     public void createRequestFromIntent() {
         RunLearningUnitRequest request =
                 RunLearningUnitRequest.of(
-                        contentId,
-                        contentUnitRunId,
+                        learningUnitId,
+                        learningUnitRunId,
                         learnerId,
                         schoolId,
                         stage,
                         remainingForegroundTimeInMs,
                         inactivityTimeoutInMs);
         RunLearningUnitRequest requestFromIntent =
-                RunLearningUnitRequest.fromIntent(request.toIntent("content.app.launch.ACTION"));
+                RunLearningUnitRequest.fromIntent(request.toIntent("launch.learning.unit.ACTION"));
 
         assertEquals(requestFromIntent, request);
     }

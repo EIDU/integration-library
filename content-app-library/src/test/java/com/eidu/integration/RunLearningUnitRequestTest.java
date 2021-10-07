@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class RunLearningUnitRequestTest {
-    String contentId = "content id";
-    String contentUnitRunId = "content unit run id";
+    String learningUnitId = "learning unit id";
+    String learningUnitRunId = "learning unit run id";
     String learnerId = "";
     String schoolId = "";
     String stage = "";
@@ -17,16 +17,16 @@ public class RunLearningUnitRequestTest {
     public void constructsRequest() {
         RunLearningUnitRequest request =
                 RunLearningUnitRequest.of(
-                        contentId,
-                        contentUnitRunId,
+                        learningUnitId,
+                        learningUnitRunId,
                         learnerId,
                         schoolId,
                         stage,
                         remainingForegroundTimeInMs,
                         inactivityTimeoutInMs);
 
-        assertEquals(contentId, request.learningUnitId);
-        assertEquals(contentUnitRunId, request.learningUnitRunId);
+        assertEquals(learningUnitId, request.learningUnitId);
+        assertEquals(learningUnitRunId, request.learningUnitRunId);
         assertEquals(learnerId, request.learnerId);
         assertEquals(schoolId, request.schoolId);
         assertEquals(stage, request.stage);
