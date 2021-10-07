@@ -1,10 +1,8 @@
 package com.eidu.integration;
 
 import android.content.Intent;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.Objects;
 
 /**
@@ -160,7 +158,8 @@ public final class RunLearningUnitRequest {
                         ? intent.getLongExtra(INACTIVITY_TIMEOUT_EXTRA, 0)
                         : null;
 
-        for (String field : new String[] {learningUnitId, learningUnitRunId, learnerId, schoolId, stage})
+        for (String field :
+                new String[] {learningUnitId, learningUnitRunId, learnerId, schoolId, stage})
             if (field == null || field.isEmpty())
                 throw new IllegalArgumentException(
                         String.format(

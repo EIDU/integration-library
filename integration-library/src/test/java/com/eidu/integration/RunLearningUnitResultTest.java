@@ -27,7 +27,8 @@ public class RunLearningUnitResultTest {
     @Test
     public void instantiatesForAbort() {
         RunLearningUnitResult result =
-                RunLearningUnitResult.ofAbort(learningUnitId, foregroundDurationInMs, additionalData);
+                RunLearningUnitResult.ofAbort(
+                        learningUnitId, foregroundDurationInMs, additionalData);
 
         assertEquals(learningUnitId, result.learningUnitId);
         assertEquals(RunLearningUnitResult.ResultType.Abort, result.resultType);
@@ -52,7 +53,8 @@ public class RunLearningUnitResultTest {
     @Test
     public void instantiatesForTimeUp() {
         RunLearningUnitResult result =
-                RunLearningUnitResult.ofTimeUp(learningUnitId, foregroundDurationInMs, additionalData);
+                RunLearningUnitResult.ofTimeUp(
+                        learningUnitId, foregroundDurationInMs, additionalData);
 
         assertEquals(learningUnitId, result.learningUnitId);
         assertEquals(RunLearningUnitResult.ResultType.TimeUp, result.resultType);

@@ -1,10 +1,8 @@
 package com.eidu.integration;
 
 import android.content.Intent;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.Objects;
 
 /**
@@ -30,14 +28,10 @@ public class RunLearningUnitResult {
 
     public final int version;
 
-    /**
-     * The unique ID of the learning unit that was played in this run.
-     */
+    /** The unique ID of the learning unit that was played in this run. */
     @NonNull public final String learningUnitId;
 
-    /**
-     * The reason why this run ended.
-     */
+    /** The reason why this run ended. */
     @NonNull public final ResultType resultType;
 
     /**
@@ -100,10 +94,10 @@ public class RunLearningUnitResult {
      * Creates an instance with {@link ResultType#Success}. This should be used when the learner
      * completes the learning unit, independently of their performance.
      *
-     * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
-     * @param score                  <b>Required</b>, see {@link #score}.
+     * @param learningUnitId <b>Required</b>, see {@link #learningUnitId}.
+     * @param score <b>Required</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
-     * @param additionalData         <i>Optional</i>, see {@link #additionalData}.
+     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
@@ -126,9 +120,9 @@ public class RunLearningUnitResult {
      * Creates an instance with {@link ResultType#Abort}. This should be used when the learner took
      * an action meant to abort the run, e.g. tapping an abort button.
      *
-     * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
+     * @param learningUnitId <b>Required</b>, see {@link #learningUnitId}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
-     * @param additionalData         <i>Optional</i>, see {@link #additionalData}.
+     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
@@ -151,9 +145,9 @@ public class RunLearningUnitResult {
      * learner hasn't interacted with the app for {@link
      * RunLearningUnitRequest#inactivityTimeoutInMs} milliseconds of <i>foreground</i> time.
      *
-     * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
+     * @param learningUnitId <b>Required</b>, see {@link #learningUnitId}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
-     * @param additionalData         <i>Optional</i>, see {@link #additionalData}.
+     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
@@ -176,9 +170,9 @@ public class RunLearningUnitResult {
      * RunLearningUnitRequest#remainingForegroundTimeInMs} milliseconds of <i>foreground</i> time
      * passed since the start of the run.
      *
-     * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
+     * @param learningUnitId <b>Required</b>, see {@link #learningUnitId}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
-     * @param additionalData         <i>Optional</i>, see {@link #additionalData}.
+     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
@@ -201,10 +195,10 @@ public class RunLearningUnitResult {
      * technical error occurred that prevented the learner from beginning or from completing the
      * run.
      *
-     * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
+     * @param learningUnitId <b>Required</b>, see {@link #learningUnitId}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
-     * @param errorDetails           <b>Required</b>, see {@link #errorDetails}.
-     * @param additionalData         <i>Optional</i>, see {@link #additionalData}.
+     * @param errorDetails <b>Required</b>, see {@link #errorDetails}.
+     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
@@ -235,7 +229,8 @@ public class RunLearningUnitResult {
         int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
         String learningUnitId = intent.getStringExtra(LEARNING_UNIT_ID);
         ResultType type =
-                RunLearningUnitResult.ResultType.nullableValueOf(intent.getStringExtra(RESULT_TYPE));
+                RunLearningUnitResult.ResultType.nullableValueOf(
+                        intent.getStringExtra(RESULT_TYPE));
         Float score = intent.hasExtra(SCORE_EXTRA) ? intent.getFloatExtra(SCORE_EXTRA, 0.f) : null;
         Long foregroundDurationInMs =
                 intent.hasExtra(FOREGROUND_DURATION_EXTRA)
@@ -310,29 +305,17 @@ public class RunLearningUnitResult {
                 errorDetails);
     }
 
-    /**
-     * An enum describing the reason why a learning unit run has ended.
-     */
+    /** An enum describing the reason why a learning unit run has ended. */
     public enum ResultType {
-        /**
-         * @see RunLearningUnitResult#ofSuccess
-         */
+        /** @see RunLearningUnitResult#ofSuccess */
         Success,
-        /**
-         * @see RunLearningUnitResult#ofAbort
-         */
+        /** @see RunLearningUnitResult#ofAbort */
         Abort,
-        /**
-         * @see RunLearningUnitResult#ofError
-         */
+        /** @see RunLearningUnitResult#ofError */
         Error,
-        /**
-         * @see RunLearningUnitResult#ofTimeoutInactivity
-         */
+        /** @see RunLearningUnitResult#ofTimeoutInactivity */
         TimeoutInactivity,
-        /**
-         * @see RunLearningUnitResult#ofTimeUp
-         */
+        /** @see RunLearningUnitResult#ofTimeUp */
         TimeUp;
 
         @Nullable
