@@ -14,14 +14,14 @@ import java.util.Objects;
  * <p>The intent sent also includes references to the learner and their school.
  *
  * <p>The easiest way to obtain the data provided by the Intent sent from EIDU is {@link
- * RunContentUnitRequest#fromIntent(Intent)}, which will automatically identify and extract all
+ * RunLearningUnitRequest#fromIntent(Intent)}, which will automatically identify and extract all
  * information included in {@link Intent#getExtras()}.
  *
  * <p>To facilitate testing of your app, you can create your own RunContentUnitRequest with {@link
- * RunContentUnitRequest#of(String, String, String, String, String, Long, Long)} and convert it to
- * an Intent with {@link RunContentUnitRequest#toIntent(String, String)}.
+ * RunLearningUnitRequest#of(String, String, String, String, String, Long, Long)} and convert it to
+ * an Intent with {@link RunLearningUnitRequest#toIntent(String, String)}.
  */
-public final class RunContentUnitRequest {
+public final class RunLearningUnitRequest {
 
     private static final int VERSION = 1;
     private static final String VERSION_EXTRA = "version";
@@ -74,7 +74,7 @@ public final class RunContentUnitRequest {
      */
     @Nullable public final Long inactivityTimeoutInMs;
 
-    private RunContentUnitRequest(
+    private RunLearningUnitRequest(
             int version,
             @NonNull String contentId,
             @NonNull String contentUnitRunId,
@@ -108,7 +108,7 @@ public final class RunContentUnitRequest {
      * @return The new instance.
      */
     @NonNull
-    public static RunContentUnitRequest of(
+    public static RunLearningUnitRequest of(
             @NonNull String contentId,
             @NonNull String contentUnitRunId,
             @NonNull String learnerId,
@@ -116,7 +116,7 @@ public final class RunContentUnitRequest {
             @NonNull String stage,
             @Nullable Long remainingForegroundTimeInMs,
             @Nullable Long inactivityTimeoutInMs) {
-        return new RunContentUnitRequest(
+        return new RunLearningUnitRequest(
                 VERSION,
                 contentId,
                 contentUnitRunId,
@@ -138,7 +138,7 @@ public final class RunContentUnitRequest {
      * @throws IllegalArgumentException If the provided intent does not contain all required data.
      */
     @NonNull
-    public static RunContentUnitRequest fromIntent(@NonNull Intent intent)
+    public static RunLearningUnitRequest fromIntent(@NonNull Intent intent)
             throws IllegalArgumentException {
         int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = intent.getStringExtra(CONTENT_ID_EXTRA);
@@ -164,7 +164,7 @@ public final class RunContentUnitRequest {
                                         + "stage: %s]",
                                 contentId, contentUnitRunId, learnerId, schoolId, stage));
 
-        return new RunContentUnitRequest(
+        return new RunLearningUnitRequest(
                 version,
                 contentId,
                 contentUnitRunId,
@@ -178,7 +178,7 @@ public final class RunContentUnitRequest {
     /**
      * Creates an implicit intent usable to launch a content app.
      *
-     * <p>You can use this method, along with {@link RunContentUnitRequest#of(String, String,
+     * <p>You can use this method, along with {@link RunLearningUnitRequest#of(String, String,
      * String, String, String, Long, Long)} to test your app.
      *
      * @param contentAppLaunchAction The action uniquely identifying your content app.
@@ -192,7 +192,7 @@ public final class RunContentUnitRequest {
     /**
      * Creates an explicit intent usable to launch a content app.
      *
-     * <p>You can use this method, along with {@link RunContentUnitRequest#of(String, String,
+     * <p>You can use this method, along with {@link RunLearningUnitRequest#of(String, String,
      * String, String, String, Long, Long)} to test your app.
      *
      * @param packageName The package name of the content app.
@@ -223,7 +223,7 @@ public final class RunContentUnitRequest {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RunContentUnitRequest that = (RunContentUnitRequest) o;
+        RunLearningUnitRequest that = (RunLearningUnitRequest) o;
         return version == that.version
                 && contentId.equals(that.contentId)
                 && contentUnitRunId.equals(that.contentUnitRunId)

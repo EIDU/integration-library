@@ -143,7 +143,7 @@ public class RunContentUnitResult {
     /**
      * Creates an instance with {@link ResultType#TimeoutInactivity}. This should be used after the
      * learner hasn't interacted with the app for {@link
-     * RunContentUnitRequest#inactivityTimeoutInMs} milliseconds of <i>foreground</i> time.
+     * RunLearningUnitRequest#inactivityTimeoutInMs} milliseconds of <i>foreground</i> time.
      *
      * @param contentId <b>Required</b>, see {@link #contentId}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
@@ -167,7 +167,7 @@ public class RunContentUnitResult {
 
     /**
      * Creates an instance with {@link ResultType#TimeUp}. This should be used after {@link
-     * RunContentUnitRequest#remainingForegroundTimeInMs} milliseconds of <i>foreground</i> time
+     * RunLearningUnitRequest#remainingForegroundTimeInMs} milliseconds of <i>foreground</i> time
      * have passed since the start of the run.
      *
      * @param contentId <b>Required</b>, see {@link #contentId}.

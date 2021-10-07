@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class RunContentUnitRequestTest {
+public class RunLearningUnitRequestTest {
     String contentId = "content id";
     String contentUnitRunId = "content unit run id";
     String learnerId = "";
@@ -15,8 +15,8 @@ public class RunContentUnitRequestTest {
 
     @Test
     public void constructsRequest() {
-        RunContentUnitRequest request =
-                RunContentUnitRequest.of(
+        RunLearningUnitRequest request =
+                RunLearningUnitRequest.of(
                         contentId,
                         contentUnitRunId,
                         learnerId,
