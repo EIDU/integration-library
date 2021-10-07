@@ -93,7 +93,7 @@ val javadocJar by tasks.registering(Jar::class) {
     from(tasks.named<Javadoc>("javadoc"))
 }
 
-fun libraryArtifactId(): String = "content-app-library"
+fun libraryArtifactId(): String = "integration-library"
 
 publishing {
     repositories {
@@ -117,12 +117,12 @@ publishing {
 
             pom {
                 name.value(libraryArtifactId())
-                description.value("EIDU Content App Integration Library")
-                url.value("https://github.com/EIDU/content-app-library")
+                description.value("EIDU Integration Library")
+                url.value("https://github.com/EIDU/integration-library")
                 licenses {
                     license {
                         name.value("MIT License")
-                        url.value("https://raw.githubusercontent.com/EIDU/content-app-library/main/LICENSE")
+                        url.value("https://raw.githubusercontent.com/EIDU/integration-library/main/LICENSE")
                     }
                 }
                 developers {
@@ -133,9 +133,9 @@ publishing {
                     }
                 }
                 scm {
-                    url.value("https://github.com/EIDU/content-app-library")
-                    connection.value("scm:git:git://github.com/EIDU/content-app-library.git")
-                    developerConnection.value("scm:git:ssh://git@github.com/EIDU/content-app-library.git")
+                    url.value("https://github.com/EIDU/integration-library")
+                    connection.value("scm:git:git://github.com/EIDU/integration-library.git")
+                    developerConnection.value("scm:git:ssh://git@github.com/EIDU/integration-library.git")
                 }
             }
         }
