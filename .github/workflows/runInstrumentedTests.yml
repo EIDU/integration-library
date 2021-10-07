@@ -29,5 +29,5 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: test-reports
-          path: content-app-library/build/reports/AndroidTests
+          path: integration-library/build/reports/AndroidTests
         if: ${{ failure() }}
