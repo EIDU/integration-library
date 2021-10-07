@@ -35,10 +35,10 @@ public class RunLearningUnitResult {
     @NonNull public final ResultType resultType;
 
     /**
-     * If {@link #resultType} is {@link ResultType#Success}, a score between 0.0f and 1.0f that
-     * described how the learner did. A value of 0.0f should indicate that the learner only gave
-     * incorrect answers, whereas a value of 1.0f should indicate the the learner only gave correct
-     * answers.
+     * For a {@link #resultType} other than {@link ResultType#Error}, a score between 0.0f and 1.0f
+     * that describes how the learner did. A value of 0.0f should indicate that the learner only
+     * gave incorrect answers, whereas a value of 1.0f should indicate the the learner only gave
+     * correct answers.
      *
      * <p>In case the nature of the learning unit was such that there was no possibility to give an
      * incorrect answer, the score must be 1.0f.
@@ -121,6 +121,7 @@ public class RunLearningUnitResult {
      * an action meant to abort the run, e.g. tapping an abort button.
      *
      * @param learningUnitId <b>Required</b>, see {@link #learningUnitId}.
+     * @param score <b>Required</b>, see @link {@link #score}
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
@@ -128,13 +129,14 @@ public class RunLearningUnitResult {
     @NonNull
     public static RunLearningUnitResult ofAbort(
             @NonNull String learningUnitId,
+            float score,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION,
                 learningUnitId,
                 ResultType.Abort,
-                0,
+                score,
                 foregroundDurationInMs,
                 additionalData,
                 null);
@@ -146,6 +148,7 @@ public class RunLearningUnitResult {
      * RunLearningUnitRequest#inactivityTimeoutInMs} milliseconds of <i>foreground</i> time.
      *
      * @param learningUnitId <b>Required</b>, see {@link #learningUnitId}.
+     * @param score <b>Required</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
@@ -153,13 +156,14 @@ public class RunLearningUnitResult {
     @NonNull
     public static RunLearningUnitResult ofTimeoutInactivity(
             @NonNull String learningUnitId,
+            float score,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION,
                 learningUnitId,
                 ResultType.TimeoutInactivity,
-                0,
+                score,
                 foregroundDurationInMs,
                 additionalData,
                 null);
@@ -171,6 +175,7 @@ public class RunLearningUnitResult {
      * passed since the start of the run.
      *
      * @param learningUnitId <b>Required</b>, see {@link #learningUnitId}.
+     * @param score <b>Required</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
@@ -178,13 +183,14 @@ public class RunLearningUnitResult {
     @NonNull
     public static RunLearningUnitResult ofTimeUp(
             @NonNull String learningUnitId,
+            float score,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION,
                 learningUnitId,
                 ResultType.TimeUp,
-                0,
+                score,
                 foregroundDurationInMs,
                 additionalData,
                 null);
