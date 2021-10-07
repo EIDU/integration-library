@@ -63,14 +63,14 @@ public final class RunLearningUnitRequest {
 
     /**
      * The maximum amount of time that this run may take. The content app must end the run with
-     * {@link RunContentUnitResult.ResultType#TimeUp} after this amount of <i>foreground</i> time as
+     * {@link RunLearningUnitResult.ResultType#TimeUp} after this amount of <i>foreground</i> time as
      * elapsed.
      */
     @Nullable public final Long remainingForegroundTimeInMs;
 
     /**
      * The time of user inactivity after which the content app must end the run with {@link
-     * RunContentUnitResult.ResultType#TimeoutInactivity}.
+     * RunLearningUnitResult.ResultType#TimeoutInactivity}.
      */
     @Nullable public final Long inactivityTimeoutInMs;
 

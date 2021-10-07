@@ -15,7 +15,7 @@ import java.util.Objects;
  * <p>Then, {@link #toIntent()} should be used to instantiate an {@link Intent} to be passed to
  * {@link android.app.Activity#setResult(int, Intent)} before finishing the activity.
  */
-public class RunContentUnitResult {
+public class RunLearningUnitResult {
 
     private static final int VERSION = 1;
     private static final String VERSION_EXTRA = "version";
@@ -73,7 +73,7 @@ public class RunContentUnitResult {
      */
     @Nullable public final String errorDetails;
 
-    private RunContentUnitResult(
+    private RunLearningUnitResult(
             int version,
             @NonNull String contentId,
             @NonNull ResultType resultType,
@@ -101,12 +101,12 @@ public class RunContentUnitResult {
      * @return The new instance.
      */
     @NonNull
-    public static RunContentUnitResult ofSuccess(
+    public static RunLearningUnitResult ofSuccess(
             @NonNull String contentId,
             float score,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
-        return new RunContentUnitResult(
+        return new RunLearningUnitResult(
                 VERSION,
                 contentId,
                 ResultType.Success,
@@ -126,11 +126,11 @@ public class RunContentUnitResult {
      * @return The new instance.
      */
     @NonNull
-    public static RunContentUnitResult ofAbort(
+    public static RunLearningUnitResult ofAbort(
             @NonNull String contentId,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
-        return new RunContentUnitResult(
+        return new RunLearningUnitResult(
                 VERSION,
                 contentId,
                 ResultType.Abort,
@@ -151,11 +151,11 @@ public class RunContentUnitResult {
      * @return The new instance.
      */
     @NonNull
-    public static RunContentUnitResult ofTimeoutInactivity(
+    public static RunLearningUnitResult ofTimeoutInactivity(
             @NonNull String contentId,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
-        return new RunContentUnitResult(
+        return new RunLearningUnitResult(
                 VERSION,
                 contentId,
                 ResultType.TimeoutInactivity,
@@ -176,11 +176,11 @@ public class RunContentUnitResult {
      * @return The new instance.
      */
     @NonNull
-    public static RunContentUnitResult ofTimeUp(
+    public static RunLearningUnitResult ofTimeUp(
             @NonNull String contentId,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
-        return new RunContentUnitResult(
+        return new RunLearningUnitResult(
                 VERSION,
                 contentId,
                 ResultType.TimeUp,
@@ -202,12 +202,12 @@ public class RunContentUnitResult {
      * @return The new instance.
      */
     @NonNull
-    public static RunContentUnitResult ofError(
+    public static RunLearningUnitResult ofError(
             @NonNull String contentId,
             long foregroundDurationInMs,
             @NonNull String errorDetails,
             @Nullable String additionalData) {
-        return new RunContentUnitResult(
+        return new RunLearningUnitResult(
                 VERSION,
                 contentId,
                 ResultType.Error,
@@ -225,11 +225,11 @@ public class RunContentUnitResult {
      * @throws IllegalArgumentException If the intent contains incomplete or invalid data.
      */
     @NonNull
-    public static RunContentUnitResult fromIntent(@NonNull Intent intent) {
+    public static RunLearningUnitResult fromIntent(@NonNull Intent intent) {
         int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
         String contentId = intent.getStringExtra(CONTENT_ID_EXTRA);
         ResultType type =
-                RunContentUnitResult.ResultType.nullableValueOf(intent.getStringExtra(RESULT_TYPE));
+                RunLearningUnitResult.ResultType.nullableValueOf(intent.getStringExtra(RESULT_TYPE));
         Float score = intent.hasExtra(SCORE_EXTRA) ? intent.getFloatExtra(SCORE_EXTRA, 0.f) : null;
         Long foregroundDurationInMs =
                 intent.hasExtra(FOREGROUND_DURATION_EXTRA)
@@ -249,7 +249,7 @@ public class RunContentUnitResult {
                                     + "[contentId: %s, type: %s score: %f, foregroundDurationInMs: %d]",
                             contentId, type, score, foregroundDurationInMs));
 
-        return new RunContentUnitResult(
+        return new RunLearningUnitResult(
                 version,
                 contentId,
                 type,
@@ -282,7 +282,7 @@ public class RunContentUnitResult {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RunContentUnitResult that = (RunContentUnitResult) o;
+        RunLearningUnitResult that = (RunLearningUnitResult) o;
         return version == that.version
                 && contentId.equals(that.contentId)
                 && resultType == that.resultType
@@ -306,21 +306,21 @@ public class RunContentUnitResult {
 
     /** An enum describing the reason why a content unit run has ended. */
     public enum ResultType {
-        /** @see RunContentUnitResult#ofSuccess */
+        /** @see RunLearningUnitResult#ofSuccess */
         Success,
-        /** @see RunContentUnitResult#ofAbort */
+        /** @see RunLearningUnitResult#ofAbort */
         Abort,
-        /** @see RunContentUnitResult#ofError */
+        /** @see RunLearningUnitResult#ofError */
         Error,
-        /** @see RunContentUnitResult#ofTimeoutInactivity */
+        /** @see RunLearningUnitResult#ofTimeoutInactivity */
         TimeoutInactivity,
-        /** @see RunContentUnitResult#ofTimeUp */
+        /** @see RunLearningUnitResult#ofTimeUp */
         TimeUp;
 
         @Nullable
         static ResultType nullableValueOf(String value) {
             try {
-                return RunContentUnitResult.ResultType.valueOf(value);
+                return RunLearningUnitResult.ResultType.valueOf(value);
             } catch (IllegalArgumentException e) {
                 return null;
             }
