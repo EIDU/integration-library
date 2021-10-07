@@ -1,8 +1,10 @@
 package com.eidu.integration;
 
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import java.util.Objects;
 
 /**
@@ -25,8 +27,8 @@ public final class RunLearningUnitRequest {
 
     private static final int VERSION = 1;
     private static final String VERSION_EXTRA = "version";
-    private static final String CONTENT_ID_EXTRA = "contentId";
-    private static final String CONTENT_UNIT_RUN_ID = "contentUnitRunId";
+    private static final String LEARNING_UNIT_ID_EXTRA = "learningUnitId";
+    private static final String LEARNING_UNIT_RUN_ID = "learningUnitRunId";
     private static final String LEARNER_ID_EXTRA = "learnerId";
     private static final String SCHOOL_ID_EXTRA = "schoolId";
     private static final String STAGE_EXTRA = "stage";
@@ -38,10 +40,10 @@ public final class RunLearningUnitRequest {
     public final int version;
 
     /** An ID, defined by the content app, that uniquely identifies the unit of content to run. */
-    @NonNull public final String contentId;
+    @NonNull public final String learningUnitId;
 
     /** A unique identifier of each content unit run, which may be used for reporting purposes. */
-    @NonNull public final String contentUnitRunId;
+    @NonNull public final String learningUnitRunId;
 
     /**
      * The obfuscated ID of the learner who is playing the content. May be used for reporting
@@ -76,16 +78,16 @@ public final class RunLearningUnitRequest {
 
     private RunLearningUnitRequest(
             int version,
-            @NonNull String contentId,
-            @NonNull String contentUnitRunId,
+            @NonNull String learningUnitId,
+            @NonNull String learningUnitRunId,
             @NonNull String learnerId,
             @NonNull String schoolId,
             @NonNull String stage,
             @Nullable Long remainingForegroundTimeInMs,
             @Nullable Long inactivityTimeoutInMs) {
         this.version = version;
-        this.contentId = contentId;
-        this.contentUnitRunId = contentUnitRunId;
+        this.learningUnitId = learningUnitId;
+        this.learningUnitRunId = learningUnitRunId;
         this.learnerId = learnerId;
         this.schoolId = schoolId;
         this.stage = stage;
@@ -98,8 +100,8 @@ public final class RunLearningUnitRequest {
      *
      * <p>Use this to test your content app against what the EIDU app will send to launch content.
      *
-     * @param contentId <b>Required</b>, see {@link #contentId}.
-     * @param contentUnitRunId <b>Required</b>, see {@link #contentUnitRunId}.
+     * @param learningUnitId <b>Required</b>, see {@link #learningUnitId}.
+     * @param learningUnitRunId <b>Required</b>, see {@link #learningUnitRunId}.
      * @param learnerId <b>Required</b>, see {@link #learnerId}.
      * @param schoolId <b>Required</b>, see {@link #schoolId}.
      * @param stage <b>Required</b>, see {@link #stage}.
@@ -109,8 +111,8 @@ public final class RunLearningUnitRequest {
      */
     @NonNull
     public static RunLearningUnitRequest of(
-            @NonNull String contentId,
-            @NonNull String contentUnitRunId,
+            @NonNull String learningUnitId,
+            @NonNull String learningUnitRunId,
             @NonNull String learnerId,
             @NonNull String schoolId,
             @NonNull String stage,
@@ -118,8 +120,8 @@ public final class RunLearningUnitRequest {
             @Nullable Long inactivityTimeoutInMs) {
         return new RunLearningUnitRequest(
                 VERSION,
-                contentId,
-                contentUnitRunId,
+                learningUnitId,
+                learningUnitRunId,
                 learnerId,
                 schoolId,
                 stage,
@@ -141,8 +143,8 @@ public final class RunLearningUnitRequest {
     public static RunLearningUnitRequest fromIntent(@NonNull Intent intent)
             throws IllegalArgumentException {
         int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
-        String contentId = intent.getStringExtra(CONTENT_ID_EXTRA);
-        String contentUnitRunId = intent.getStringExtra(CONTENT_UNIT_RUN_ID);
+        String learningUnitId = intent.getStringExtra(LEARNING_UNIT_ID_EXTRA);
+        String learningUnitRunId = intent.getStringExtra(LEARNING_UNIT_RUN_ID);
         String learnerId = intent.getStringExtra(LEARNER_ID_EXTRA);
         String schoolId = intent.getStringExtra(SCHOOL_ID_EXTRA);
         String stage = intent.getStringExtra(STAGE_EXTRA);
@@ -155,19 +157,19 @@ public final class RunLearningUnitRequest {
                         ? intent.getLongExtra(INACTIVITY_TIMEOUT_EXTRA, 0)
                         : null;
 
-        for (String field : new String[] {contentId, contentUnitRunId, learnerId, schoolId, stage})
+        for (String field : new String[] {learningUnitId, learningUnitRunId, learnerId, schoolId, stage})
             if (field == null || field.isEmpty())
                 throw new IllegalArgumentException(
                         String.format(
                                 "Invalid launch intent. A required field is missing. "
-                                        + "[contentId: %s, contentUnitRunId: %s, learnerId: %s, schoolId: %s, "
+                                        + "[learningUnitId: %s, learningUnitRunId: %s, learnerId: %s, schoolId: %s, "
                                         + "stage: %s]",
-                                contentId, contentUnitRunId, learnerId, schoolId, stage));
+                                learningUnitId, learningUnitRunId, learnerId, schoolId, stage));
 
         return new RunLearningUnitRequest(
                 version,
-                contentId,
-                contentUnitRunId,
+                learningUnitId,
+                learningUnitRunId,
                 learnerId,
                 schoolId,
                 stage,
@@ -209,8 +211,8 @@ public final class RunLearningUnitRequest {
     @NonNull
     private Intent addExtras(@NonNull Intent intent) {
         intent.putExtra(VERSION_EXTRA, version)
-                .putExtra(CONTENT_ID_EXTRA, contentId)
-                .putExtra(CONTENT_UNIT_RUN_ID, contentUnitRunId)
+                .putExtra(LEARNING_UNIT_ID_EXTRA, learningUnitId)
+                .putExtra(LEARNING_UNIT_RUN_ID, learningUnitRunId)
                 .putExtra(LEARNER_ID_EXTRA, learnerId)
                 .putExtra(SCHOOL_ID_EXTRA, schoolId)
                 .putExtra(STAGE_EXTRA, stage);
@@ -225,8 +227,8 @@ public final class RunLearningUnitRequest {
         if (o == null || getClass() != o.getClass()) return false;
         RunLearningUnitRequest that = (RunLearningUnitRequest) o;
         return version == that.version
-                && contentId.equals(that.contentId)
-                && contentUnitRunId.equals(that.contentUnitRunId)
+                && learningUnitId.equals(that.learningUnitId)
+                && learningUnitRunId.equals(that.learningUnitRunId)
                 && learnerId.equals(that.learnerId)
                 && schoolId.equals(that.schoolId)
                 && stage.equals(that.stage)
@@ -238,8 +240,8 @@ public final class RunLearningUnitRequest {
     public int hashCode() {
         return Objects.hash(
                 version,
-                contentId,
-                contentUnitRunId,
+                learningUnitId,
+                learningUnitRunId,
                 learnerId,
                 schoolId,
                 stage,

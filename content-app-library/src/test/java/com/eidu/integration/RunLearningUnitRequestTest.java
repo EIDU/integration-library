@@ -25,8 +25,8 @@ public class RunLearningUnitRequestTest {
                         remainingForegroundTimeInMs,
                         inactivityTimeoutInMs);
 
-        assertEquals(contentId, request.contentId);
-        assertEquals(contentUnitRunId, request.contentUnitRunId);
+        assertEquals(contentId, request.learningUnitId);
+        assertEquals(contentUnitRunId, request.learningUnitRunId);
         assertEquals(learnerId, request.learnerId);
         assertEquals(schoolId, request.schoolId);
         assertEquals(stage, request.stage);
