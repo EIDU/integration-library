@@ -1,4 +1,4 @@
-package com.eidu.content.integration;
+package com.eidu.integration;
 
 import android.content.Intent;
 import androidx.annotation.NonNull;
@@ -33,7 +33,7 @@ public final class RunContentUnitRequest {
     private static final String REMAINING_FOREGROUND_TIME_EXTRA = "remainingForegroundTimeInMs";
     private static final String INACTIVITY_TIMEOUT_EXTRA = "inactivityTimeoutInMs";
     private static final String ACTION_LAUNCH_CONTENT =
-            "com.eidu.content.integration.LAUNCH_CONTENT";
+            "com.eidu.integration.LAUNCH_CONTENT";
 
     public final int version;
 

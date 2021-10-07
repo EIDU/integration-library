@@ -1,4 +1,4 @@
-package com.eidu.content.integration;
+package com.eidu.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
