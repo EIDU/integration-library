@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import java.util.Objects;
 
 /**
- * This class represents the result of a content unit run and should be used to deliver the result
+ * This class represents the result of a learning unit run and should be used to deliver the result
  * to the EIDU app.
  *
  * <p>Depending on how the run ended, this class can be instantiated with one of the methods {@link
@@ -31,7 +31,7 @@ public class RunLearningUnitResult {
     public final int version;
 
     /**
-     * The unique ID of the unit that was played in this run.
+     * The unique ID of the learning unit that was played in this run.
      */
     @NonNull public final String learningUnitId;
 
@@ -46,14 +46,14 @@ public class RunLearningUnitResult {
      * incorrect answers, whereas a value of 1.0f should indicate the the learner only gave correct
      * answers.
      *
-     * <p>In case the nature of the content unit was such that there was no possibility to give an
+     * <p>In case the nature of the learning unit was such that there was no possibility to give an
      * incorrect answer, the score must be 1.0f.
      */
     public final float score;
 
     /**
-     * The amount of time that the user spent with the content at the end of the run. This
-     * <i>must</i> exclude any amount of time that the content app was in the background (because
+     * The amount of time that the user spent with the learning unit at the end of the run. This
+     * <i>must</i> exclude any amount of time that the learning app was in the background (because
      * the user navigated away from it, for example using the Android home button or because a
      * different app forced itself into the foreground), and it <i>should</i> exclude time spent for
      * loading and any transition animations.
@@ -61,11 +61,11 @@ public class RunLearningUnitResult {
     public final long foregroundDurationInMs;
 
     /**
-     * An arbitrary string that the content app would like to associate with the usage data that the
-     * EIDU app reports. It will be made available to the content app manufacturer for data analysis
-     * purposes. It must not contain any sensitive data (e.g. device identifiers).
+     * An arbitrary string that the learning app would like to associate with the usage data that
+     * the EIDU app reports. It will be made available to the learning app manufacturer for data
+     * analysis purposes. It must not contain any sensitive data (e.g. device identifiers).
      *
-     * <p>This is useful because content apps should not rely on (and should not attempt to take
+     * <p>This is useful because learning apps should not rely on (and should not attempt to take
      * advantage of) Internet connectivity.
      */
     @Nullable public final String additionalData;
@@ -98,7 +98,7 @@ public class RunLearningUnitResult {
 
     /**
      * Creates an instance with {@link ResultType#Success}. This should be used when the learner
-     * completes the unit of content, independently of their performance.
+     * completes the learning unit, independently of their performance.
      *
      * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
      * @param score                  <b>Required</b>, see {@link #score}.
@@ -174,7 +174,7 @@ public class RunLearningUnitResult {
     /**
      * Creates an instance with {@link ResultType#TimeUp}. This should be used after {@link
      * RunLearningUnitRequest#remainingForegroundTimeInMs} milliseconds of <i>foreground</i> time
-     * have passed since the start of the run.
+     * passed since the start of the run.
      *
      * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
@@ -224,7 +224,7 @@ public class RunLearningUnitResult {
     }
 
     /**
-     * Parses an {@link Intent} into a new RunContentUnitResult instance.
+     * Parses an {@link Intent} into a new RunLearningUnitResult instance.
      *
      * @param intent The intent to parse.
      * @return The new instance.
@@ -266,11 +266,11 @@ public class RunLearningUnitResult {
     }
 
     /**
-     * Converts this instance of RunContentUnitResult to an {@link Intent} which may then be passed
+     * Converts this instance of RunLearningUnitResult to an {@link Intent} which may then be passed
      * to {@link android.app.Activity#setResult(int, Intent)} in order to inform the EIDU app of the
-     * result of a content unit run.
+     * result of a learning unit run.
      *
-     * @return An intent that contains all information of this instance of RunContentUnitResult.
+     * @return An intent that contains all information of this instance of RunLearningUnitResult.
      */
     @NonNull
     public Intent toIntent() {
@@ -311,7 +311,7 @@ public class RunLearningUnitResult {
     }
 
     /**
-     * An enum describing the reason why a content unit run has ended.
+     * An enum describing the reason why a learning unit run has ended.
      */
     public enum ResultType {
         /**
