@@ -17,7 +17,7 @@ public class RunLearningUnitResultTest {
                 RunLearningUnitResult.ofSuccess(
                         contentId, score, foregroundDurationInMs, additionalData);
 
-        assertEquals(contentId, result.contentId);
+        assertEquals(contentId, result.learningUnitId);
         assertEquals(RunLearningUnitResult.ResultType.Success, result.resultType);
         assertEquals(score, result.score);
         assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);
@@ -29,7 +29,7 @@ public class RunLearningUnitResultTest {
         RunLearningUnitResult result =
                 RunLearningUnitResult.ofAbort(contentId, foregroundDurationInMs, additionalData);
 
-        assertEquals(contentId, result.contentId);
+        assertEquals(contentId, result.learningUnitId);
         assertEquals(RunLearningUnitResult.ResultType.Abort, result.resultType);
         assertEquals(0.0, result.score);
         assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);
@@ -42,7 +42,7 @@ public class RunLearningUnitResultTest {
                 RunLearningUnitResult.ofTimeoutInactivity(
                         contentId, foregroundDurationInMs, additionalData);
 
-        assertEquals(contentId, result.contentId);
+        assertEquals(contentId, result.learningUnitId);
         assertEquals(RunLearningUnitResult.ResultType.TimeoutInactivity, result.resultType);
         assertEquals(0.0, result.score);
         assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);
@@ -54,7 +54,7 @@ public class RunLearningUnitResultTest {
         RunLearningUnitResult result =
                 RunLearningUnitResult.ofTimeUp(contentId, foregroundDurationInMs, additionalData);
 
-        assertEquals(contentId, result.contentId);
+        assertEquals(contentId, result.learningUnitId);
         assertEquals(RunLearningUnitResult.ResultType.TimeUp, result.resultType);
         assertEquals(0.0, result.score);
         assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);
@@ -67,7 +67,7 @@ public class RunLearningUnitResultTest {
                 RunLearningUnitResult.ofError(
                         contentId, foregroundDurationInMs, errorDetails, additionalData);
 
-        assertEquals(contentId, result.contentId);
+        assertEquals(contentId, result.learningUnitId);
         assertEquals(RunLearningUnitResult.ResultType.Error, result.resultType);
         assertEquals(0.0, result.score);
         assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);

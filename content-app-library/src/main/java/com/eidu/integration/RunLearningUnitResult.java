@@ -1,8 +1,10 @@
 package com.eidu.integration;
 
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import java.util.Objects;
 
 /**
@@ -19,7 +21,7 @@ public class RunLearningUnitResult {
 
     private static final int VERSION = 1;
     private static final String VERSION_EXTRA = "version";
-    private static final String CONTENT_ID_EXTRA = "contentId";
+    private static final String LEARNING_UNIT_ID = "learningUnitId";
     private static final String RESULT_TYPE = "resultType";
     private static final String SCORE_EXTRA = "score";
     private static final String FOREGROUND_DURATION_EXTRA = "foregroundDurationInMs";
@@ -28,10 +30,14 @@ public class RunLearningUnitResult {
 
     public final int version;
 
-    /** The unique ID of the unit that was played in this run. */
-    @NonNull public final String contentId;
+    /**
+     * The unique ID of the unit that was played in this run.
+     */
+    @NonNull public final String learningUnitId;
 
-    /** The reason why this run ended. */
+    /**
+     * The reason why this run ended.
+     */
     @NonNull public final ResultType resultType;
 
     /**
@@ -75,14 +81,14 @@ public class RunLearningUnitResult {
 
     private RunLearningUnitResult(
             int version,
-            @NonNull String contentId,
+            @NonNull String learningUnitId,
             @NonNull ResultType resultType,
             float score,
             long foregroundDurationInMs,
             @Nullable String additionalData,
             @Nullable String errorDetails) {
         this.version = version;
-        this.contentId = contentId;
+        this.learningUnitId = learningUnitId;
         this.resultType = resultType;
         this.score = score;
         this.foregroundDurationInMs = foregroundDurationInMs;
@@ -94,21 +100,21 @@ public class RunLearningUnitResult {
      * Creates an instance with {@link ResultType#Success}. This should be used when the learner
      * completes the unit of content, independently of their performance.
      *
-     * @param contentId <b>Required</b>, see {@link #contentId}.
-     * @param score <b>Required</b>, see {@link #score}.
+     * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
+     * @param score                  <b>Required</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
-     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @param additionalData         <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofSuccess(
-            @NonNull String contentId,
+            @NonNull String learningUnitId,
             float score,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION,
-                contentId,
+                learningUnitId,
                 ResultType.Success,
                 score,
                 foregroundDurationInMs,
@@ -120,19 +126,19 @@ public class RunLearningUnitResult {
      * Creates an instance with {@link ResultType#Abort}. This should be used when the learner took
      * an action meant to abort the run, e.g. tapping an abort button.
      *
-     * @param contentId <b>Required</b>, see {@link #contentId}.
+     * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
-     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @param additionalData         <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofAbort(
-            @NonNull String contentId,
+            @NonNull String learningUnitId,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION,
-                contentId,
+                learningUnitId,
                 ResultType.Abort,
                 0,
                 foregroundDurationInMs,
@@ -145,19 +151,19 @@ public class RunLearningUnitResult {
      * learner hasn't interacted with the app for {@link
      * RunLearningUnitRequest#inactivityTimeoutInMs} milliseconds of <i>foreground</i> time.
      *
-     * @param contentId <b>Required</b>, see {@link #contentId}.
+     * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
-     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @param additionalData         <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofTimeoutInactivity(
-            @NonNull String contentId,
+            @NonNull String learningUnitId,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION,
-                contentId,
+                learningUnitId,
                 ResultType.TimeoutInactivity,
                 0,
                 foregroundDurationInMs,
@@ -170,19 +176,19 @@ public class RunLearningUnitResult {
      * RunLearningUnitRequest#remainingForegroundTimeInMs} milliseconds of <i>foreground</i> time
      * have passed since the start of the run.
      *
-     * @param contentId <b>Required</b>, see {@link #contentId}.
+     * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
-     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @param additionalData         <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofTimeUp(
-            @NonNull String contentId,
+            @NonNull String learningUnitId,
             long foregroundDurationInMs,
             @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION,
-                contentId,
+                learningUnitId,
                 ResultType.TimeUp,
                 0,
                 foregroundDurationInMs,
@@ -195,21 +201,21 @@ public class RunLearningUnitResult {
      * technical error occurred that prevented the learner from beginning or from completing the
      * run.
      *
-     * @param contentId <b>Required</b>, see {@link #contentId}.
+     * @param learningUnitId         <b>Required</b>, see {@link #learningUnitId}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
-     * @param errorDetails <b>Required</b>, see {@link #errorDetails}.
-     * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @param errorDetails           <b>Required</b>, see {@link #errorDetails}.
+     * @param additionalData         <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofError(
-            @NonNull String contentId,
+            @NonNull String learningUnitId,
             long foregroundDurationInMs,
             @NonNull String errorDetails,
             @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION,
-                contentId,
+                learningUnitId,
                 ResultType.Error,
                 0,
                 foregroundDurationInMs,
@@ -227,7 +233,7 @@ public class RunLearningUnitResult {
     @NonNull
     public static RunLearningUnitResult fromIntent(@NonNull Intent intent) {
         int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
-        String contentId = intent.getStringExtra(CONTENT_ID_EXTRA);
+        String learningUnitId = intent.getStringExtra(LEARNING_UNIT_ID);
         ResultType type =
                 RunLearningUnitResult.ResultType.nullableValueOf(intent.getStringExtra(RESULT_TYPE));
         Float score = intent.hasExtra(SCORE_EXTRA) ? intent.getFloatExtra(SCORE_EXTRA, 0.f) : null;
@@ -238,20 +244,20 @@ public class RunLearningUnitResult {
         String additionalData = intent.getStringExtra(ADDITIONAL_DATA_EXTRA);
         String errorDetails = intent.getStringExtra(ERROR_DETAILS_EXTRA);
 
-        if (contentId == null
-                || contentId.isEmpty()
+        if (learningUnitId == null
+                || learningUnitId.isEmpty()
                 || type == null
                 || score == null
                 || foregroundDurationInMs == null)
             throw new IllegalArgumentException(
                     String.format(
                             "Invalid result intent. A required field is missing. "
-                                    + "[contentId: %s, type: %s score: %f, foregroundDurationInMs: %d]",
-                            contentId, type, score, foregroundDurationInMs));
+                                    + "[learningUnitId: %s, type: %s score: %f, foregroundDurationInMs: %d]",
+                            learningUnitId, type, score, foregroundDurationInMs));
 
         return new RunLearningUnitResult(
                 version,
-                contentId,
+                learningUnitId,
                 type,
                 score,
                 foregroundDurationInMs,
@@ -270,7 +276,7 @@ public class RunLearningUnitResult {
     public Intent toIntent() {
         return new Intent()
                 .putExtra(VERSION_EXTRA, version)
-                .putExtra(CONTENT_ID_EXTRA, contentId)
+                .putExtra(LEARNING_UNIT_ID, learningUnitId)
                 .putExtra(RESULT_TYPE, resultType.name())
                 .putExtra(SCORE_EXTRA, score)
                 .putExtra(FOREGROUND_DURATION_EXTRA, foregroundDurationInMs)
@@ -284,7 +290,7 @@ public class RunLearningUnitResult {
         if (o == null || getClass() != o.getClass()) return false;
         RunLearningUnitResult that = (RunLearningUnitResult) o;
         return version == that.version
-                && contentId.equals(that.contentId)
+                && learningUnitId.equals(that.learningUnitId)
                 && resultType == that.resultType
                 && score == that.score
                 && foregroundDurationInMs == that.foregroundDurationInMs
@@ -296,7 +302,7 @@ public class RunLearningUnitResult {
     public int hashCode() {
         return Objects.hash(
                 version,
-                contentId,
+                learningUnitId,
                 resultType,
                 score,
                 foregroundDurationInMs,
@@ -304,17 +310,29 @@ public class RunLearningUnitResult {
                 errorDetails);
     }
 
-    /** An enum describing the reason why a content unit run has ended. */
+    /**
+     * An enum describing the reason why a content unit run has ended.
+     */
     public enum ResultType {
-        /** @see RunLearningUnitResult#ofSuccess */
+        /**
+         * @see RunLearningUnitResult#ofSuccess
+         */
         Success,
-        /** @see RunLearningUnitResult#ofAbort */
+        /**
+         * @see RunLearningUnitResult#ofAbort
+         */
         Abort,
-        /** @see RunLearningUnitResult#ofError */
+        /**
+         * @see RunLearningUnitResult#ofError
+         */
         Error,
-        /** @see RunLearningUnitResult#ofTimeoutInactivity */
+        /**
+         * @see RunLearningUnitResult#ofTimeoutInactivity
+         */
         TimeoutInactivity,
-        /** @see RunLearningUnitResult#ofTimeUp */
+        /**
+         * @see RunLearningUnitResult#ofTimeUp
+         */
         TimeUp;
 
         @Nullable
