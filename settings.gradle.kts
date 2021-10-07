@@ -1,2 +1,2 @@
-rootProject.name = "EIDU Content App Library"
+rootProject.name = "EIDU Integration Library"
 include(":integration-library")
