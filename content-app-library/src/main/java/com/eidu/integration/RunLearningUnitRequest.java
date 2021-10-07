@@ -34,8 +34,8 @@ public final class RunLearningUnitRequest {
     private static final String STAGE_EXTRA = "stage";
     private static final String REMAINING_FOREGROUND_TIME_EXTRA = "remainingForegroundTimeInMs";
     private static final String INACTIVITY_TIMEOUT_EXTRA = "inactivityTimeoutInMs";
-    private static final String ACTION_LAUNCH_CONTENT =
-            "com.eidu.integration.LAUNCH_CONTENT";
+    private static final String ACTION_LAUNCH_LEARNING_UNIT =
+            "com.eidu.integration.LAUNCH_LEARNING_UNIT";
 
     public final int version;
 
@@ -203,7 +203,7 @@ public final class RunLearningUnitRequest {
      */
     @NonNull
     public Intent toIntent(@NonNull String packageName, @NonNull String className) {
-        Intent intent = new Intent(ACTION_LAUNCH_CONTENT);
+        Intent intent = new Intent(ACTION_LAUNCH_LEARNING_UNIT);
         intent.setClassName(packageName, className);
         return addExtras(intent);
     }
