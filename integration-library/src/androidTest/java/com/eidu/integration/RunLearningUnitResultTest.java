@@ -14,8 +14,7 @@ public class RunLearningUnitResultTest {
     @Test
     public void createsResultFromSuccessIntent() {
         RunLearningUnitResult result =
-                RunLearningUnitResult.ofSuccess(
-                        learningUnitId, score, foregroundDurationInMs, additionalData);
+                RunLearningUnitResult.ofSuccess(score, foregroundDurationInMs, additionalData);
 
         verifyConversion(result);
     }
@@ -23,8 +22,7 @@ public class RunLearningUnitResultTest {
     @Test
     public void createsResultFromErrorIntent() {
         RunLearningUnitResult result =
-                RunLearningUnitResult.ofError(
-                        learningUnitId, foregroundDurationInMs, additionalData, errorDetails);
+                RunLearningUnitResult.ofError(foregroundDurationInMs, additionalData, errorDetails);
 
         verifyConversion(result);
     }
