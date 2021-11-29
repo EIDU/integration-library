@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class RunLearningUnitResultTest {
-    String learningUnitId = "learning unit id";
     Float score = 1.2f;
     Long foregroundDurationInMs = 123L;
     String additionalData = "additional data";
