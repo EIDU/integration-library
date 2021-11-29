@@ -23,7 +23,8 @@ public class RunLearningUnitRequestTest {
                         schoolId,
                         stage,
                         remainingForegroundTimeInMs,
-                        inactivityTimeoutInMs);
+                        inactivityTimeoutInMs,
+                        null);
 
         assertEquals(learningUnitId, request.learningUnitId);
         assertEquals(learningUnitRunId, request.learningUnitRunId);

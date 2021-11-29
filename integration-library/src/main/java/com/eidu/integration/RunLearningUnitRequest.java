@@ -1,8 +1,15 @@
 package com.eidu.integration;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Objects;
 
 /**
@@ -19,9 +26,14 @@ import java.util.Objects;
  * RunLearningUnitRequest#fromIntent(Intent)}, which will automatically identify and extract all
  * information included in {@link Intent#getExtras()}.
  *
+ * <p>Use {@link RunLearningUnitRequest#getAssetAsStream(Context, String)}, {@link
+ * RunLearningUnitRequest#getAssetAsFileDescriptor(Context, String)}, or {@link
+ * RunLearningUnitRequest#getAssetAsUri(String)} to retrieve any assets required by the requested
+ * learning unit.
+ *
  * <p>To facilitate testing of your app, you can create your own RunLearningUnitRequest with {@link
- * RunLearningUnitRequest#of(String, String, String, String, String, Long, Long)} and convert it to
- * an Intent with {@link RunLearningUnitRequest#toIntent(String, String)}.
+ * RunLearningUnitRequest#of(String, String, String, String, String, Long, Long, Uri)} and convert
+ * it to an Intent with {@link RunLearningUnitRequest#toIntent(String, String)}.
  */
 public final class RunLearningUnitRequest {
 
@@ -76,6 +88,8 @@ public final class RunLearningUnitRequest {
      */
     @Nullable public final Long inactivityTimeoutInMs;
 
+    @Nullable private final Uri assetsBaseUri;
+
     private RunLearningUnitRequest(
             int version,
             @NonNull String learningUnitId,
@@ -84,7 +98,8 @@ public final class RunLearningUnitRequest {
             @NonNull String schoolId,
             @NonNull String stage,
             @Nullable Long remainingForegroundTimeInMs,
-            @Nullable Long inactivityTimeoutInMs) {
+            @Nullable Long inactivityTimeoutInMs,
+            @Nullable Uri assetsBaseUri) {
         this.version = version;
         this.learningUnitId = learningUnitId;
         this.learningUnitRunId = learningUnitRunId;
@@ -93,6 +108,7 @@ public final class RunLearningUnitRequest {
         this.stage = stage;
         this.remainingForegroundTimeInMs = remainingForegroundTimeInMs;
         this.inactivityTimeoutInMs = inactivityTimeoutInMs;
+        this.assetsBaseUri = assetsBaseUri;
     }
 
     /**
@@ -108,6 +124,7 @@ public final class RunLearningUnitRequest {
      * @param stage <b>Required</b>, see {@link #stage}.
      * @param remainingForegroundTimeInMs <i>Optional</i>, see {@link #remainingForegroundTimeInMs}.
      * @param inactivityTimeoutInMs <i>Optional</i>, see {@link #inactivityTimeoutInMs}.
+     * @param assetsBaseUri <i>Optional</i>, the base content URI from which to retrieve assets.
      * @return The new instance.
      */
     @NonNull
@@ -118,7 +135,8 @@ public final class RunLearningUnitRequest {
             @NonNull String schoolId,
             @NonNull String stage,
             @Nullable Long remainingForegroundTimeInMs,
-            @Nullable Long inactivityTimeoutInMs) {
+            @Nullable Long inactivityTimeoutInMs,
+            @Nullable Uri assetsBaseUri) {
         return new RunLearningUnitRequest(
                 VERSION,
                 learningUnitId,
@@ -127,7 +145,8 @@ public final class RunLearningUnitRequest {
                 schoolId,
                 stage,
                 remainingForegroundTimeInMs,
-                inactivityTimeoutInMs);
+                inactivityTimeoutInMs,
+                assetsBaseUri);
     }
 
     /**
@@ -158,6 +177,8 @@ public final class RunLearningUnitRequest {
                         ? intent.getLongExtra(INACTIVITY_TIMEOUT_EXTRA, 0)
                         : null;
 
+        Uri assetsBaseUri = intent.getData();
+
         for (String field :
                 new String[] {learningUnitId, learningUnitRunId, learnerId, schoolId, stage})
             if (field == null || field.isEmpty())
@@ -176,14 +197,15 @@ public final class RunLearningUnitRequest {
                 schoolId,
                 stage,
                 remainingForegroundTimeInMs,
-                inactivityTimeoutInMs);
+                inactivityTimeoutInMs,
+                assetsBaseUri);
     }
 
     /**
      * Creates an implicit intent usable to launch a learning app.
      *
      * <p>You can use this method, along with {@link RunLearningUnitRequest#of(String, String,
-     * String, String, String, Long, Long)} to test your app.
+     * String, String, String, Long, Long, Uri)} to test your app.
      *
      * @param learningAppLaunchAction The action uniquely identifying your learning app.
      * @return An intent for the given action, containing all the launch information.
@@ -197,7 +219,7 @@ public final class RunLearningUnitRequest {
      * Creates an explicit intent usable to launch a learning app.
      *
      * <p>You can use this method, along with {@link RunLearningUnitRequest#of(String, String,
-     * String, String, String, Long, Long)} to test your app.
+     * String, String, String, Long, Long, Uri)} to test your app.
      *
      * @param packageName The package name of the learning app.
      * @param className The class name of the activity to launch with this intent
@@ -207,6 +229,7 @@ public final class RunLearningUnitRequest {
     public Intent toIntent(@NonNull String packageName, @NonNull String className) {
         Intent intent = new Intent(ACTION_LAUNCH_LEARNING_UNIT);
         intent.setClassName(packageName, className);
+        intent.setData(assetsBaseUri);
         return addExtras(intent);
     }
 
@@ -223,6 +246,59 @@ public final class RunLearningUnitRequest {
         return intent;
     }
 
+    /**
+     * Retrieves the contents of an asset as an {@link InputStream}. <b>It is the caller's
+     * responsibility to close this stream after use.</b>
+     *
+     * @param context The current context. May be an application context.
+     * @param path The path of the asset to retrieve.
+     * @return An {@link InputStream} from which the asset's contents can be read.
+     * @throws FileNotFoundException In case an asset by that name cannot be found for the learning
+     *     unit being run, the request does not support asset loading, or EIDU has crashed.
+     */
+    @NonNull
+    public InputStream getAssetAsStream(@NonNull Context context, @NonNull String path)
+            throws FileNotFoundException {
+        return new FileInputStream(getAssetAsFileDescriptor(context, path));
+    }
+
+    /**
+     * Retrieves the contents of an asset as a {@link FileDescriptor}. <b>It is the caller's
+     * responsibility to close this {@link FileDescriptor} after use.</b>
+     *
+     * @param context The current context. May be an application context.
+     * @param path The path of the asset to retrieve.
+     * @return An {@link FileDescriptor} from which the asset's contents can be read.
+     * @throws FileNotFoundException In case an asset by that name cannot be found for the learning
+     *     unit being run, the request does not support asset loading, or EIDU has crashed.
+     */
+    @NonNull
+    public FileDescriptor getAssetAsFileDescriptor(@NonNull Context context, @NonNull String path)
+            throws FileNotFoundException {
+        ParcelFileDescriptor descriptor =
+                context.getContentResolver().openFileDescriptor(getAssetAsUri(path), "r");
+        if (descriptor == null)
+            throw new FileNotFoundException("Unable to retrieve asset because EIDU has crashed.");
+        return descriptor.getFileDescriptor();
+    }
+
+    /**
+     * Retrieves a content {@link Uri} for an asset, which can be used, for example, with {@link
+     * android.media.MediaPlayer}.
+     *
+     * <p><b>At this point, it is not guaranteed that the {@link Uri} points to a valid asset.</b>
+     *
+     * @param path The path of the asset to retrieve.
+     * @return A {@link Uri} from which the asset's contents can be read.
+     * @throws FileNotFoundException In case the request does not support asset loading.
+     */
+    @NonNull
+    public Uri getAssetAsUri(@NonNull String path) throws FileNotFoundException {
+        if (assetsBaseUri == null) throw new FileNotFoundException();
+
+        return assetsBaseUri.buildUpon().appendPath(path).build();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -235,7 +311,8 @@ public final class RunLearningUnitRequest {
                 && schoolId.equals(that.schoolId)
                 && stage.equals(that.stage)
                 && Objects.equals(remainingForegroundTimeInMs, that.remainingForegroundTimeInMs)
-                && Objects.equals(inactivityTimeoutInMs, that.inactivityTimeoutInMs);
+                && Objects.equals(inactivityTimeoutInMs, that.inactivityTimeoutInMs)
+                && Objects.equals(assetsBaseUri, that.assetsBaseUri);
     }
 
     @Override
@@ -248,6 +325,7 @@ public final class RunLearningUnitRequest {
                 schoolId,
                 stage,
                 remainingForegroundTimeInMs,
-                inactivityTimeoutInMs);
+                inactivityTimeoutInMs,
+                assetsBaseUri);
     }
 }

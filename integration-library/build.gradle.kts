@@ -45,6 +45,8 @@ android {
         isCheckAllWarnings = true
         isWarningsAsErrors = true
     }
+
+    useLibrary("android.test.mock")
 }
 
 dependencies {
