@@ -29,7 +29,7 @@ public class RunLearningUnitRequestTest {
                         inactivityTimeoutInMs,
                         null);
         RunLearningUnitRequest requestFromIntent =
-                RunLearningUnitRequest.fromIntent(request.toIntent("launch.learning.unit.ACTION"));
+                RunLearningUnitRequest.fromIntent(request.toIntent("package", "ActivityClass"));
 
         assertEquals(request, requestFromIntent);
     }
