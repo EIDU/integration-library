@@ -156,12 +156,15 @@ public final class RunLearningUnitRequest {
      * data.
      *
      * @param intent <b>Required</b>, the intent sent from the EIDU app to your learning app.
-     * @return The new instance, initialized from the provided intent.
+     * @return The new RunLearningUnitRequest instance, initialized from the provided intent, or
+     *     null if intent was not a request to run a learning unit
      * @throws IllegalArgumentException If the provided intent does not contain all required data.
      */
-    @NonNull
+    @Nullable
     public static RunLearningUnitRequest fromIntent(@NonNull Intent intent)
             throws IllegalArgumentException {
+        if (!ACTION_LAUNCH_LEARNING_UNIT.equals(intent.getAction())) return null;
+
         int version = intent.getIntExtra(VERSION_EXTRA, VERSION);
         String learningUnitId = intent.getStringExtra(LEARNING_UNIT_ID_EXTRA);
         String learningUnitRunId = intent.getStringExtra(LEARNING_UNIT_RUN_ID);
