@@ -1,6 +1,7 @@
 package com.eidu.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import android.content.Context;
 import android.net.Uri;
@@ -32,6 +33,25 @@ public class RunLearningUnitRequestTest {
                 RunLearningUnitRequest.fromIntent(request.toIntent("package", "ActivityClass"));
 
         assertEquals(request, requestFromIntent);
+    }
+
+    @Test
+    public void doesNotInstantiateFromIntentWithDifferentAction() {
+        RunLearningUnitRequest request =
+                RunLearningUnitRequest.of(
+                        learningUnitId,
+                        learningUnitRunId,
+                        learnerId,
+                        schoolId,
+                        stage,
+                        remainingForegroundTimeInMs,
+                        inactivityTimeoutInMs,
+                        null);
+        RunLearningUnitRequest requestFromIntent =
+                RunLearningUnitRequest.fromIntent(
+                        request.toIntent("package", "ActivityClass").setAction("DIFFERENT"));
+
+        assertNull(requestFromIntent);
     }
 
     @Test
