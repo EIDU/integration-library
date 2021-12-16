@@ -205,20 +205,6 @@ public final class RunLearningUnitRequest {
     }
 
     /**
-     * Creates an implicit intent usable to launch a learning app.
-     *
-     * <p>You can use this method, along with {@link RunLearningUnitRequest#of(String, String,
-     * String, String, String, Long, Long, Uri)} to test your app.
-     *
-     * @param learningAppLaunchAction The action uniquely identifying your learning app.
-     * @return An intent for the given action, containing all the launch information.
-     */
-    @NonNull
-    public Intent toIntent(@NonNull String learningAppLaunchAction) {
-        return addExtras(new Intent(learningAppLaunchAction));
-    }
-
-    /**
      * Creates an explicit intent usable to launch a learning app.
      *
      * <p>You can use this method, along with {@link RunLearningUnitRequest#of(String, String,
