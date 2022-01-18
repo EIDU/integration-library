@@ -1,9 +1,12 @@
 package com.eidu.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
@@ -52,6 +55,86 @@ public class RunLearningUnitRequestTest {
                         request.toIntent("package", "ActivityClass").setAction("DIFFERENT"));
 
         assertNull(requestFromIntent);
+    }
+
+    @Test
+    public void returnsNullValueForRemainingForegroundTime() {
+        RunLearningUnitRequest request =
+                RunLearningUnitRequest.of(
+                        learningUnitId,
+                        learningUnitRunId,
+                        learnerId,
+                        schoolId,
+                        stage,
+                        null,
+                        inactivityTimeoutInMs,
+                        null);
+
+        RunLearningUnitRequest requestFromIntent =
+                RunLearningUnitRequest.fromIntent(request.toIntent("package", "ActivityClass"));
+
+        assertNotNull(requestFromIntent);
+        assertNull(requestFromIntent.remainingForegroundTimeInMs);
+    }
+
+    @Test
+    public void returnsNullValueForInactivityTimeout() {
+        RunLearningUnitRequest request =
+                RunLearningUnitRequest.of(
+                        learningUnitId,
+                        learningUnitRunId,
+                        learnerId,
+                        schoolId,
+                        stage,
+                        remainingForegroundTimeInMs,
+                        null,
+                        null);
+
+        RunLearningUnitRequest requestFromIntent =
+                RunLearningUnitRequest.fromIntent(request.toIntent("package", "ActivityClass"));
+
+        assertNotNull(requestFromIntent);
+        assertNull(requestFromIntent.inactivityTimeoutInMs);
+    }
+
+    @Test
+    public void throwsIllegalArgumentExceptionForMissingExtra() {
+        RunLearningUnitRequest request =
+                RunLearningUnitRequest.of(
+                        learningUnitId,
+                        learningUnitRunId,
+                        learnerId,
+                        schoolId,
+                        stage,
+                        null,
+                        null,
+                        null);
+
+        Intent intent = request.toIntent("package", "ActivityClass");
+        intent.removeExtra("learningUnitId");
+
+        assertThrows(
+                IllegalArgumentException.class, () -> RunLearningUnitRequest.fromIntent(intent));
+    }
+
+    @Test
+    public void throwsIllegalArgumentExceptionForInvalidLongExtra() {
+        RunLearningUnitRequest request =
+                RunLearningUnitRequest.of(
+                        learningUnitId,
+                        learningUnitRunId,
+                        learnerId,
+                        schoolId,
+                        stage,
+                        null,
+                        null,
+                        null);
+
+        Intent intent = request.toIntent("package", "ActivityClass");
+        intent.putExtra("remainingForegroundTimeInMs", "INVALID");
+
+        assertThrows(
+                IllegalArgumentException.class, () -> RunLearningUnitRequest.fromIntent(intent));
     }
 
     @Test

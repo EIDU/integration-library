@@ -10,6 +10,7 @@ import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -171,14 +172,8 @@ public final class RunLearningUnitRequest {
         String learnerId = intent.getStringExtra(LEARNER_ID_EXTRA);
         String schoolId = intent.getStringExtra(SCHOOL_ID_EXTRA);
         String stage = intent.getStringExtra(STAGE_EXTRA);
-        Long remainingForegroundTimeInMs =
-                intent.hasExtra(REMAINING_FOREGROUND_TIME_EXTRA)
-                        ? intent.getLongExtra(REMAINING_FOREGROUND_TIME_EXTRA, 0)
-                        : null;
-        Long inactivityTimeoutInMs =
-                intent.hasExtra(INACTIVITY_TIMEOUT_EXTRA)
-                        ? intent.getLongExtra(INACTIVITY_TIMEOUT_EXTRA, 0)
-                        : null;
+        Long remainingForegroundTimeInMs = getLongExtra(intent, REMAINING_FOREGROUND_TIME_EXTRA);
+        Long inactivityTimeoutInMs = getLongExtra(intent, INACTIVITY_TIMEOUT_EXTRA);
 
         Uri assetsBaseUri = intent.getData();
 
@@ -286,6 +281,23 @@ public final class RunLearningUnitRequest {
         if (assetsBaseUri == null) throw new FileNotFoundException();
 
         return assetsBaseUri.buildUpon().appendPath(path).build();
+    }
+
+    @Nullable
+    private static Long getLongExtra(@NonNull Intent intent, @NonNull String extra) {
+        if (intent.hasExtra(extra)) {
+            Serializable value = intent.getSerializableExtra(extra);
+            if (value == null) {
+                return null;
+            }
+            if (value.getClass().equals(Long.class)) {
+                return (Long) value;
+            } else
+                throw new IllegalArgumentException(
+                        "Extra " + extra + " was not a valid Long value");
+        } else {
+            throw new IllegalArgumentException("Extra " + extra + " not found in intent!");
+        }
     }
 
     @Override
