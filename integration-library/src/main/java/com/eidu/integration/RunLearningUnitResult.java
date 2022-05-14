@@ -31,15 +31,19 @@ public class RunLearningUnitResult {
     @NonNull public final ResultType resultType;
 
     /**
-     * For a {@link #resultType} other than {@link ResultType#Error}, a score between 0.0f and 1.0f
-     * that describes how the learner did. A value of 0.0f should indicate that the learner only
-     * gave incorrect answers, whereas a value of 1.0f should indicate the the learner only gave
-     * correct answers.
+     * A score between 0.0f and 1.0f that describes how the learner did up to the point in time when
+     * the unit ended. value of 0.0f should indicate that the learner gave only incorrect answers,
+     * whereas a value of 1.0f should indicate the the learner gave only correct answers.
      *
      * <p>In case the nature of the learning unit was such that there was no possibility to give an
      * incorrect answer, the score must be 1.0f.
+     *
+     * <p>Only in case it's impossible to compute a meaningful score may this value be null.
+     * Learning app developers are strongly encouraged to try hard to compute meaningful scores in
+     * as many cases as possible, in order to provide the maximum amount of information for
+     * personalisation and analytics.
      */
-    public final float score;
+    @Nullable public final Float score;
 
     /**
      * The amount of time that the user spent with the learning unit at the end of the run. This
@@ -72,7 +76,7 @@ public class RunLearningUnitResult {
     private RunLearningUnitResult(
             int version,
             @NonNull ResultType resultType,
-            float score,
+            @Nullable Float score,
             long foregroundDurationInMs,
             @Nullable String additionalData,
             @Nullable String errorDetails) {
@@ -88,14 +92,14 @@ public class RunLearningUnitResult {
      * Creates an instance with {@link ResultType#Success}. This should be used when the learner
      * completes the learning unit, independently of their performance.
      *
-     * @param score <b>Required</b>, see {@link #score}.
+     * @param score <b>Strongly encouraged</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofSuccess(
-            float score, long foregroundDurationInMs, @Nullable String additionalData) {
+            @Nullable Float score, long foregroundDurationInMs, @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION, ResultType.Success, score, foregroundDurationInMs, additionalData, null);
     }
@@ -104,14 +108,14 @@ public class RunLearningUnitResult {
      * Creates an instance with {@link ResultType#Abort}. This should be used when the learner took
      * an action meant to abort the run, e.g. tapping an abort button.
      *
-     * @param score <b>Required</b>, see @link {@link #score}
+     * @param score <b>Strongly encouraged</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofAbort(
-            float score, long foregroundDurationInMs, @Nullable String additionalData) {
+            @Nullable Float score, long foregroundDurationInMs, @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION, ResultType.Abort, score, foregroundDurationInMs, additionalData, null);
     }
@@ -121,14 +125,14 @@ public class RunLearningUnitResult {
      * learner hasn't interacted with the app for {@link
      * RunLearningUnitRequest#inactivityTimeoutInMs} milliseconds of <i>foreground</i> time.
      *
-     * @param score <b>Required</b>, see {@link #score}.
+     * @param score <b>Strongly encouraged</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofTimeoutInactivity(
-            float score, long foregroundDurationInMs, @Nullable String additionalData) {
+            @Nullable Float score, long foregroundDurationInMs, @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION,
                 ResultType.TimeoutInactivity,
@@ -143,14 +147,14 @@ public class RunLearningUnitResult {
      * RunLearningUnitRequest#remainingForegroundTimeInMs} milliseconds of <i>foreground</i> time
      * passed since the start of the run.
      *
-     * @param score <b>Required</b>, see {@link #score}.
+     * @param score <b>Strongly encouraged</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofTimeUp(
-            float score, long foregroundDurationInMs, @Nullable String additionalData) {
+            @Nullable Float score, long foregroundDurationInMs, @Nullable String additionalData) {
         return new RunLearningUnitResult(
                 VERSION, ResultType.TimeUp, score, foregroundDurationInMs, additionalData, null);
     }
@@ -160,6 +164,7 @@ public class RunLearningUnitResult {
      * technical error occurred that prevented the learner from beginning or from completing the
      * run.
      *
+     * @param score <b>Strongly encouraged</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param errorDetails <b>Required</b>, see {@link #errorDetails}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
@@ -167,11 +172,17 @@ public class RunLearningUnitResult {
      */
     @NonNull
     public static RunLearningUnitResult ofError(
+            @Nullable Float score,
             long foregroundDurationInMs,
             @NonNull String errorDetails,
             @Nullable String additionalData) {
         return new RunLearningUnitResult(
-                VERSION, ResultType.Error, 0, foregroundDurationInMs, additionalData, errorDetails);
+                VERSION,
+                ResultType.Error,
+                score,
+                foregroundDurationInMs,
+                additionalData,
+                errorDetails);
     }
 
     /**
@@ -195,7 +206,7 @@ public class RunLearningUnitResult {
         String additionalData = intent.getStringExtra(ADDITIONAL_DATA_EXTRA);
         String errorDetails = intent.getStringExtra(ERROR_DETAILS_EXTRA);
 
-        if (type == null || score == null || foregroundDurationInMs == null)
+        if (type == null || foregroundDurationInMs == null)
             throw new IllegalArgumentException(
                     String.format(
                             "Invalid result intent. A required field is missing. "
@@ -231,7 +242,7 @@ public class RunLearningUnitResult {
         RunLearningUnitResult that = (RunLearningUnitResult) o;
         return version == that.version
                 && resultType == that.resultType
-                && score == that.score
+                && Objects.equals(score, that.score)
                 && foregroundDurationInMs == that.foregroundDurationInMs
                 && Objects.equals(additionalData, that.additionalData)
                 && Objects.equals(errorDetails, that.errorDetails);

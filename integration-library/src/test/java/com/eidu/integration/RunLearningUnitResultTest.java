@@ -1,6 +1,7 @@
 package com.eidu.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
@@ -58,10 +59,11 @@ public class RunLearningUnitResultTest {
     @Test
     public void instantiatesForError() {
         RunLearningUnitResult result =
-                RunLearningUnitResult.ofError(foregroundDurationInMs, errorDetails, additionalData);
+                RunLearningUnitResult.ofError(
+                        null, foregroundDurationInMs, errorDetails, additionalData);
 
         assertEquals(RunLearningUnitResult.ResultType.Error, result.resultType);
-        assertEquals(0.0, result.score);
+        assertNull(result.score);
         assertEquals(foregroundDurationInMs, result.foregroundDurationInMs);
         assertEquals(additionalData, result.additionalData);
         assertEquals(errorDetails, result.errorDetails);
