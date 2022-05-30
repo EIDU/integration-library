@@ -2,6 +2,8 @@ package com.eidu.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 public class RunLearningUnitResultTest {
@@ -9,11 +11,19 @@ public class RunLearningUnitResultTest {
     Long foregroundDurationInMs = 123L;
     String additionalData = "additional data";
     String errorDetails = "error details";
+    List<ResultItem> items = new ArrayList<>();
+
+    public RunLearningUnitResultTest() {
+        items.add(
+                new ResultItem("id1", "challenge", "givenResponse", "correctResponse", 1f, 1000L));
+        items.add(new ResultItem("id2", "challenge", "givenResponse", "correctResponse", 0f, 0L));
+    }
 
     @Test
     public void createsResultFromSuccessIntent() {
         RunLearningUnitResult result =
-                RunLearningUnitResult.ofSuccess(score, foregroundDurationInMs, additionalData);
+                RunLearningUnitResult.ofSuccess(
+                        score, foregroundDurationInMs, additionalData, items);
 
         verifyConversion(result);
     }
@@ -21,7 +31,8 @@ public class RunLearningUnitResultTest {
     @Test
     public void createsResultFromErrorIntent() {
         RunLearningUnitResult result =
-                RunLearningUnitResult.ofError(foregroundDurationInMs, additionalData, errorDetails);
+                RunLearningUnitResult.ofError(
+                        score, foregroundDurationInMs, additionalData, errorDetails, null);
 
         verifyConversion(result);
     }

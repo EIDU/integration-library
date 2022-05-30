@@ -1,8 +1,15 @@
 package com.eidu.integration;
 
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -17,13 +24,14 @@ import java.util.Objects;
  */
 public class RunLearningUnitResult {
 
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
     private static final String VERSION_EXTRA = "version";
     private static final String RESULT_TYPE = "resultType";
     private static final String SCORE_EXTRA = "score";
     private static final String FOREGROUND_DURATION_EXTRA = "foregroundDurationInMs";
     private static final String ADDITIONAL_DATA_EXTRA = "additionalData";
     private static final String ERROR_DETAILS_EXTRA = "errorDetails";
+    private static final String ITEMS_EXTRA = "items";
 
     public final int version;
 
@@ -73,19 +81,30 @@ public class RunLearningUnitResult {
      */
     @Nullable public final String errorDetails;
 
+    /**
+     * A list of items describing the user interactions during a learning unit run in detail. See
+     * the documentation of {@link ResultItem} for details.
+     *
+     * <p>Note that a <code>null</code> value signifies that no sensible representation of
+     * interactions is available, whereas an empty list signifies that no interactions occurred.
+     */
+    @Nullable public final List<ResultItem> items;
+
     private RunLearningUnitResult(
             int version,
             @NonNull ResultType resultType,
             @Nullable Float score,
             long foregroundDurationInMs,
             @Nullable String additionalData,
-            @Nullable String errorDetails) {
+            @Nullable String errorDetails,
+            @Nullable List<ResultItem> items) {
         this.version = version;
         this.resultType = resultType;
         this.score = score;
         this.foregroundDurationInMs = foregroundDurationInMs;
         this.additionalData = additionalData;
         this.errorDetails = errorDetails;
+        this.items = items;
     }
 
     /**
@@ -95,13 +114,23 @@ public class RunLearningUnitResult {
      * @param score <b>Strongly encouraged</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @param items <i>Optional</i>, see {@link #items}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofSuccess(
-            @Nullable Float score, long foregroundDurationInMs, @Nullable String additionalData) {
+            @Nullable Float score,
+            long foregroundDurationInMs,
+            @Nullable String additionalData,
+            @Nullable List<ResultItem> items) {
         return new RunLearningUnitResult(
-                VERSION, ResultType.Success, score, foregroundDurationInMs, additionalData, null);
+                VERSION,
+                ResultType.Success,
+                score,
+                foregroundDurationInMs,
+                additionalData,
+                null,
+                items);
     }
 
     /**
@@ -111,13 +140,23 @@ public class RunLearningUnitResult {
      * @param score <b>Strongly encouraged</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @param items <i>Optional</i>, see {@link #items}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofAbort(
-            @Nullable Float score, long foregroundDurationInMs, @Nullable String additionalData) {
+            @Nullable Float score,
+            long foregroundDurationInMs,
+            @Nullable String additionalData,
+            @Nullable List<ResultItem> items) {
         return new RunLearningUnitResult(
-                VERSION, ResultType.Abort, score, foregroundDurationInMs, additionalData, null);
+                VERSION,
+                ResultType.Abort,
+                score,
+                foregroundDurationInMs,
+                additionalData,
+                null,
+                items);
     }
 
     /**
@@ -128,18 +167,23 @@ public class RunLearningUnitResult {
      * @param score <b>Strongly encouraged</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @param items <i>Optional</i>, see {@link #items}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofTimeoutInactivity(
-            @Nullable Float score, long foregroundDurationInMs, @Nullable String additionalData) {
+            @Nullable Float score,
+            long foregroundDurationInMs,
+            @Nullable String additionalData,
+            @Nullable List<ResultItem> items) {
         return new RunLearningUnitResult(
                 VERSION,
                 ResultType.TimeoutInactivity,
                 score,
                 foregroundDurationInMs,
                 additionalData,
-                null);
+                null,
+                items);
     }
 
     /**
@@ -150,13 +194,23 @@ public class RunLearningUnitResult {
      * @param score <b>Strongly encouraged</b>, see {@link #score}.
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @param items <i>Optional</i>, see {@link #items}.
      * @return The new instance.
      */
     @NonNull
     public static RunLearningUnitResult ofTimeUp(
-            @Nullable Float score, long foregroundDurationInMs, @Nullable String additionalData) {
+            @Nullable Float score,
+            long foregroundDurationInMs,
+            @Nullable String additionalData,
+            @Nullable List<ResultItem> items) {
         return new RunLearningUnitResult(
-                VERSION, ResultType.TimeUp, score, foregroundDurationInMs, additionalData, null);
+                VERSION,
+                ResultType.TimeUp,
+                score,
+                foregroundDurationInMs,
+                additionalData,
+                null,
+                items);
     }
 
     /**
@@ -168,6 +222,7 @@ public class RunLearningUnitResult {
      * @param foregroundDurationInMs <b>Required</b>, see {@link #foregroundDurationInMs}.
      * @param errorDetails <b>Required</b>, see {@link #errorDetails}.
      * @param additionalData <i>Optional</i>, see {@link #additionalData}.
+     * @param items <i>Optional</i>, see {@link #items}.
      * @return The new instance.
      */
     @NonNull
@@ -175,14 +230,16 @@ public class RunLearningUnitResult {
             @Nullable Float score,
             long foregroundDurationInMs,
             @NonNull String errorDetails,
-            @Nullable String additionalData) {
+            @Nullable String additionalData,
+            @Nullable List<ResultItem> items) {
         return new RunLearningUnitResult(
                 VERSION,
                 ResultType.Error,
                 score,
                 foregroundDurationInMs,
                 additionalData,
-                errorDetails);
+                errorDetails,
+                items);
     }
 
     /**
@@ -206,6 +263,8 @@ public class RunLearningUnitResult {
         String additionalData = intent.getStringExtra(ADDITIONAL_DATA_EXTRA);
         String errorDetails = intent.getStringExtra(ERROR_DETAILS_EXTRA);
 
+        List<ResultItem> items = parseItems(intent);
+
         if (type == null || foregroundDurationInMs == null)
             throw new IllegalArgumentException(
                     String.format(
@@ -214,7 +273,25 @@ public class RunLearningUnitResult {
                             type, score, foregroundDurationInMs));
 
         return new RunLearningUnitResult(
-                version, type, score, foregroundDurationInMs, additionalData, errorDetails);
+                version, type, score, foregroundDurationInMs, additionalData, errorDetails, items);
+    }
+
+    @Nullable
+    private static List<ResultItem> parseItems(@NonNull Intent intent) {
+        String itemsString = intent.getStringExtra(ITEMS_EXTRA);
+        if (itemsString == null || itemsString.equals("null")) return null;
+
+        try {
+            JSONArray jsonArray = new JSONArray(itemsString);
+
+            ArrayList<ResultItem> items = new ArrayList<>(jsonArray.length());
+            for (int i = 0; i < jsonArray.length(); i++)
+                items.add(ResultItem.fromJson(jsonArray.getJSONObject(i)));
+
+            return items;
+        } catch (JSONException e) {
+            throw new IllegalArgumentException("Failed to parse " + ITEMS_EXTRA, e);
+        }
     }
 
     /**
@@ -232,7 +309,22 @@ public class RunLearningUnitResult {
                 .putExtra(SCORE_EXTRA, score)
                 .putExtra(FOREGROUND_DURATION_EXTRA, foregroundDurationInMs)
                 .putExtra(ADDITIONAL_DATA_EXTRA, additionalData)
-                .putExtra(ERROR_DETAILS_EXTRA, errorDetails);
+                .putExtra(ERROR_DETAILS_EXTRA, errorDetails)
+                .putExtra(ITEMS_EXTRA, itemsJson());
+    }
+
+    @NonNull
+    private String itemsJson() {
+        if (items == null)
+            return "null";
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < items.size(); i++)
+            try {
+                jsonArray.put(items.get(i).toJson());
+            } catch (JSONException e) {
+                throw new IllegalStateException("Failed to serialize item.", e);
+            }
+        return jsonArray.toString();
     }
 
     @Override
@@ -245,13 +337,20 @@ public class RunLearningUnitResult {
                 && Objects.equals(score, that.score)
                 && foregroundDurationInMs == that.foregroundDurationInMs
                 && Objects.equals(additionalData, that.additionalData)
-                && Objects.equals(errorDetails, that.errorDetails);
+                && Objects.equals(errorDetails, that.errorDetails)
+                && Objects.equals(items, that.items);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-                version, resultType, score, foregroundDurationInMs, additionalData, errorDetails);
+                version,
+                resultType,
+                score,
+                foregroundDurationInMs,
+                additionalData,
+                errorDetails,
+                items);
     }
 
     /** An enum describing the reason why a learning unit run has ended. */
