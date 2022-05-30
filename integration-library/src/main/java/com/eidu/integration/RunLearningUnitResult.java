@@ -1,16 +1,13 @@
 package com.eidu.integration;
 
 import android.content.Intent;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  * This class represents the result of a learning unit run and should be used to deliver the result
@@ -315,8 +312,7 @@ public class RunLearningUnitResult {
 
     @NonNull
     private String itemsJson() {
-        if (items == null)
-            return "null";
+        if (items == null) return "null";
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < items.size(); i++)
             try {
