@@ -16,8 +16,11 @@ public class RunLearningUnitResultTest {
 
     public RunLearningUnitResultTest() {
         items.add(
-                new ResultItem("id1", "challenge", "givenResponse", "correctResponse", 1f, 1000L));
-        items.add(new ResultItem("id2", "challenge", "givenResponse", "correctResponse", 0f, 0L));
+                new ResultItem(
+                        "id1", "challenge", "givenResponse", "correctResponse", 1f, 1000L, 500L));
+        items.add(
+                new ResultItem(
+                        "id2", "challenge", "givenResponse", "correctResponse", 0f, 0L, null));
     }
 
     @Test

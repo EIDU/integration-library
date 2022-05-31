@@ -255,8 +255,7 @@ public final class RunLearningUnitRequest {
 
     @NonNull
     private ParcelFileDescriptor getAssetAsFileDescriptor(
-            @NonNull Context context,
-            @NonNull String path) throws FileNotFoundException {
+            @NonNull Context context, @NonNull String path) throws FileNotFoundException {
         ParcelFileDescriptor descriptor =
                 context.getContentResolver().openFileDescriptor(getAssetAsUri(path), "r");
         if (descriptor == null)

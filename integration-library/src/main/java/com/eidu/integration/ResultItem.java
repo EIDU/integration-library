@@ -27,6 +27,7 @@ public class ResultItem {
     private static final String CORRECT_RESPONSE = "correctResponse";
     private static final String SCORE = "score";
     private static final String DURATION_IN_MS = "durationInMs";
+    private static final String TIME_TO_FIRST_ACTION_IN_MS = "timeToFirstActionInMs";
 
     /**
      * <i>Optional.</i> Identifies the item within the learning unit being played. The ID _must_ be
@@ -58,6 +59,13 @@ public class ResultItem {
     @Nullable public final Long durationInMs;
 
     /**
+     * <i>Optional.</i> The time it took until the learner began responding to the challenge after
+     * being presented with it. This is important because it can be a good predictor of the
+     * learner's engagement.
+     */
+    @Nullable public final Long timeToFirstActionInMs;
+
+    /**
      * Creates a new ResultItem instance.
      *
      * @param id <i>Optional,</i> see {@link #id}.
@@ -66,6 +74,7 @@ public class ResultItem {
      * @param correctResponse <i>Optional,</i> see {@link #correctResponse}.
      * @param score <i>Optional,</i> see {@link #score}.
      * @param durationInMs <i>Optional,</i> see {@link #durationInMs}.
+     * @param timeToFirstActionInMs <i>Optional,</i> see {@link #timeToFirstActionInMs}.
      */
     public ResultItem(
             @Nullable String id,
@@ -73,13 +82,15 @@ public class ResultItem {
             @Nullable String givenResponse,
             @Nullable String correctResponse,
             @Nullable Float score,
-            @Nullable Long durationInMs) {
+            @Nullable Long durationInMs,
+            @Nullable Long timeToFirstActionInMs) {
         this.id = id;
         this.challenge = challenge;
         this.givenResponse = givenResponse;
         this.correctResponse = correctResponse;
         this.score = score;
         this.durationInMs = durationInMs;
+        this.timeToFirstActionInMs = timeToFirstActionInMs;
     }
 
     @NonNull
@@ -90,7 +101,10 @@ public class ResultItem {
                 json.isNull(GIVEN_RESPONSE) ? null : json.optString(GIVEN_RESPONSE),
                 json.isNull(CORRECT_RESPONSE) ? null : json.optString(CORRECT_RESPONSE),
                 json.isNull(SCORE) ? null : (float) json.optDouble(SCORE),
-                json.isNull(DURATION_IN_MS) ? null : json.optLong(DURATION_IN_MS));
+                json.isNull(DURATION_IN_MS) ? null : json.optLong(DURATION_IN_MS),
+                json.isNull(TIME_TO_FIRST_ACTION_IN_MS)
+                        ? null
+                        : json.optLong(TIME_TO_FIRST_ACTION_IN_MS));
     }
 
     @NonNull
@@ -102,6 +116,8 @@ public class ResultItem {
         if (correctResponse != null) obj.put(CORRECT_RESPONSE, correctResponse);
         if (score != null) obj.put(SCORE, score);
         if (durationInMs != null) obj.put(DURATION_IN_MS, durationInMs);
+        if (timeToFirstActionInMs != null)
+            obj.put(TIME_TO_FIRST_ACTION_IN_MS, timeToFirstActionInMs);
         return obj;
     }
 
@@ -115,11 +131,19 @@ public class ResultItem {
                 && Objects.equals(givenResponse, that.givenResponse)
                 && Objects.equals(correctResponse, that.correctResponse)
                 && Objects.equals(score, that.score)
-                && Objects.equals(durationInMs, that.durationInMs);
+                && Objects.equals(durationInMs, that.durationInMs)
+                && Objects.equals(timeToFirstActionInMs, that.timeToFirstActionInMs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, challenge, givenResponse, correctResponse, score, durationInMs);
+        return Objects.hash(
+                id,
+                challenge,
+                givenResponse,
+                correctResponse,
+                score,
+                durationInMs,
+                timeToFirstActionInMs);
     }
 }
