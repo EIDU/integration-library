@@ -36,9 +36,10 @@ public class RunLearningUnitResult {
     @NonNull public final ResultType resultType;
 
     /**
-     * A score between 0.0f and 1.0f that describes how the learner did up to the point in time when
-     * the unit ended. value of 0.0f should indicate that the learner gave only incorrect answers,
-     * whereas a value of 1.0f should indicate the the learner gave only correct answers.
+     * <i>Optional.</i> A score between 0.0f and 1.0f that describes how the learner did up to the
+     * point in time when the unit ended. value of 0.0f should indicate that the learner gave only
+     * incorrect answers, whereas a value of 1.0f should indicate the the learner gave only correct
+     * answers.
      *
      * <p>In case the nature of the learning unit was such that there was no possibility to give an
      * incorrect answer, the score must be 1.0f.
@@ -60,9 +61,10 @@ public class RunLearningUnitResult {
     public final long foregroundDurationInMs;
 
     /**
-     * An arbitrary string that the learning app would like to associate with the usage data that
-     * the EIDU app reports. It will be made available to the learning app manufacturer for data
-     * analysis purposes. It must not contain any sensitive data (e.g. device identifiers).
+     * <i>Optional.</i> An arbitrary string that the learning app would like to associate with the
+     * usage data that the EIDU app reports. It will be made available to the learning app
+     * manufacturer for data analysis purposes. It must not contain any sensitive data (e.g. device
+     * identifiers).
      *
      * <p>This is useful because learning apps should not rely on (and should not attempt to take
      * advantage of) Internet connectivity.
@@ -70,8 +72,8 @@ public class RunLearningUnitResult {
     @Nullable public final String additionalData;
 
     /**
-     * If {@link #resultType} is {@link ResultType#Error}, this <i>should</i> contain any available
-     * diagnostic information, e.g. an exception with a stack trace.
+     * <i>Optional.</i> If {@link #resultType} is {@link ResultType#Error}, this <i>should</i>
+     * contain any available diagnostic information, e.g. an exception with a stack trace.
      *
      * <p>This information will be reported to EIDU for diagnostic purposes. It must not contain any
      * sensitive data (e.g. device identifiers).
@@ -79,8 +81,8 @@ public class RunLearningUnitResult {
     @Nullable public final String errorDetails;
 
     /**
-     * A list of items describing the user interactions during a learning unit run in detail. See
-     * the documentation of {@link ResultItem} for details.
+     * <i>Optional.</i> A list of items describing the user interactions during a learning unit run
+     * in detail. See the documentation of {@link ResultItem} for details.
      *
      * <p>Note that a <code>null</code> value signifies that no sensible representation of
      * interactions is available, whereas an empty list signifies that no interactions occurred.

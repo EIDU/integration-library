@@ -1,5 +1,6 @@
 package com.eidu.integration;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -77,15 +78,15 @@ public final class RunLearningUnitRequest {
     @NonNull public final String stage;
 
     /**
-     * The maximum amount of time that this run may take. The learning app must end the run with
-     * {@link RunLearningUnitResult.ResultType#TimeUp} after this amount of <i>foreground</i> time
-     * has elapsed.
+     * <i>Optional.</i> The maximum amount of time that this run may take. The learning app must end
+     * the run with {@link RunLearningUnitResult.ResultType#TimeUp} after this amount of
+     * <i>foreground</i> time has elapsed.
      */
     @Nullable public final Long remainingForegroundTimeInMs;
 
     /**
-     * The time of user inactivity after which the learning app must end the run with {@link
-     * RunLearningUnitResult.ResultType#TimeoutInactivity}.
+     * <i>Optional.</i> The time of user inactivity after which the learning app must end the run
+     * with {@link RunLearningUnitResult.ResultType#TimeoutInactivity}.
      */
     @Nullable public final Long inactivityTimeoutInMs;
 

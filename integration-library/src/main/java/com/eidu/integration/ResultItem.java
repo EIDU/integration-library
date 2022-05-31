@@ -29,33 +29,44 @@ public class ResultItem {
     private static final String DURATION_IN_MS = "durationInMs";
 
     /**
-     * Optional. Identifies the item within the learning unit being played. The ID _must_ be stable
-     * and unique, i.e. in all runs of the learning unit, it must refer to the same challenge and
-     * that challenge only. Depending on the structure of the learning unit, this may be an index
-     * ("0", "1", "2", ...) or the same as {@link #challenge} or something else.
+     * <i>Optional.</i> Identifies the item within the learning unit being played. The ID _must_ be
+     * stable and unique, i.e. in all runs of the learning unit, it must refer to the same challenge
+     * and that challenge only. Depending on the structure of the learning unit, this may be an
+     * index ("0", "1", "2", ...) or the same as {@link #challenge} or something else.
      */
     @Nullable public final String id;
 
-    /** Optional. A description of the challenge, e.g. "2 + 4". */
+    /** <i>Optional.</i> A description of the challenge, e.g. "2 + 4". */
     @Nullable public final String challenge;
 
-    /** Optional. The response given by the learner, e.g. "5". */
+    /** <i>Optional.</i> The response given by the learner, e.g. "5". */
     @Nullable public final String givenResponse;
 
-    /** Optional. The correct response to the challenge, e.g. "6". */
+    /** <i>Optional.</i> The correct response to the challenge, e.g. "6". */
     @Nullable public final String correctResponse;
 
     /**
-     * Optional. A score between 0.0f and 1.0f that describes how the learner did in the challenge.
+     * <i>Optional.</i> A score between 0.0f and 1.0f that describes how the learner did in the
+     * challenge.
      */
     @Nullable public final Float score;
 
     /**
-     * Optional. The time it took the learner to give a response after being presented with the
-     * challenge.
+     * <i>Optional.</i> The time it took the learner to give a response after being presented with
+     * the challenge.
      */
     @Nullable public final Long durationInMs;
 
+    /**
+     * Creates a new ResultItem instance.
+     *
+     * @param id <i>Optional,</i> see {@link #id}.
+     * @param challenge <i>Optional,</i> see {@link #challenge}.
+     * @param givenResponse <i>Optional,</i> see {@link #givenResponse}.
+     * @param correctResponse <i>Optional,</i> see {@link #correctResponse}.
+     * @param score <i>Optional,</i> see {@link #score}.
+     * @param durationInMs <i>Optional,</i> see {@link #durationInMs}.
+     */
     public ResultItem(
             @Nullable String id,
             @Nullable String challenge,
