@@ -157,9 +157,6 @@ public class RunLearningUnitRequestTest {
                 TestUtil.contextWithMockResolver("authority", expectedUri, expectedContent);
 
         assertEquals(expectedUri, request.getAssetAsUri("path"));
-        assertEquals(
-                expectedContent,
-                TestUtil.readLine(request.getAssetAsFileDescriptor(context, "path")));
         assertEquals(expectedContent, TestUtil.readLine(request.getAssetAsStream(context, "path")));
     }
 }

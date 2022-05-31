@@ -1,15 +1,14 @@
 package com.eidu.integration;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Objects;
@@ -244,27 +243,25 @@ public final class RunLearningUnitRequest {
     @NonNull
     public InputStream getAssetAsStream(@NonNull Context context, @NonNull String path)
             throws FileNotFoundException {
-        return new FileInputStream(getAssetAsFileDescriptor(context, path));
+        ParcelFileDescriptor descriptor = getAssetAsFileDescriptor(context, path);
+        return new FileInputStream(descriptor.getFileDescriptor()) {
+            @Override
+            public void close() throws IOException {
+                super.close();
+                descriptor.close();
+            }
+        };
     }
 
-    /**
-     * Retrieves the contents of an asset as a {@link FileDescriptor}. <b>It is the caller's
-     * responsibility to close this {@link FileDescriptor} after use.</b>
-     *
-     * @param context The current context. May be an application context.
-     * @param path The path of the asset to retrieve.
-     * @return An {@link FileDescriptor} from which the asset's contents can be read.
-     * @throws FileNotFoundException In case an asset by that name cannot be found for the learning
-     *     unit being run, the request does not support asset loading, or EIDU has crashed.
-     */
     @NonNull
-    public FileDescriptor getAssetAsFileDescriptor(@NonNull Context context, @NonNull String path)
-            throws FileNotFoundException {
+    private ParcelFileDescriptor getAssetAsFileDescriptor(
+            @NonNull Context context,
+            @NonNull String path) throws FileNotFoundException {
         ParcelFileDescriptor descriptor =
                 context.getContentResolver().openFileDescriptor(getAssetAsUri(path), "r");
         if (descriptor == null)
             throw new FileNotFoundException("Unable to retrieve asset because EIDU has crashed.");
-        return descriptor.getFileDescriptor();
+        return descriptor;
     }
 
     /**
