@@ -10,14 +10,21 @@ public class ResultItemTest {
     public void serializesAndDeserializesNonNullValues() throws JSONException {
         ResultItem expected =
                 new ResultItem(
-                        "id1", "challenge", "givenResponse", "correctResponse", 1f, 1000L, 500L);
+                        "id1",
+                        true,
+                        "challenge",
+                        "givenResponse",
+                        "correctResponse",
+                        1f,
+                        1000L,
+                        500L);
         ResultItem actual = ResultItem.fromJson(expected.toJson());
         assertEquals(expected, actual);
     }
 
     @Test
     public void serializesAndDeserializesNullValues() throws JSONException {
-        ResultItem expected = new ResultItem(null, null, null, null, null, null, null);
+        ResultItem expected = new ResultItem(null, null, null, null, null, null, null, null);
         ResultItem actual = ResultItem.fromJson(expected.toJson());
         assertEquals(expected, actual);
     }

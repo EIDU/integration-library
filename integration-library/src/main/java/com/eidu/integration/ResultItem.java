@@ -11,6 +11,10 @@ import org.json.JSONObject;
  * personalisation - learning app developers are strongly encouraged to provide a list of {@link
  * ResultItem} instances to describe each significant user interaction during a learning unit run.
  *
+ * <p>Where it makes sense, all items that were <i>presented</i> to the user should be included,
+ * even if the user did not provide a response to the item due to the unit being cut short, e.g. by
+ * a timeout. See {@link #completed} for details.
+ *
  * <p>Since different learning units vary greatly in nature, there is no one-size-fits-all solution
  * to capturing their results. This is why all fields in this class are optional: each should be
  * provided only if it will hold sensible values.
@@ -23,6 +27,7 @@ public class ResultItem {
 
     private static final String ID = "id";
     private static final String CHALLENGE = "challenge";
+    private static final String COMPLETED = "completed";
     private static final String GIVEN_RESPONSE = "givenResponse";
     private static final String CORRECT_RESPONSE = "correctResponse";
     private static final String SCORE = "score";
@@ -36,6 +41,17 @@ public class ResultItem {
      * index ("0", "1", "2", ...) or the same as {@link #challenge} or something else.
      */
     @Nullable public final String id;
+
+    /**
+     * <i>Optional.</i> If true, indicates that the learner provided a complete response to the item
+     * (independently of whether it was correct or not). If false, indicates that the unit ended
+     * before the learner was able to provide a complete response (e.g. due to a unit abort or
+     * timeout). In a typical unit that ended with {@link RunLearningUnitResult.ResultType#Success},
+     * all <code>ResultItems</code> should have <code>completed == true</code>, whereas typically,
+     * if the unit ended with one of the other result types, the last item would have <code>
+     * completed == false</code>.
+     */
+    @Nullable public final Boolean completed;
 
     /** <i>Optional.</i> A description of the challenge, e.g. "2 + 4". */
     @Nullable public final String challenge;
@@ -69,6 +85,7 @@ public class ResultItem {
      * Creates a new ResultItem instance.
      *
      * @param id <i>Optional,</i> see {@link #id}.
+     * @param completed <i>Optional,</i> see {@link #completed}.
      * @param challenge <i>Optional,</i> see {@link #challenge}.
      * @param givenResponse <i>Optional,</i> see {@link #givenResponse}.
      * @param correctResponse <i>Optional,</i> see {@link #correctResponse}.
@@ -78,6 +95,7 @@ public class ResultItem {
      */
     public ResultItem(
             @Nullable String id,
+            @Nullable Boolean completed,
             @Nullable String challenge,
             @Nullable String givenResponse,
             @Nullable String correctResponse,
@@ -85,6 +103,7 @@ public class ResultItem {
             @Nullable Long durationInMs,
             @Nullable Long timeToFirstActionInMs) {
         this.id = id;
+        this.completed = completed;
         this.challenge = challenge;
         this.givenResponse = givenResponse;
         this.correctResponse = correctResponse;
@@ -97,6 +116,7 @@ public class ResultItem {
     public static ResultItem fromJson(@NonNull JSONObject json) {
         return new ResultItem(
                 json.isNull(ID) ? null : json.optString(ID),
+                json.isNull(COMPLETED) ? null : json.optBoolean(COMPLETED),
                 json.isNull(CHALLENGE) ? null : json.optString(CHALLENGE),
                 json.isNull(GIVEN_RESPONSE) ? null : json.optString(GIVEN_RESPONSE),
                 json.isNull(CORRECT_RESPONSE) ? null : json.optString(CORRECT_RESPONSE),
@@ -111,6 +131,7 @@ public class ResultItem {
     public JSONObject toJson() throws JSONException {
         JSONObject obj = new JSONObject();
         if (id != null) obj.put(ID, id);
+        if (completed != null) obj.put(COMPLETED, completed);
         if (challenge != null) obj.put(CHALLENGE, challenge);
         if (givenResponse != null) obj.put(GIVEN_RESPONSE, givenResponse);
         if (correctResponse != null) obj.put(CORRECT_RESPONSE, correctResponse);
@@ -127,6 +148,7 @@ public class ResultItem {
         if (o == null || getClass() != o.getClass()) return false;
         ResultItem that = (ResultItem) o;
         return Objects.equals(id, that.id)
+                && Objects.equals(completed, that.completed)
                 && Objects.equals(challenge, that.challenge)
                 && Objects.equals(givenResponse, that.givenResponse)
                 && Objects.equals(correctResponse, that.correctResponse)
@@ -139,6 +161,7 @@ public class ResultItem {
     public int hashCode() {
         return Objects.hash(
                 id,
+                completed,
                 challenge,
                 givenResponse,
                 correctResponse,
