@@ -11,6 +11,10 @@ import org.json.JSONObject;
  * personalisation - learning app developers are strongly encouraged to provide a list of {@link
  * ResultItem} instances to describe each significant user interaction during a learning unit run.
  *
+ * <p>Where it makes sense, all items that were <i>presented</i> to the user should be included,
+ * even if the user did not provide a response to the item due to the unit being cut short, e.g. by
+ * a timeout.
+ *
  * <p>Since different learning units vary greatly in nature, there is no one-size-fits-all solution
  * to capturing their results. This is why all fields in this class are optional: each should be
  * provided only if it will hold sensible values.
