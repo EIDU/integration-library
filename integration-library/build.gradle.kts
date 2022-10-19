@@ -49,6 +49,8 @@ android {
     }
 
     useLibrary("android.test.mock")
+
+    aidlPackagedList.add("src/main/aidl/com/eidu/integration/dataservice/IDataServiceInterface.aidl")
 }
 
 dependencies {
