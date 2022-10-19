@@ -10,11 +10,11 @@ plugins {
 val gitVersion: groovy.lang.Closure<String> by extra
 
 android {
-    compileSdk = 30
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 30
+        targetSdk = 33
         version = gitVersion()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -35,22 +35,24 @@ android {
     }
 
     lint {
-        enable(
-            "MissingPermission",
-            "SuspiciousImport",
-            "UsesMinSdkAttributes",
-            "Proguard"
+        enable.addAll(
+            setOf(
+                "MissingPermission",
+                "SuspiciousImport",
+                "UsesMinSdkAttributes",
+                "Proguard"
+            )
         )
-        isCheckTestSources = true
-        isCheckAllWarnings = true
-        isWarningsAsErrors = true
+        checkTestSources = true
+        checkAllWarnings = true
+        warningsAsErrors = true
     }
 
     useLibrary("android.test.mock")
 }
 
 dependencies {
-    implementation("androidx.annotation:annotation:1.3.0")
+    implementation("androidx.annotation:annotation:1.5.0")
 
     androidTestImplementation("androidx.test:runner:1.4.0")
     androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
