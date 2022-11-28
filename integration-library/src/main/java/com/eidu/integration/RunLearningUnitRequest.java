@@ -181,11 +181,22 @@ public final class RunLearningUnitRequest {
                 new String[] {learningUnitId, learningUnitRunId, learnerId, schoolId, stage})
             if (field == null || field.isEmpty())
                 throw new IllegalArgumentException(
-                        String.format(
-                                "Invalid launch intent. A required field is missing. "
-                                        + "[learningUnitId: %s, learningUnitRunId: %s, learnerId: %s, schoolId: %s, "
-                                        + "stage: %s]",
-                                learningUnitId, learningUnitRunId, learnerId, schoolId, stage));
+                        "Invalid launch intent. A required field is missing. "
+                                + "[learningUnitId: "
+                                + learningUnitId
+                                + ", "
+                                + "learningUnitRunId: "
+                                + learningUnitRunId
+                                + ", "
+                                + "learnerId: "
+                                + learnerId
+                                + ", "
+                                + "schoolId: "
+                                + schoolId
+                                + ", "
+                                + "stage: "
+                                + stage
+                                + "]");
 
         return new RunLearningUnitRequest(
                 version,
