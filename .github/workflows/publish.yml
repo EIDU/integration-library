@@ -7,7 +7,7 @@ on:
 
 jobs:
   Publish:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     env:
       S3_BASE_URL: s3://dl.eidu.com/dev/integration-library/
