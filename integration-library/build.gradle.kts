@@ -1,20 +1,20 @@
 plugins {
     id("com.android.library")
     id("maven-publish")
-    id("com.diffplug.spotless") version "5.14.2"
+    id("com.diffplug.spotless") version "6.25.0"
     id("de.mannodermaus.android-junit5")
     id("signing")
-    id("com.palantir.git-version") version "0.12.2"
+    id("com.palantir.git-version") version "3.0.0"
 }
 
 val gitVersion: groovy.lang.Closure<String> by extra
 
 android {
-    compileSdk = 33
+    namespace = "com.eidu.integration"
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
         version = gitVersion()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -34,36 +34,34 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    lintOptions {
-        enable(
-            "MissingPermission",
-            "SuspiciousImport",
-            "UsesMinSdkAttributes",
-            "Proguard"
-        )
-        isCheckTestSources = true
-        isCheckAllWarnings = true
-        isWarningsAsErrors = true
+    lint {
+        enable += "MissingPermission"
+        enable += "SuspiciousImport"
+        enable += "UsesMinSdkAttributes"
+        enable += "Proguard"
+        checkTestSources = true
+        checkAllWarnings = true
+        warningsAsErrors = true
     }
 
     useLibrary("android.test.mock")
 }
 
 dependencies {
-    implementation("androidx.annotation:annotation:1.5.0")
+    implementation("androidx.annotation:annotation:1.7.1")
 
-    androidTestImplementation("androidx.test:runner:1.5.1")
-    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.3.0")
-    androidTestImplementation("org.junit.jupiter:junit-jupiter-params:5.9.0")
-    androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.3.0")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.4.0")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
+    androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.4.0")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
 
     testImplementation("androidx.test:core:1.5.0")
-    testImplementation("org.mockito:mockito-core:4.0.0")
+    testImplementation("org.mockito:mockito-core:5.11.0")
 }
 
 tasks.withType<Test> {

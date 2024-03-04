@@ -353,15 +353,25 @@ public class RunLearningUnitResult {
 
     /** An enum describing the reason why a learning unit run has ended. */
     public enum ResultType {
-        /** @see RunLearningUnitResult#ofSuccess */
+        /**
+         * @see RunLearningUnitResult#ofSuccess
+         */
         Success,
-        /** @see RunLearningUnitResult#ofAbort */
+        /**
+         * @see RunLearningUnitResult#ofAbort
+         */
         Abort,
-        /** @see RunLearningUnitResult#ofError */
+        /**
+         * @see RunLearningUnitResult#ofError
+         */
         Error,
-        /** @see RunLearningUnitResult#ofTimeoutInactivity */
+        /**
+         * @see RunLearningUnitResult#ofTimeoutInactivity
+         */
         TimeoutInactivity,
-        /** @see RunLearningUnitResult#ofTimeUp */
+        /**
+         * @see RunLearningUnitResult#ofTimeUp
+         */
         TimeUp;
 
         @Nullable
