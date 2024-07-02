@@ -48,20 +48,20 @@ android {
 }
 
 dependencies {
-    implementation("androidx.annotation:annotation:1.7.1")
+    implementation("androidx.annotation:annotation:1.8.0")
 
-    androidTestImplementation("androidx.test:runner:1.5.2")
-    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    androidTestImplementation("androidx.test:runner:1.6.1")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter-api:5.10.3")
     androidTestImplementation("de.mannodermaus.junit5:android-test-core:1.4.0")
-    androidTestImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
+    androidTestImplementation("org.junit.jupiter:junit-jupiter-params:5.10.3")
     androidTestRuntimeOnly("de.mannodermaus.junit5:android-test-runner:1.4.0")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.3")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.3")
 
-    testImplementation("androidx.test:core:1.5.0")
-    testImplementation("org.mockito:mockito-core:5.11.0")
+    testImplementation("androidx.test:core:1.6.1")
+    testImplementation("org.mockito:mockito-core:5.12.0")
 }
 
 tasks.withType<Test> {
