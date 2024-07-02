@@ -18,8 +18,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
-      - name: Run unit tests
-        run: ./gradlew testReleaseUnitTest
+      - name: Check
+        run: ./gradlew check
 
       - name: Run instrumented tests
         uses: reactivecircus/android-emulator-runner@v2

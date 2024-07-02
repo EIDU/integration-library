@@ -5,6 +5,7 @@ plugins {
     id("de.mannodermaus.android-junit5")
     id("signing")
     id("com.palantir.git-version") version "3.0.0"
+    id("com.github.jk1.dependency-license-report") version "2.8"
 }
 
 val gitVersion: groovy.lang.Closure<String> by extra
@@ -45,6 +46,21 @@ android {
     }
 
     useLibrary("android.test.mock")
+}
+
+licenseReport {
+    configurations = arrayOf("releaseRuntimeClasspath")
+    allowedLicensesFile = File("$projectDir/allowed-licenses.json")
+}
+
+tasks.named("checkLicense") {
+    // The checkLicense task does not declare this input itself, so we do it here. This ensures
+    // that a modification of the file causes the checkLicense task to be re-evaluated.
+    inputs.file("$projectDir/allowed-licenses.json")
+}
+
+tasks.named("check") {
+    dependsOn("checkLicense")
 }
 
 dependencies {

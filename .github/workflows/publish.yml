@@ -20,8 +20,8 @@ jobs:
         with:
           java-version: '21'
 
-      - name: Run unit tests
-        run: ./gradlew testReleaseUnitTest
+      - name: Check
+        run: ./gradlew check
 
       - name: Publish test reports
         uses: actions/upload-artifact@v1
