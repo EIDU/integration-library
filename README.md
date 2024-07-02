@@ -26,6 +26,11 @@ detailed API documentation.
 
 Please contact EIDU at [dev@eidu.com](mailto:dev@eidu.com) if you need help.
 
+## Contributing
+
+We are excited about your contributions. See
+[our current contribution guidelines](https://dev.eidu.com/contributing/overview) to get started.
+
 ## License
 
 This library is published under the [MIT License](https://github.com/EIDU/integration-library/blob/main/LICENSE).
