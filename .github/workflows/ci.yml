@@ -29,7 +29,7 @@ jobs:
           script: ./gradlew connectedCheck --stacktrace
 
       - name: Publish test reports
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: test-reports
           path: integration-library/build/reports
