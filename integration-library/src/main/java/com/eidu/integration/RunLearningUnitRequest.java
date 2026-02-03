@@ -304,7 +304,7 @@ public final class RunLearningUnitRequest {
                 throw new IllegalArgumentException(
                         "Extra " + extra + " was not a valid Long value");
         } else {
-            throw new IllegalArgumentException("Extra " + extra + " not found in intent!");
+            return null;
         }
     }
 
